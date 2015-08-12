@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout
+        android:id="@+id/news_base_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <net.telesurtv.www.telesur.views.view.AutofitRecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/news_recycler"
+            android:background="@color/window_background"
+            android:clipToPadding="false"
+            android:columnWidth="300dp"
+            android:padding="@dimen/padding_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout>
+
+</FrameLayout>

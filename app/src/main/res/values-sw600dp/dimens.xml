@@ -1,0 +1,16 @@
+<resources>
+    <!-- Header -->
+    <dimen name="header_padding">64dp</dimen>
+
+    <dimen name="item_type_three_image_height">300dp</dimen>
+
+    <dimen name="item_type_four_top_see_now">32dp</dimen>
+
+    <dimen name="app_bar_collapsign_detail">512dp</dimen>
+
+    <dimen name="app_bar_sub_header">150dp</dimen>
+
+    <dimen name="activity_news_detail_margins_lr">72dp</dimen>
+
+
+</resources>

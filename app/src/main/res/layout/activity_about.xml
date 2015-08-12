@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </android.support.design.widget.AppBarLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/telesur_logo" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="50dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/txt_about_tandc"
+                style="@style/aboutTextView"
+                android:text="@string/about_conditions" />
+
+
+            <TextView
+                android:id="@+id/txt_about_read"
+                style="@style/aboutTextView"
+                android:text="@string/about_read" />
+
+
+            <TextView
+                style="@style/aboutTextView"
+                android:text="@string/about_version" />
+
+            <TextView
+                style="@style/aboutTextView"
+                android:text="@string/about_copyrigth"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                style="@style/aboutTextView"
+                android:text="@string/about_me" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

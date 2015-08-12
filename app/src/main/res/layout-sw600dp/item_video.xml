@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Selector.VideoItem"
+    android:paddingRight="@dimen/video_item_padding_horizontal"
+    android:paddingLeft="@dimen/video_item_padding_horizontal"
+    android:paddingTop="@dimen/video_item_padding_vertical"
+    android:paddingBottom="@dimen/video_item_padding_vertical"
+    android:orientation="horizontal">
+
+
+    <include
+        layout="@layout/include_video_picture"
+        android:layout_width="200dp"
+        android:layout_height="110dp"
+         />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="16dp">
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textColor="@android:color/primary_text_light"
+            android:text="Viola coalición saudí tercera tregua humanitaria en Yemen"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_title"
+            android:layout_marginTop="2dp"
+            android:text="Política"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txt_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_category"
+            android:text="16 julio de 2015 5 reproducciones"
+            android:textSize="14sp" />
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame_layout_video"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fitsSystemWindows="true"
+    >
+
+
+    <net.telesurtv.www.telesur.views.view.video.FensterVideoView
+        android:id="@+id/play_video_texture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:layout_gravity="center"
+        android:fitsSystemWindows="true"
+        android:keepScreenOn="true" />
+
+    <net.telesurtv.www.telesur.views.view.video.SimpleMediaFensterPlayerController
+        android:id="@+id/play_video_controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:animateLayoutChanges="true"
+        android:fitsSystemWindows="true" />
+
+    <ImageView
+        android:id="@+id/media_full_screen"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_full_screen" />
+
+
+</FrameLayout>
+

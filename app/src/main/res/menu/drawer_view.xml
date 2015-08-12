@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_item_news"
+            android:icon="@drawable/ic_noticias"
+            android:title="@string/news" />
+        <item
+            android:id="@+id/drawer_item_videos"
+            android:icon="@drawable/ic_video"
+            android:title="@string/videos" />
+
+        <item
+            android:id="@+id/drawer_item_programas"
+            android:icon="@drawable/ic_programas"
+            android:title="@string/programas" />
+        <item
+            android:id="@+id/drawer_item_reviews"
+            android:icon="@drawable/ic_review"
+            android:title="@string/review" />
+        <item
+            android:id="@+id/drawer_item_streaming"
+            android:icon="@drawable/ic_streaming"
+            android:title="@string/streaming" />
+    </group>
+
+    <group android:id="@+id/drawer_item_settings">
+        <item
+            android:id="@+id/navigation_sub_item_1"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings" />
+
+        <item
+            android:id="@+id/drawer_item_about"
+            android:icon="@drawable/ic_about"
+            android:title="@string/about" />
+    </group>
+
+</menu>
