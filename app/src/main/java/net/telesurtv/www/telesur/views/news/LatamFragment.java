@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import net.telesurtv.www.telesur.BaseFragmentNews;
+import net.telesurtv.www.telesur.data.EndPoint;
 
 /**
  * Created by Jhordan on 15/07/15.
@@ -24,14 +25,13 @@ public class LatamFragment extends BaseFragmentNews {
         return new LatamFragment();
     }
 
-
     @Override
     protected String getSection() {
-        return "/rss/RssLatinoamerica.xml";
+        return EndPoint.RSS_LATAM;
     }
 
     @Override
     protected String getTitleSection() {
-        return "América Latina";
+        return EndPoint.SECTION_LATAM;
     }
 }

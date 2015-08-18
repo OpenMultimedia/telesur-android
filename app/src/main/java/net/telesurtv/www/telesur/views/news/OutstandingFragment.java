@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import net.telesurtv.www.telesur.BaseFragmentOutstandingNews;
+import net.telesurtv.www.telesur.data.EndPoint;
 
 /**
  * Created by Jhordan on 15/07/15.
  */
 public class OutstandingFragment extends BaseFragmentOutstandingNews {
+
 
     public OutstandingFragment() {
     }
@@ -24,14 +26,13 @@ public class OutstandingFragment extends BaseFragmentOutstandingNews {
         return new OutstandingFragment();
     }
 
-
     @Override
     protected String getSection() {
-        return "/rss/RssPortada.xml";
+        return EndPoint.RSS_OUSTANDING;
     }
 
     @Override
     protected String getTitleSection() {
-        return "Destacado";
+        return EndPoint.SECTION_OUSTANDING;
     }
 }

@@ -43,7 +43,6 @@ public class Config {
 
     }
 
-
     public static Date parserToUseTimeAgo(String myTime) {
 
         String finalDate = "";

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.widget.TextView;
 
 import net.telesurtv.www.telesur.R;
@@ -15,18 +16,23 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
     AppBarLayout appBarLayout;
     TextView txtSection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (getIntent() != null)
+            setTheme(getIntent().getIntExtra("video_theme", 0));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_videos);
 
         setupSubActivityWithTitle();
-        appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
-        txtSection = (TextView)findViewById(R.id.txt_title_section);
+       // appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+       // txtSection = (TextView) findViewById(R.id.txt_title_section);
         intializeFromIntent();
 
 
-
+        ViewCompat.setTransitionName(getToolbar(), getString(R.string.transition_toolbar));
 
 
     }
@@ -36,13 +42,9 @@ public class VideoListDetailActivity extends NavigatorActivity {
         if (getIntent() != null) {
 
             if (getSupportActionBar() != null)
-                getToolbar().setBackgroundColor(getIntent().getIntExtra("video_primary", 0));
-                appBarLayout.setBackgroundColor(getIntent().getIntExtra("video_primary", 0));
-            if (Build.VERSION.SDK_INT >= 21)
-                getWindow().setStatusBarColor(getIntent().getIntExtra("video_primary_dark", 0));
 
 
-            initializeListFragment(getIntent().getIntExtra("video_position", 0));
+                initializeListFragment(getIntent().getIntExtra("video_position", 0));
 
         }
     }
@@ -80,7 +82,8 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
         }
         fragmentTransactionReplace(fragment);
-        txtSection.setText(title);
+        //txtSection.setText(title);
+        getSupportActionBar().setTitle(title);
 
 
     }

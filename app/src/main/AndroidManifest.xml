@@ -52,7 +52,7 @@
 
         <activity
             android:name=".views.videos.VideoListDetailActivity"
-            android:label="@string/video_detail_name" />
+           />
 
         <activity
             android:name=".views.review.ReviewDetailActivity"

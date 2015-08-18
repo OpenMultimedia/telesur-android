@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--Base application color -->
-    <color name="primaryDark">#E53935</color>
+    <!--Base application color #E53935 , #304FFE -->
+    <color name="primaryDark">#303F9F</color>
     <!--<color name="primaryDark">#E14642</color>-->
-    <color name="primary">#FF5252</color>
-    <!--<color name="primary">#EB675C</color>-->
+    <color name="primary">#3F51B5</color>
+    <!--<color name="primary">#EB675C  </color>  #7E7E7E-->
     <color name="accent">#7E7E7E</color>
     <color name="window_background">#FFF5F5F5</color>
 
@@ -14,6 +14,7 @@
     <color name="black">#000000</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="default_bg">#aa000000</color>
+    <color name="menu_color">#835932</color>
 
 
     <color name="primary_videos">#ffffff</color>
@@ -64,6 +65,53 @@
     <color name="primary_video_menu_info_theme">#9C27B0</color>
     <color name="primary_video_menu_special_theme">#03A9F4</color>
     <color name="primary_video_menu_report_theme">#3F51B5</color>
+
+
+    <!-- Color themes-->
+
+    <color name="text_light">@android:color/white</color>
+    <color name="text_dark">#616161</color>
+
+
+    <color name="theme_blue_background">#8C9EFF</color>
+    <color name="theme_blue_primary_dark">#304FFE</color>
+    <color name="theme_blue_primary">#536DFE</color>
+    <color name="theme_blue_accent">#E91E63</color>
+    <color name="theme_blue_text">@color/text_light</color>
+    <color name="theme_blue_original_primary">#3949AB</color>
+    <color name="theme_blue_transparent_primary">#993949AB</color>
+
+    <color name="theme_red_background">#FF8A80</color>
+    <color name="theme_red_primary_dark">#D50000</color>
+    <color name="theme_red_primary">#FF5252</color>
+    <color name="theme_red_accent">#E91E63</color>
+    <color name="theme_red_text">@color/text_light</color>
+    <color name="theme_red_original_primary">#E53935</color>
+    <color name="theme_red_transparent_primary">#99E53935</color>
+
+    <color name="theme_yellow_background">#ffff8d</color>
+    <color name="theme_yellow_primary">#FFD740</color>
+    <color name="theme_yellow_accent">#19dcff</color>
+    <color name="theme_yellow_text">@color/text_dark</color>
+    <color name="theme_yellow_primary_dark">#FFAB00</color>
+    <color name="theme_yellow_original_primary">#FFB300</color>
+    <color name="theme_yellow_transparent_primary">#99FFB300</color>
+
+    <color name="theme_purple_background">#b388ff</color>
+    <color name="theme_purple_primary">#E040FB</color>
+    <color name="theme_purple_accent">#ff9419</color>
+    <color name="theme_purple_text">@color/text_light</color>
+    <color name="theme_purple_primary_dark">#6c4aa6</color>
+    <color name="theme_purple_original_primary">#8E24AA</color>
+    <color name="theme_purple_transparent_primary">#998E24AA</color>
+
+    <color name="theme_green_background">#A7FFEB</color>
+    <color name="theme_green_primary">#69F0AE</color>
+    <color name="theme_green_accent">#e919ff</color>
+    <color name="theme_green_text">@color/text_dark</color>
+    <color name="theme_green_primary_dark">#00BFA5</color>
+    <color name="theme_green_original_primary">#43A047</color>
+    <color name="theme_green_transparent_primary">#9943A047</color>
 
 
 </resources>

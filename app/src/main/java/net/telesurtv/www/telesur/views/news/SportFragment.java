@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import net.telesurtv.www.telesur.BaseFragmentNews;
+import net.telesurtv.www.telesur.data.EndPoint;
 
 /**
  * Created by Jhordan on 15/07/15.
@@ -16,22 +17,19 @@ public class SportFragment extends BaseFragmentNews {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     public static SportFragment newInstance() {
         return new SportFragment();
     }
 
-
     @Override
     protected String getSection() {
-        return "/rss/RssDeporte.xml";
+        return EndPoint.RSS_SPORTS;
     }
 
     @Override
     protected String getTitleSection() {
-        return "Deportes";
+        return EndPoint.SECTION_SPORT;
     }
 }

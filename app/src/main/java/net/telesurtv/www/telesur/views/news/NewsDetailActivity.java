@@ -1,36 +1,37 @@
 package net.telesurtv.www.telesur.views.news;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.novoda.notils.caster.Views;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
-import net.telesurtv.www.telesur.views.view.HeaderView;
-import net.telesurtv.www.telesur.views.view.SubHeaderView;
+import net.telesurtv.www.telesur.util.Theme;
 
 
 public class NewsDetailActivity extends NavigatorActivity {
 
-    // private SubHeaderView headerView;
     TextView txtContent, txtDescription, txtTitle, txtAuthor;
     ImageView imageViewNews;
     CollapsingToolbarLayout collapsingToolbarLayout;
+    Theme theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+       /*
+        if (getIntent() != null) {
+            theme = Theme.valueOf(getIntent().getStringExtra("news_themes"));
+            setTheme(theme.getStyle());
+        }
+*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
-
-
         setupSubActivityWithTitle();
         initializeViews();
         intializeFromIntent();
@@ -58,15 +59,15 @@ public class NewsDetailActivity extends NavigatorActivity {
 //
 
 
-                txtAuthor.setText(Html.fromHtml(bundle.getString("news_date")));
+            txtAuthor.setText(Html.fromHtml(bundle.getString("news_date")));
 
 
             Glide.with(this).load(bundle.getString("news_image")).into(imageViewNews);
             // headerView.updateWith(bundle.getString("news_title"), bundle.getString("news_date"), bundle.getString("news_author"));
 
             collapsingToolbarLayout.setTitle(getIntent().getStringExtra("news_section"));
-           collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.transparent));
-           collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+            collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+            collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
 
             // collapsingToolbarLayout.setCollapsedTitleTextAppearance();
 
@@ -84,7 +85,7 @@ public class NewsDetailActivity extends NavigatorActivity {
 
         imageViewNews = (ImageView) findViewById(R.id.image_view_news_detail);
         // headerView = Views.findById(this, R.id.story_header_view);
-        collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
     }
 
 

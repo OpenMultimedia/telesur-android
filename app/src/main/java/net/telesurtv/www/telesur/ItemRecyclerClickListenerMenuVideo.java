@@ -1,4 +1,6 @@
-package net.telesurtv.www.telesur.views;
+package net.telesurtv.www.telesur;
+
+import android.view.View;
 
 import net.telesurtv.www.telesur.model.VideoMenu;
 import net.telesurtv.www.telesur.model.VideoViewModel;
@@ -8,6 +10,6 @@ import net.telesurtv.www.telesur.model.VideoViewModel;
  */
 public interface ItemRecyclerClickListenerMenuVideo {
 
-    void itemRecycleOnClick(int position, VideoMenu videoMenu);
+    void itemRecycleOnClick(int position, VideoMenu videoMenu,View toolbar);
 
 }

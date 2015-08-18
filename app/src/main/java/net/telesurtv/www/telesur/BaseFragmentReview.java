@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
-import net.telesurtv.www.telesur.data.api.models.news.ConfigNews;
+import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.data.api.models.news.News;
 import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.util.Config;
@@ -152,7 +152,7 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
                             IOUtils.copy(response.getBody().in(), writer, "UTF-8");
                             System.out.println("Request a la API" + writer.toString());
 
-                            News[] listNews = ConfigNews.getListNews(writer.toString());
+                            News[] listNews = ParserNews.getListNews(writer.toString());
                             newsViewModelArrayList.clear();
                             for (int i = 0; i < listNews.length; i++) {
 

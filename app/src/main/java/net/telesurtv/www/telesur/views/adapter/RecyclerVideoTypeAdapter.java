@@ -1,5 +1,8 @@
 package net.telesurtv.www.telesur.views.adapter;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.ColorRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +13,8 @@ import android.widget.TextView;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoMenu;
-import net.telesurtv.www.telesur.views.ItemRecyclerClickListenerMenuVideo;
+import net.telesurtv.www.telesur.ItemRecyclerClickListenerMenuVideo;
+import net.telesurtv.www.telesur.util.Theme;
 
 import java.util.List;
 
@@ -21,21 +25,23 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
 
     List<VideoMenu> videoMenuList;
     ItemRecyclerClickListenerMenuVideo itemRecyclerClickListener;
+    private final Resources mResources;
 
 
     public void setItemRecyclerClickListener(ItemRecyclerClickListenerMenuVideo itemRecyclerClickListener) {
         this.itemRecyclerClickListener = itemRecyclerClickListener;
     }
 
-    public RecyclerVideoTypeAdapter(List<VideoMenu> videoMenuList) {
+    public RecyclerVideoTypeAdapter(List<VideoMenu> videoMenuList, Context context) {
         this.videoMenuList = videoMenuList;
+        mResources = context.getResources();
 
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_type, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_category, parent, false);
         return new ViewHolder(view);
     }
 
@@ -54,7 +60,7 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
             public void onClick(View view) {
 
                 if (itemRecyclerClickListener != null) {
-                    itemRecyclerClickListener.itemRecycleOnClick(position, videoMenu);
+                    itemRecyclerClickListener.itemRecycleOnClick(position, videoMenu,view.findViewById(R.id.category_title_video));
                 }
             }
         });
@@ -68,30 +74,42 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageViewIcon;
-        TextView txtTitle;
-        LinearLayout linearLayout;
+        ImageView icon;
+        public TextView title;
+        LinearLayout mBackground;
         View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
 
-            imageViewIcon = (ImageView) itemView.findViewById(R.id.image_view_icon_video_menu);
-            txtTitle = (TextView) itemView.findViewById(R.id.txt_title_video_menu);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_video_background);
+            icon = (ImageView) itemView.findViewById(R.id.category_icon_video);
+            title = (TextView) itemView.findViewById(R.id.category_title_video);
+            mBackground = (LinearLayout)itemView.findViewById(R.id.category_background_video);
+
 
         }
     }
 
 
     private void setTypeItem(ViewHolder holder, VideoMenu videoMenu) {
-        holder.txtTitle.setText(videoMenu.getTitle());
-        holder.imageViewIcon.setImageResource(videoMenu.getIcon());
-        holder.linearLayout.setBackgroundColor(videoMenu.getColorBackground());
+
+        Theme theme = Theme.valueOf(videoMenu.getTheme());
+        holder.title.setText(videoMenu.getTitle());
+        holder.title.setTextColor(getColor(theme.getTxtColorPrimary()));
+        holder.title.setBackgroundColor(getColor(theme.getColorPrimary()));
+        holder.icon.setBackgroundColor(getColor(theme.getWindowBackground()));
+        holder.icon.setImageResource(videoMenu.getIcon());
+        holder.mBackground.setBackgroundColor(getColor(theme.getWindowBackground()));
+
     }
+
+    private int getColor(@ColorRes int colorRes) {
+        return mResources.getColor(colorRes);
+    }
+
 
 
 }

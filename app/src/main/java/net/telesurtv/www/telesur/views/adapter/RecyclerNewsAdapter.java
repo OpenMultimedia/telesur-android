@@ -119,7 +119,6 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return newsViewModelListItems.size();
     }
 
-
     public void addItem(NewsViewModel item) {
         this.newsViewModelListItems.add(5, item);
         notifyDataSetChanged();
@@ -151,7 +150,6 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         return TYPE_ITEM_1;
     }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 

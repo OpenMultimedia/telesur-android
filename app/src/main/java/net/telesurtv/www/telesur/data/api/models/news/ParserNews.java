@@ -8,7 +8,7 @@ import com.google.gson.JsonParser;
 /**
  * Created by Jhordan on 03/08/15.
  */
-public class ConfigNews {
+public class ParserNews {
 
     public static News[] getListNews(String jsonlistNews) {
 

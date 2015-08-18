@@ -3,6 +3,7 @@ package net.telesurtv.www.telesur;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,15 +16,13 @@ import android.view.ViewGroup;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
-import net.telesurtv.www.telesur.data.api.models.news.ConfigNews;
+import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.data.api.models.news.News;
 import net.telesurtv.www.telesur.model.NewsViewModel;
-import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.TimeAgo;
 import net.telesurtv.www.telesur.views.adapter.RecyclerNewsOutstandingAdapter;
 import net.telesurtv.www.telesur.views.news.NewsDetailActivity;
-import net.telesurtv.www.telesur.views.review.ReviewDetailActivity;
 import net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 import net.telesurtv.www.telesur.views.view.ViewDelegate;
@@ -43,11 +42,12 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentOutstandingNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate,ItemRecyclerClickListenerNews {
+public abstract class BaseFragmentOutstandingNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener,ItemRecyclerClickListenerNews, AppBarLayout.OnOffsetChangedListener {
 
     RecyclerView recyclerViewNewsList;
-    DelegatedSwipeRefreshLayout refreshLayoutNews;
+   SwipeRefreshLayout refreshLayoutNews;
     public RecyclerNewsOutstandingAdapter recyclerNewsAdapter;
+    private AppBarLayout appBarLayout;
     List<NewsViewModel> newsViewModelArrayList = new ArrayList<>();
 
 
@@ -79,9 +79,9 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
      */
     public void setUpViews(View view) {
         recyclerViewNewsList = (RecyclerView) view.findViewById(R.id.news_recycler);
-        refreshLayoutNews = (DelegatedSwipeRefreshLayout) view.findViewById(R.id.news_base_refresh);
-
-
+        refreshLayoutNews = (SwipeRefreshLayout) view.findViewById(R.id.news_base_refresh);
+        appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+        appBarLayout.addOnOffsetChangedListener(this);
     }
 
 
@@ -120,19 +120,16 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
     protected void setupRefreshLayout() {
         refreshLayoutNews.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         refreshLayoutNews.setOnRefreshListener(this);
-        refreshLayoutNews.setViewDelegate(this);
+
     }
 
 
     @Override
     public void onRefresh() {
-
+        getListNews(getSection());
     }
 
-    @Override
-    public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(recyclerViewNewsList, -1);
-    }
+
 
 
     /**
@@ -154,6 +151,9 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
                 newsViewModels.setTitleNews("soy un item agregado");
                 newsViewModels.setDataNews(timeAgo.timeAgo(Config.parserToUseTimeAgo("Mon, 13 Aug 2015 13:42:00")));
                 recyclerNewsAdapter.addItem(newsViewModels);
+
+                refreshLayoutNews.setRefreshing(false);
+                refreshLayoutNews.setEnabled(false);
             }
         });
     }
@@ -179,7 +179,7 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
                             IOUtils.copy(response.getBody().in(), writer, "UTF-8");
                             System.out.println("Request a la API" + writer.toString());
 
-                            News[] listNews = ConfigNews.getListNews(writer.toString());
+                            News[] listNews = ParserNews.getListNews(writer.toString());
                             newsViewModelArrayList.clear();
                             for (int i = 0; i < listNews.length; i++) {
 
@@ -268,4 +268,8 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
         return bundle;
     }
 
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        refreshLayoutNews.setEnabled(i == 0);
+    }
 }

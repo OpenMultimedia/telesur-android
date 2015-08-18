@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import net.telesurtv.www.telesur.BaseFragmentNews;
+import net.telesurtv.www.telesur.data.EndPoint;
 
 /**
  * Created by Jhordan on 15/07/15.
@@ -27,11 +28,11 @@ public class WorldFragment extends BaseFragmentNews {
 
     @Override
     protected String getSection() {
-        return "/rss/RssMundo.xml";
+        return EndPoint.RSS_WORLD;
     }
 
     @Override
     protected String getTitleSection() {
-        return "Mundo";
+        return EndPoint.SECTION_WORLD ;
     }
 }

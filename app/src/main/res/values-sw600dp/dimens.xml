@@ -6,7 +6,7 @@
 
     <dimen name="item_type_four_top_see_now">32dp</dimen>
 
-    <dimen name="app_bar_collapsign_detail">512dp</dimen>
+    <dimen name="app_bar_collapsign_detail">384dp</dimen>
 
     <dimen name="app_bar_sub_header">150dp</dimen>
 

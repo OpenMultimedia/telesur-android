@@ -39,12 +39,8 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
         return new ViewHolder(view);
-
-
     }
 
 
@@ -54,7 +50,7 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
         final VideoViewModel videoViewModel = videoList.get(position);
 
 
-        setTypeItem(((ViewHolder) holder), videoViewModel);
+        setTypeItem(((ViewHolder) holder), videoViewModel,position);
 
 
 
@@ -112,15 +108,17 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageViewBackground;
-        TextView txtDuration, txtTitle, txtCategory, txtData;
+        TextView txtDuration, txtTitle, txtCategory, txtData,txtPosition;
         View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             imageViewBackground = (ImageView) itemView.findViewById(R.id.image_view_background);
-            txtDuration = (TextView) itemView.findViewById(R.id.txt_duration);
+       //     txtDuration = (TextView) itemView.findViewById(R.id.txt_duration);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
+            //TODO hacer txt_position para telefonos
+            txtPosition = (TextView) itemView.findViewById(R.id.txt_position);
             txtCategory = (TextView) itemView.findViewById(R.id.txt_category);
             txtData = (TextView) itemView.findViewById(R.id.txt_data);
 
@@ -128,13 +126,14 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    private void setTypeItem(ViewHolder holder, VideoViewModel video) {
-        holder.txtDuration.setText(video.getDuration());
+    private void setTypeItem(ViewHolder holder, VideoViewModel video,int position) {
+   //     holder.txtDuration.setText(video.getDuration());
         holder.txtTitle.setText(video.getTitle());
         holder.txtCategory.setText(video.getCategory());
-        holder.txtData.setText(Config.date_to_human(video.getData()) + " · " + video.getVisitCounter() + " reproducciones");
+        holder.txtPosition.setText(Integer.toString((position+1)));
+      //  holder.txtData.setText(Config.date_to_human(video.getData()) + " · " + video.getVisitCounter() + " reproducciones");
+        holder.txtData.setText(video.getDuration());
         Glide.with(holder.imageViewBackground.getContext()).load(video.getBackground()).into(holder.imageViewBackground);
-
     }
 
 

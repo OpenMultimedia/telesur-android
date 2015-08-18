@@ -3,34 +3,54 @@ package net.telesurtv.www.telesur.views.news;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
+import net.telesurtv.www.telesur.R;
+import net.telesurtv.www.telesur.data.ClientServiceTelesur;
+import net.telesurtv.www.telesur.data.EndPoint;
+import net.telesurtv.www.telesur.data.TelesurApiService;
+import net.telesurtv.www.telesur.data.api.models.news.News;
+import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
+import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.model.Image;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
-import net.telesurtv.www.telesur.views.fragment.FragmentEmpity;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.client.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 
 public class NewsActivity extends BaseNavigationDrawerActivity implements ActionBarDrawerListener.Listener {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private FrameLayout frameLayout;
-    private ImageView imageView;
-    AnimatorSet animatorSet;
+    private FrameLayout frameLayoutBackground;
+    private ImageView imageView, iconNews, backgroundNews;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private AnimatorSet animatorSet;
+    private Interpolator mInterpolator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +58,12 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         setContentView(R.layout.activity_news);
 
         setHighLevelActivity();
-        setupViews();
+        initializeViewsAndInterpolator();
 
         if (viewPager != null)
             setUpViewPager(viewPager);
 
-        String[] images = {"http://images.bwbx.io/cms/2014-03-20/0320_gmail_970-630x420.jpg",
-                "http://officesnapshots.com/wp-content/uploads/2008/02/gp5.jpg",
-                "http://abduzeedo.com/files/originals/g/googleplex-01.jpg",
-                "http://si.wsj.net/public/resources/images/SF-AB030_VALLEY_G_20110727135458.jpg"};
-
-        List<Image> imageList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Image image = new Image();
-            image.setUrl(images[i]);
-            imageList.add(image);
-        }
-
-        setupHeaderImages(imageList,0);
-
+         initializeFirstElement();
 
     }
 
@@ -64,19 +71,58 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     @Override
     protected void onResume() {
         super.onResume();
-      //  setViewPagerListener();
+        setViewPagerListener();
     }
 
     /**
-     * getViews from xml
+     * getViews from xml and initialize interpolator
      */
-    private void setupViews() {
+    private void initializeViewsAndInterpolator() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        frameLayout = (FrameLayout) findViewById(R.id.frame_layout_news_theme);
+        frameLayoutBackground = (FrameLayout) findViewById(R.id.frame_layout_news_theme);
         imageView = (ImageView) findViewById(R.id.image_view_background_animate);
+        iconNews = (ImageView) findViewById(R.id.icon_news);
+        backgroundNews = (ImageView) findViewById(R.id.background_news);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+
+
+        // intialize interpolator
+        mInterpolator = AnimationUtils.loadInterpolator(this, android.R.interpolator.overshoot);
 
     }
+
+
+    /**
+     * this method initialize oustanding category
+     */
+    private void initializeFirstElement() {
+        backgroundNews.setScaleY(0);
+        backgroundNews.setScaleY(0);
+        backgroundNews.animate().scaleX(1).scaleY(1).setInterpolator(mInterpolator).setStartDelay(300);
+        frameLayoutBackground.setBackgroundColor(getResources().getColor(R.color.theme_blue_transparent_primary));
+        setupColorShape(getResources().getColor(R.color.theme_blue_primary));
+        iconNews.setImageResource(R.drawable.ic_v_menu_news);
+
+        if (Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.oustanding_status_bar));
+
+        getImageListNews(EndPoint.RSS_OUSTANDING);
+    }
+
+
+    /**
+     * @param circleColorTheme this method change color circle
+     */
+    private void setupColorShape(int circleColorTheme) {
+        LayerDrawable bgDrawable = (LayerDrawable) backgroundNews.getBackground();
+        final GradientDrawable shapeBackground = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_background);
+        final GradientDrawable shapeForeground = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.shape_foreground);
+        shapeBackground.setColor(circleColorTheme);
+        shapeForeground.setColor(circleColorTheme);
+    }
+
 
     /*
      * add adapter to viewPager and set ViewPager to tabLayout
@@ -99,6 +145,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
      */
     private void setViewPagerListener() {
 
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -108,7 +155,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
             @Override
             public void onPageSelected(int position) {
                 setThemeBackground(position);
-
             }
 
             @Override
@@ -125,6 +171,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
 
     }
 
+
     /**
      * Set color to FrameLayout
      *
@@ -132,42 +179,83 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
      */
     private void setThemeBackground(int position) {
 
-        int backgroundColorTheme = getResources().getColor(R.color.black);
-        int statusBarColorTheme = getResources().getColor(R.color.black);
+
+        int primaryColor = getResources().getColor(R.color.black);
+        int primaryDarkColor = getResources().getColor(R.color.black);
+        int backgroundColor = getResources().getColor(R.color.black);
+        String category = "";
 
         switch (position) {
             case 0:
-                backgroundColorTheme = getResources().getColor(R.color.oustanding_theme);
-                statusBarColorTheme = getResources().getColor(R.color.oustanding_status_bar);
+                primaryColor = getResources().getColor(R.color.theme_blue_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_blue_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_blue_transparent_primary);
+                category = EndPoint.RSS_OUSTANDING;
                 break;
             case 1:
-                backgroundColorTheme = getResources().getColor(R.color.latam_theme);
-                statusBarColorTheme = getResources().getColor(R.color.latam_status_bar);
+                primaryColor = getResources().getColor(R.color.theme_red_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_red_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_red_transparent_primary);
+                category = EndPoint.RSS_LATAM;
                 break;
             case 2:
-                backgroundColorTheme = getResources().getColor(R.color.world_theme);
-                statusBarColorTheme = getResources().getColor(R.color.world_status_bar);
+                primaryColor = getResources().getColor(R.color.theme_green_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_green_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_green_transparent_primary);
+                category = EndPoint.RSS_WORLD;
                 break;
             case 3:
-                backgroundColorTheme = getResources().getColor(R.color.sports_theme);
-                statusBarColorTheme = getResources().getColor(R.color.sports_status_bar);
+                primaryColor = getResources().getColor(R.color.theme_yellow_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_yellow_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_yellow_transparent_primary);
+                category = EndPoint.RSS_SPORTS;
                 break;
             case 4:
-                backgroundColorTheme = getResources().getColor(R.color.culture_theme);
-                statusBarColorTheme = getResources().getColor(R.color.culture_status_bar);
+                primaryColor = getResources().getColor(R.color.theme_purple_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_purple_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_purple_transparent_primary);
+                category = EndPoint.RSS_CULTURE;
                 break;
         }
 
-        frameLayout.setBackgroundColor(backgroundColorTheme);
+
+       // getImageListNews(category);
+
+
+        int[] icons = {R.drawable.ic_v_menu_news, R.drawable.ic_menu_america, R.drawable.ic_menu_world, R.drawable.ic_menu_soports, R.drawable.ic_menu_culture};
+        frameLayoutBackground.setBackgroundColor(backgroundColor);
+        collapsingToolbarLayout.setContentScrimColor(primaryColor);
+
+        // setup shape
+        setupColorShape(primaryColor);
+        animateCircleShape(icons[position]);
 
         if (Build.VERSION.SDK_INT >= 21)
-            getWindow().setStatusBarColor(statusBarColorTheme);
-
+            getWindow().setStatusBarColor(primaryDarkColor);
 
     }
 
-    ///
 
+    // animation Shape
+
+    private void animateCircleShape(int iconCircle) {
+
+        iconNews.setScaleX(0);
+        iconNews.setScaleY(0);
+        iconNews.setImageResource(iconCircle);
+        iconNews.animate().scaleX(1).scaleY(1).setInterpolator(mInterpolator).setStartDelay(300);
+        backgroundNews.setScaleY(0);
+        backgroundNews.setScaleY(0);
+        backgroundNews.animate().scaleX(1).scaleY(1).setInterpolator(mInterpolator).setStartDelay(300);
+
+    }
+
+    /**
+     * list of images background to animate
+     *
+     * @param images
+     * @param index
+     */
 
     private void setupHeaderImages(final List<Image> images, final int index) {
 
@@ -178,7 +266,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         Picasso.with(this).load(images.get(index).getUrl()).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
-                imageView.setAlpha(.15f);
+                imageView.setAlpha(.95f);
                 long duration = 5000;
                 float transStartX;
                 float transStartY;
@@ -263,7 +351,76 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         });
 
 
+    }
+
+    /**
+     *
+     * @param section getListImages
+     */
+    private void getImageListNews(String section) {
+
+        TelesurApiService telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
+        telesurApiService.getNewsList(section).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).
+                subscribe(new Action1<Response>() {
+                    @Override
+                    public void call(Response response) {
+
+                        final StringWriter writer = new StringWriter();
+
+                        try {
+                            IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+
+                            News[] listNews = ParserNews.getListNews(writer.toString());
+                            final List<Image> imageList = new ArrayList<>();
+                            imageList.clear();
+                            for (int i = 0; i < listNews.length; i++) {
+
+                                News notice = listNews[i];
+                                Image image = new Image();
+                                image.setUrl(notice.getEnclosure().getUrl());
+                                imageList.add(image);
+                            }
+
+                            updateUI(imageList);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
 
     }
+
+    /**
+     * @param imageList listImages
+     */
+    private void updateUI(final List<Image> imageList) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                List<Image> imageArrayList = new ArrayList<>();
+                imageArrayList.clear();
+                for (int i = 0; i < imageList.size(); i++) {
+                    Image image = new Image();
+                    image.setUrl(imageList.get(i).getUrl());
+                    imageArrayList.add(image);
+                }
+                setupHeaderImages(imageArrayList, 0);
+
+
+            }
+        });
+    }
+
+
 
 }

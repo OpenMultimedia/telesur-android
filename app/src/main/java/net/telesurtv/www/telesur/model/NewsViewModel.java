@@ -12,6 +12,24 @@ public class NewsViewModel {
     private String contentNews;
     private String authorNews;
     private String descriptionNews;
+    private int primaryColor;
+    private int primaryDarkColor;
+
+    public int getPrimaryColor() {
+        return primaryColor;
+    }
+
+    public void setPrimaryColor(int primaryColor) {
+        this.primaryColor = primaryColor;
+    }
+
+    public int getPrimaryDarkColor() {
+        return primaryDarkColor;
+    }
+
+    public void setPrimaryDarkColor(int primaryDarkColor) {
+        this.primaryDarkColor = primaryDarkColor;
+    }
 
     public String getImgNews() {
         return imgNews;
