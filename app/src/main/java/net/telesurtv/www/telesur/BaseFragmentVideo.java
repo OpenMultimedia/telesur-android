@@ -1,9 +1,9 @@
 package net.telesurtv.www.telesur;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 
@@ -19,8 +20,7 @@ import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 import net.telesurtv.www.telesur.views.adapter.RecyclerVideoAdapter;
-import net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout;
-import net.telesurtv.www.telesur.views.view.ViewDelegate;
+import net.telesurtv.www.telesur.views.videos.VideoReproductorActivity;
 
 import org.apache.commons.io.IOUtils;
 
@@ -37,10 +37,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate {
+public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListener {
 
     RecyclerView recyclerViewVideoList;
-    DelegatedSwipeRefreshLayout refreshLayoutVideo;
+    SwipeRefreshLayout refreshLayoutVideo;
     public RecyclerVideoAdapter recyclerVideoAdapter;
     List<VideoViewModel> videoList = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
      */
     public void setUpViews(View view) {
         recyclerViewVideoList = (RecyclerView) view.findViewById(R.id.pruebas_video_recycler);
-        refreshLayoutVideo = (DelegatedSwipeRefreshLayout) view.findViewById(R.id.video_refresh);
+        refreshLayoutVideo = (SwipeRefreshLayout) view.findViewById(R.id.video_refresh);
 
 
     }
@@ -86,6 +86,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
         recyclerViewVideoList.setLayoutManager(new LinearLayoutManager(recyclerViewVideoList.getContext()));
         recyclerViewVideoList.setItemAnimator(new DefaultItemAnimator());
         recyclerViewVideoList.setAdapter(recyclerVideoAdapter);
+        recyclerVideoAdapter.setItemRecyclerClickListener(this);
         getListVideos(getSection());
     }
 
@@ -96,18 +97,13 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     protected void setupRefreshLayout() {
         refreshLayoutVideo.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         refreshLayoutVideo.setOnRefreshListener(this);
-        refreshLayoutVideo.setViewDelegate(this);
+
     }
 
 
     @Override
     public void onRefresh() {
-
-    }
-
-    @Override
-    public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(recyclerViewVideoList, -1);
+        getListVideos(getSection());
     }
 
 
@@ -121,6 +117,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
             public void run() {
                 recyclerVideoAdapter.clear();
                 recyclerVideoAdapter.setListItems(videoViewModels);
+                refreshLayoutVideo.setRefreshing(false);
             }
         });
     }
@@ -133,7 +130,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     protected void getListVideos(String section) {
 
         TelesurApiService clientServiceTelesur = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
-        clientServiceTelesur.getVideosList("completo", 1, 20, section).
+        clientServiceTelesur.getVideoList("completo", 1, 20, section).
                 subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response>() {
             @Override
             public void call(Response response) {
@@ -155,13 +152,13 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
                         video.setDuration(videoItem.getDuracion());
                         video.setData(videoItem.getFecha());
                         if (videoItem.getCategoria() == null)
-                            video.setCategory("Sección no especificada");
+                            video.setCategory("teleSUR");
                         else
                             video.setCategory(videoItem.getCategoria().getNombre());
 
                         video.setVisitCounter(videoItem.getEstadisticas().getVistas());
                         video.setVideoURL(videoItem.getArchivo_url());
-                       // video.setPrimaryColor(getPrimaryColor(i));
+                        // video.setPrimaryColor(getPrimaryColor(i));
 
                         videoList.add(video);
                     }
@@ -186,12 +183,6 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     }
 
 
-
-
-
-
-
-
     /**
      * This method return the section according to the fragment
      *
@@ -200,4 +191,14 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     protected abstract String getSection();
 
 
+    @Override
+    public void itemRecycleOnClick(int position, VideoViewModel videoViewModel) {
+
+
+        Intent intent = new Intent(getActivity(), VideoReproductorActivity.class);
+        intent.putExtra("video", videoViewModel.getVideoURL());
+        startActivity(intent);
+
+        Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+    }
 }

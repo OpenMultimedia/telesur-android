@@ -47,11 +47,9 @@ public class NavigatorActivity extends AppCompatActivity {
         setupToolbar();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            getToolbar().setTitleTextColor(getResources().getColor(R.color.accent));
-            getToolbar().setBackgroundColor(getResources().getColor(R.color.primary_videos));
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_gray);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
 
     }

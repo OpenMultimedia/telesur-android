@@ -28,11 +28,11 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
         setupSubActivityWithTitle();
        // appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-       // txtSection = (TextView) findViewById(R.id.txt_title_section);
+        txtSection = (TextView) findViewById(R.id.txt_title_section);
         intializeFromIntent();
 
-
-        ViewCompat.setTransitionName(getToolbar(), getString(R.string.transition_toolbar));
+        if (Build.VERSION.SDK_INT >= 21)
+            ViewCompat.setTransitionName(txtSection, getString(R.string.transition_toolbar));
 
 
     }
@@ -82,8 +82,8 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
         }
         fragmentTransactionReplace(fragment);
-        //txtSection.setText(title);
-        getSupportActionBar().setTitle(title);
+        txtSection.setText(title);
+    //    getSupportActionBar().setTitle(title);
 
 
     }

@@ -32,4 +32,9 @@ public class SportFragment extends BaseFragmentNews {
     protected String getTitleSection() {
         return EndPoint.SECTION_SPORT;
     }
+
+    @Override
+    protected String themeSection() {
+        return BaseFragmentNews.THEME_SPORT;
+    }
 }

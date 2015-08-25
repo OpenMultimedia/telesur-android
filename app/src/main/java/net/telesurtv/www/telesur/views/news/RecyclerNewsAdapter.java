@@ -1,13 +1,9 @@
-package net.telesurtv.www.telesur.views.adapter;
+package net.telesurtv.www.telesur.views.news;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +12,6 @@ import com.bumptech.glide.Glide;
 import net.telesurtv.www.telesur.ItemRecyclerClickListenerNews;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
-import net.telesurtv.www.telesur.views.videos.VideosActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +19,13 @@ import java.util.List;
 /**
  * Created by Jhordan on 16/07/15.
  */
-public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     List<NewsViewModel> newsViewModelListItems;
     private static final int TYPE_ITEM_1 = 0;
     private static final int TYPE_ITEM_2 = 1;
     private static final int TYPE_ITEM_3 = 2;
-    private static final int TYPE_ITEM_4 = 3;
 
     ItemRecyclerClickListenerNews itemRecyclerClickListenerNews;
 
@@ -39,15 +33,12 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
         this.itemRecyclerClickListenerNews = itemRecyclerClickListenerNews;
     }
 
-
-    public RecyclerNewsOutstandingAdapter() {
+    public RecyclerNewsAdapter() {
         this.newsViewModelListItems = new ArrayList<>();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
-        // return new ViewHolder(view);
 
         RecyclerView.ViewHolder viewHolderType = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -61,9 +52,6 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
                 break;
             case TYPE_ITEM_3:
                 viewHolderType = new ViewHolder3(inflater.inflate(R.layout.item_news_three, parent, false));
-                break;
-            case TYPE_ITEM_4:
-                viewHolderType = new ViewHolder4(inflater.inflate(R.layout.item_news_four, parent, false));
                 break;
 
 
@@ -92,12 +80,8 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
                 break;
 
 
-            case TYPE_ITEM_4:
-                setTypeItem4(((ViewHolder4) holder));
-                break;
-
-
         }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +119,6 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
         return newsViewModelListItems.size();
     }
 
-
     public void addItem(NewsViewModel item) {
         this.newsViewModelListItems.add(5, item);
         notifyDataSetChanged();
@@ -159,19 +142,13 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemViewType(int position) {
 
-        if (isFirstPosition(position))
+        if (position % 3 == 0)
             return TYPE_ITEM_2;
-        else if (position % 5 == 0 && position != 5)
+        else if (position % 5 == 0)
             return TYPE_ITEM_3;
-        else if (position == 5)
-            return TYPE_ITEM_4;
+
 
         return TYPE_ITEM_1;
-    }
-
-
-    private boolean isFirstPosition(int position) {
-        return position == TYPE_ITEM_2;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -191,7 +168,6 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-
     static class ViewHolder2 extends RecyclerView.ViewHolder {
         TextView txtTitleNewsTwo, txtDataNewsTwo, txtCategoryTwo;
         ImageView imageViewNewsTwo;
@@ -209,7 +185,6 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
 
     }
 
-
     static class ViewHolder3 extends RecyclerView.ViewHolder {
         TextView txtTitleNewsThree, txtDataNewsThree, txtCategoryThree;
         ImageView imageViewNewsThree;
@@ -226,35 +201,6 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
         }
 
     }
-
-    static class ViewHolder4 extends RecyclerView.ViewHolder {
-
-        TextView textView;
-        Button btnSeeNow;
-        View view;
-
-        public ViewHolder4(View itemView) {
-            super(itemView);
-            view = itemView;
-            textView = (TextView) itemView.findViewById(R.id.dato);
-            btnSeeNow = (Button) itemView.findViewById(R.id.btn_see_now);
-
-            btnSeeNow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, VideosActivity.class);
-                    context.startActivity(intent);
-                    ((Activity)context).finish();
-                }
-            });
-
-
-        }
-
-    }
-
 
     private void setTypeItem1(ViewHolder holder, NewsViewModel newsViewModel) {
 
@@ -280,10 +226,5 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
         holder.txtCategoryThree.setText(newsViewModel.getCategoryNews());
     }
 
-    private void setTypeItem4(ViewHolder4 holder) {
-
-
-        //holder.textView.setText("VIDEOS");
-    }
 
 }

@@ -13,6 +13,10 @@ public class EndPoint {
     public final static String CLIP_QUERY_FIRST = "primero";
     public final static String CLIP_QUERY_LAST = "ultimo";
     public final static String CLIP_QUERY_KIND = "tipo";
+    public final static String CLIP_QUERY_PROGRAM = "programa";
+    public final static String TELESUR_PROGRAM = "/api/programa/";
+    public final static String PROGRAM_QUERY_SHOW = "mostrar";
+    public final static String PROGRAM_QUERY_LAST = "ultimo";
 
     public static final String  RSS_OUSTANDING = "/rss/RssPortada.xml";
     public static final String  RSS_LATAM = "/rss/RssLatinoamerica.xml";

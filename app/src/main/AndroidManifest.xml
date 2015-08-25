@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppTheme.Telesur">
         <activity
-            android:name=".views.videos.PruebasActivity"
+            android:name=".views.videos.VideoReproductorActivity"
             android:label="@string/app_name">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -52,6 +52,7 @@
 
         <activity
             android:name=".views.videos.VideoListDetailActivity"
+            android:label="@string/video_detail_name"
            />
 
         <activity

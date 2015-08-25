@@ -80,6 +80,21 @@
         <item name="android:textStyle">bold</item>
 
     </style>
+
+    <!-- toolbar style -->
+
+    <style name="Widget.MyApp.HeaderBar.Spinner" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+        <item name="android:divider">@null</item>
+        <item name="android:overlapAnchor">true</item>
+        <item name="android:popupBackground">@color/white</item>
+
+    </style>
+
+
+
+
 </resources>
 
 

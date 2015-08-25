@@ -1,5 +1,6 @@
 package net.telesurtv.www.telesur.views.news;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.text.Html;
@@ -24,12 +25,15 @@ public class NewsDetailActivity extends NavigatorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       /*
+       
         if (getIntent() != null) {
             theme = Theme.valueOf(getIntent().getStringExtra("news_themes"));
             setTheme(theme.getStyle());
+            if(Build.VERSION.SDK_INT >= 21)
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+            
         }
-*/
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
         setupSubActivityWithTitle();

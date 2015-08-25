@@ -1,6 +1,7 @@
 package net.telesurtv.www.telesur.views.videos;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -34,25 +35,23 @@ public class VideoFragment extends Fragment implements ItemRecyclerClickListener
         return new VideoFragment();
     }
 
-
     RecyclerView recyclerViewMenu;
     RecyclerVideoTypeAdapter recyclerVideoTypeAdapter;
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         initializeView(rootView);
-
-
         return rootView;
     }
 
     private void initializeView(View rootView) {
+
+        int spans = getResources().getInteger(R.integer.video_span);
         recyclerVideoTypeAdapter = new RecyclerVideoTypeAdapter(getMenuList(), getActivity());
         recyclerViewMenu = (RecyclerView) rootView.findViewById(R.id.video_menu_recycler);
-        recyclerViewMenu.setLayoutManager(new GridLayoutManager(recyclerViewMenu.getContext(), 3));
+        recyclerViewMenu.setLayoutManager(new GridLayoutManager(recyclerViewMenu.getContext(), spans));
         recyclerViewMenu.addItemDecoration(new ItemOffsetDecoration(recyclerViewMenu.getContext(), R.dimen.item_decoration));
         recyclerViewMenu.setAdapter(recyclerVideoTypeAdapter);
         recyclerVideoTypeAdapter.setItemRecyclerClickListener(this);
@@ -86,13 +85,13 @@ public class VideoFragment extends Fragment implements ItemRecyclerClickListener
 
 
         ArrayList<VideoMenu> videoMenus = new ArrayList<>();
-        Theme theme ;
+        Theme theme;
         for (int i = 0; i < titles.length; i++) {
             VideoMenu videoMenu = new VideoMenu();
             videoMenu.setTitle(titles[i]);
             videoMenu.setIcon(icons[i]);
             videoMenu.setTheme(enumNames[i]);
-            theme= Theme.valueOf(videoMenu.getTheme());
+            theme = Theme.valueOf(videoMenu.getTheme());
             videoMenu.setStyle(theme.getStyle());
             videoMenus.add(videoMenu);
         }
@@ -101,19 +100,48 @@ public class VideoFragment extends Fragment implements ItemRecyclerClickListener
         return videoMenus;
     }
 
-
     @Override
     public void itemRecycleOnClick(int position, VideoMenu videoMenu, View toolbar) {
 
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            versionHigherOrEqualSDKLollipop(position, videoMenu, toolbar);
+        } else {
+            versionLessLollipop(position, videoMenu);
+        }
+
+
+    }
+
+
+    /**
+     *  Intent for version Build.VERSION.SDK_INT >= 21
+     * @param position
+     * @param videoMenu
+     * @param toolbar
+     */
+    private void versionHigherOrEqualSDKLollipop(int position, VideoMenu videoMenu, View toolbar) {
         Intent intent = new Intent(getActivity(), VideoListDetailActivity.class);
         intent.putExtra("video_theme", videoMenu.getStyle());
         intent.putExtra("video_position", position);
         Pair<View, String> pairTitle = Pair.create(toolbar, getString(R.string.transition_toolbar));
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),pairTitle);
-        getActivity().startActivity(intent,optionsCompat.toBundle());
-
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairTitle);
+        if (Build.VERSION.SDK_INT >= 16)
+            getActivity().startActivity(intent, optionsCompat.toBundle());
     }
 
+    /**
+     *  Intent for version Build.VERSION.SDK_INT < 21
+     * @param position
+     * @param videoMenu
+     *
+     */
+    private void versionLessLollipop(int position, VideoMenu videoMenu) {
+        Intent intent = new Intent(getActivity(), VideoListDetailActivity.class);
+        intent.putExtra("video_theme", videoMenu.getStyle());
+        intent.putExtra("video_position", position);
+        startActivity(intent);
+    }
 
 
 }

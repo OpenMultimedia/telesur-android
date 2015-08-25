@@ -2,6 +2,7 @@ package net.telesurtv.www.telesur;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,7 @@ import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.Theme;
 import net.telesurtv.www.telesur.util.TimeAgo;
-import net.telesurtv.www.telesur.views.adapter.RecyclerNewsAdapter;
+import net.telesurtv.www.telesur.views.news.RecyclerNewsAdapter;
 import net.telesurtv.www.telesur.views.news.NewsDetailActivity;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
@@ -41,6 +42,14 @@ import rx.schedulers.Schedulers;
  * Created by Jhordan on 28/07/15.
  */
 public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListenerNews, AppBarLayout.OnOffsetChangedListener {
+
+
+    public final static String THEME_OUSTANDING = "special";
+    public final static String THEME_LATAM = "news";
+    public final static String THEME_WORLD = "documental";
+    public final static String THEME_SPORT = "interview";
+    public final static String THEME_CULTURE = "infografi";
+
 
     RecyclerView recyclerViewNewsList;
     SwipeRefreshLayout refreshLayoutNews;
@@ -125,7 +134,9 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
      * initialize swipeRefreshLayout
      */
     protected void setupRefreshLayout() {
-        refreshLayoutNews.setColorSchemeResources(R.color.primaryDark, R.color.primary);
+
+        Theme theme = Theme.valueOf(themeSection());
+        refreshLayoutNews.setColorSchemeResources(theme.getColorPrimary(),theme.getWindowBackground());
         refreshLayoutNews.setOnRefreshListener(this);
         refreshLayoutNews.setEnabled(false);
 
@@ -190,8 +201,6 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
                                 newsViewModel.setContentNews(notice.getContent());
 
 
-
-
                                 if (notice.getLastTime() != null) {
                                     TimeAgo timeAgo = new TimeAgo(getResources());
                                     newsViewModel.setDataNews(timeAgo.timeAgo(Config.parserToUseTimeAgo(notice.getLastTime())));
@@ -240,13 +249,15 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
 
     protected abstract String getTitleSection();
 
+    protected abstract String themeSection();
+
     @Override
     public void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel) {
-        String[] enumNames = {"news", "interview", "documental", "infografi", "special", "report"};
+
         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
         intent.putExtra("news", getItem(newsViewModel));
         intent.putExtra("news_section", getTitleSection());
-       // intent.putExtra("news_themes", enumNames[position]);
+        intent.putExtra("news_themes", themeSection());
         startActivity(intent);
     }
 
@@ -269,4 +280,7 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         refreshLayoutNews.setEnabled(i == 0);
     }
+
+
+
 }

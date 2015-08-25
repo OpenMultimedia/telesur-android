@@ -3,6 +3,7 @@ package net.telesurtv.www.telesur.views.news;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import net.telesurtv.www.telesur.BaseFragmentNews;
 import net.telesurtv.www.telesur.BaseFragmentOutstandingNews;
 import net.telesurtv.www.telesur.data.EndPoint;
 
@@ -34,5 +35,10 @@ public class OutstandingFragment extends BaseFragmentOutstandingNews {
     @Override
     protected String getTitleSection() {
         return EndPoint.SECTION_OUSTANDING;
+    }
+
+    @Override
+    protected String themeSection() {
+        return BaseFragmentNews.THEME_OUSTANDING;
     }
 }

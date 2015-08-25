@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
    >
 
-    <net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/video_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,7 +16,7 @@
             android:paddingTop="32dp"
             android:clipToPadding="false" />
 
-    </net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout>
+   </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

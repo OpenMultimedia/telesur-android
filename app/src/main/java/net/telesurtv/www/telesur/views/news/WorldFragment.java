@@ -35,4 +35,9 @@ public class WorldFragment extends BaseFragmentNews {
     protected String getTitleSection() {
         return EndPoint.SECTION_WORLD ;
     }
+
+    @Override
+    protected String themeSection() {
+        return BaseFragmentNews.THEME_WORLD;
+    }
 }

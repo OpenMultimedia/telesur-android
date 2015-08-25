@@ -60,21 +60,18 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-/*
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+   holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, PruebasActivity.class);
-                intent.putExtra("video", video.getVideoURL());
-                context.startActivity(intent);
 
+
+                VideoViewModel videoItem = videoList.get(position);
                 if (itemRecyclerClickListener != null) {
-                    VideoViewModel track = videoList.get(position);
-                    itemRecyclerClickListener.itemRecycleOnClick(position, track);
+
+                    itemRecyclerClickListener.itemRecycleOnClick(position, videoItem);
                 }
             }
-        });*/
+        });
 
 
     }

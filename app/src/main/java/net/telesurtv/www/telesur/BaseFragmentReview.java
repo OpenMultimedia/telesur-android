@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
-import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.data.api.models.news.News;
+import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.views.adapter.RecyclerReviewAdapter;
@@ -40,10 +40,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentReview extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ViewDelegate, ItemRecyclerClickListenerReview {
+public abstract class BaseFragmentReview extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListenerReview {
 
     RecyclerView recyclerViewNewsList;
-    DelegatedSwipeRefreshLayout refreshLayoutNews;
+    SwipeRefreshLayout refreshLayoutNews;
     public RecyclerReviewAdapter recyclerReviewAdapter;
     List<ReviewViewModel> newsViewModelArrayList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
      */
     public void setUpViews(View view) {
         recyclerViewNewsList = (RecyclerView) view.findViewById(R.id.news_recycler);
-        refreshLayoutNews = (DelegatedSwipeRefreshLayout) view.findViewById(R.id.news_base_refresh);
+        refreshLayoutNews = (SwipeRefreshLayout) view.findViewById(R.id.review_base_refresh);
 
 
     }
@@ -102,18 +102,15 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
     protected void setupRefreshLayout() {
         refreshLayoutNews.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         refreshLayoutNews.setOnRefreshListener(this);
-        refreshLayoutNews.setViewDelegate(this);
+
     }
 
 
     @Override
     public void onRefresh() {
 
-    }
 
-    @Override
-    public boolean isReadyForPull() {
-        return ViewCompat.canScrollVertically(recyclerViewNewsList, -1);
+        getListNews(getSection());
     }
 
 
@@ -127,6 +124,8 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
             public void run() {
                 recyclerReviewAdapter.clear();
                 recyclerReviewAdapter.setListItems(newsViewModelList);
+                refreshLayoutNews.setRefreshing(false);
+
             }
         });
     }
@@ -150,7 +149,6 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
                         final StringWriter writer = new StringWriter();
                         try {
                             IOUtils.copy(response.getBody().in(), writer, "UTF-8");
-                            System.out.println("Request a la API" + writer.toString());
 
                             News[] listNews = ParserNews.getListNews(writer.toString());
                             newsViewModelArrayList.clear();
@@ -163,7 +161,11 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
                                 reviewViewModel.setAuthor(new String(notice.getAuthor().getBytes("UTF-16"), "UTF-8"));
                                 reviewViewModel.setTitle(notice.getTitle());
                                 reviewViewModel.setAuthor(notice.getAuthor());
-                                reviewViewModel.setDescription(notice.getDescription());
+
+                                if (notice.getDescription() != null)
+                                    reviewViewModel.setDescription(notice.getDescription());
+                                else
+                                    reviewViewModel.setDescription("Sin descripción");
                                 reviewViewModel.setContent(notice.getContent());
 
                                 if (notice.getLastTime() != null)

@@ -1,7 +1,5 @@
 package net.telesurtv.www.telesur.views.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import net.telesurtv.www.telesur.ItemRecyclerClickListener;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 import net.telesurtv.www.telesur.util.Config;
-import net.telesurtv.www.telesur.views.videos.PruebasActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,7 @@ public class RecyclerVideoDetailAdapter extends RecyclerView.Adapter<RecyclerVid
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        VideoViewModel video = videoList.get(position);
+        final VideoViewModel video = videoList.get(position);
         holder.txtDuration.setText(video.getDuration());
         holder.txtTitle.setText(video.getTitle());
         holder.txtCategory.setText(video.getCategory());
@@ -59,8 +56,8 @@ public class RecyclerVideoDetailAdapter extends RecyclerView.Adapter<RecyclerVid
             public void onClick(View view) {
 
                 if (itemRecyclerClickListener != null) {
-                    VideoViewModel track = videoList.get(position);
-                    itemRecyclerClickListener.itemRecycleOnClick(position, track);
+
+                    itemRecyclerClickListener.itemRecycleOnClick(position, video);
                 }
             }
         });

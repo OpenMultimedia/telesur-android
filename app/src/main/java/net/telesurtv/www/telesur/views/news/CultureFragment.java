@@ -34,4 +34,9 @@ public class CultureFragment extends BaseFragmentNews {
     protected String getTitleSection() {
         return EndPoint.SECTION_CULTURE;
     }
+
+    @Override
+    protected String themeSection() {
+        return BaseFragmentNews.THEME_CULTURE;
+    }
 }

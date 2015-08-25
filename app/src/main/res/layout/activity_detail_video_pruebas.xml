@@ -4,47 +4,22 @@
     android:id="@+id/ll_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1f1f1"
- >
+    android:background="#f1f1f1">
 
-    <!-- Grid View    -->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/pruebas_video_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <!-- Draggable View -->
-
-    <com.github.pedrovgs.DraggableView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:draggable_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/pruebas_draggable_view"
+    <TextView
+        android:id="@+id/pruebas_txt_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/black"
-        draggable_view:bottom_view_id="@+id/pruebas_txt_view"
-        draggable_view:top_view_id="@+id/pruebas_video_view"
-        draggable_view:top_view_margin_bottom="10dip"
-        draggable_view:top_view_margin_right="10dip"
-        draggable_view:top_view_x_scale_factor="2.3"
-        draggable_view:top_view_y_scale_factor="2.3">
+        android:layout_below="@+id/pruebas_video_view"
+        android:background="@color/white" />
 
-        <!-- ListView Episodes -->
+    <include
+        android:id="@+id/pruebas_video_view"
+        layout="@layout/include_video_media"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
 
-        <TextView
-            android:id="@+id/pruebas_txt_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/pruebas_video_view"
-            android:background="@color/white" />
-
-        <include layout="@layout/include_video_media"
-            android:background="@color/black"
-            android:id="@+id/pruebas_video_view"
-            android:layout_width="fill_parent"
-            android:layout_height="320dp"
-           />
-
-    </com.github.pedrovgs.DraggableView>
 
 </RelativeLayout>

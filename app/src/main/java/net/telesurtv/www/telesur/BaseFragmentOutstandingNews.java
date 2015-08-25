@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,12 +19,11 @@ import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.data.api.models.news.News;
 import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.util.Config;
+import net.telesurtv.www.telesur.util.Theme;
 import net.telesurtv.www.telesur.util.TimeAgo;
-import net.telesurtv.www.telesur.views.adapter.RecyclerNewsOutstandingAdapter;
+import net.telesurtv.www.telesur.views.news.RecyclerNewsOutstandingAdapter;
 import net.telesurtv.www.telesur.views.news.NewsDetailActivity;
-import net.telesurtv.www.telesur.views.view.DelegatedSwipeRefreshLayout;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
-import net.telesurtv.www.telesur.views.view.ViewDelegate;
 
 import org.apache.commons.io.IOUtils;
 
@@ -118,8 +116,10 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
      * initialize swipeRefreshLayout
      */
     protected void setupRefreshLayout() {
-        refreshLayoutNews.setColorSchemeResources(R.color.primaryDark, R.color.primary);
+        Theme theme = Theme.valueOf(themeSection());
+        refreshLayoutNews.setColorSchemeResources(theme.getColorPrimary(),theme.getWindowBackground());
         refreshLayoutNews.setOnRefreshListener(this);
+        refreshLayoutNews.setEnabled(false);
 
     }
 
@@ -177,7 +177,6 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
                         final StringWriter writer = new StringWriter();
                         try {
                             IOUtils.copy(response.getBody().in(), writer, "UTF-8");
-                            System.out.println("Request a la API" + writer.toString());
 
                             News[] listNews = ParserNews.getListNews(writer.toString());
                             newsViewModelArrayList.clear();
@@ -192,8 +191,6 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
                                 newsViewModel.setAuthorNews(notice.getAuthor());
                                 newsViewModel.setDescriptionNews(notice.getDescription());
                                 newsViewModel.setContentNews(notice.getContent());
-
-
 
 
                                 if (notice.getLastTime() != null) {
@@ -246,11 +243,14 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
 
     protected abstract String getTitleSection();
 
+    protected abstract String themeSection();
+
     @Override
     public void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel) {
         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
         intent.putExtra("news",getItem(newsViewModel));
         intent.putExtra("news_section",getTitleSection());
+        intent.putExtra("news_themes", themeSection());
         startActivity(intent);
     }
 
