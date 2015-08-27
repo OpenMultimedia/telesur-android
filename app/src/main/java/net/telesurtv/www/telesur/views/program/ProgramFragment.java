@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Subscribe;
@@ -51,6 +53,8 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
     RecyclerProgramAdapter recyclerProgramAdapter;
     List<ProgramViewModel> programViewModelList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
+    ProgressBar progressBarProgram;
+    TextView txtPrograms;
     String slugRefresh;
 
     @Override
@@ -75,10 +79,14 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.program_swipe_refresh);
+        progressBarProgram = (ProgressBar)rootView.findViewById(R.id.progress_bar_program);
+        txtPrograms = (TextView)rootView.findViewById(R.id.txt_message_program);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        swipeRefreshLayout.setVisibility(View.GONE);
+        progressBarProgram.setVisibility(View.VISIBLE);
+        txtPrograms.setVisibility(View.GONE);
 
 
         return rootView;
@@ -121,7 +129,8 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Subscribe
     public void subscribeSlug(String slug) {
-
+        progressBarProgram.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.GONE);
         getListVideos(slug);
         slugRefresh = slug;
 
@@ -196,6 +205,8 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void run() {
                 recyclerProgramAdapter.clear();
                 recyclerProgramAdapter.setListItems(programViewModels);
+                progressBarProgram.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

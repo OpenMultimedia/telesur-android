@@ -1,5 +1,7 @@
 package net.telesurtv.www.telesur;
 
+import android.view.View;
+
 import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 
@@ -8,5 +10,5 @@ import net.telesurtv.www.telesur.model.VideoViewModel;
  */
 public interface ItemRecyclerClickListenerReview {
 
-    void itemRecycleOnClickReview(int position, ReviewViewModel reviewViewModel);
+    void itemRecycleOnClickReview(int position, ReviewViewModel reviewViewModel,View imageView);
 }

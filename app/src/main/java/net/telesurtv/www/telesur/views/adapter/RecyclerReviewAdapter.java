@@ -59,7 +59,7 @@ public class RecyclerReviewAdapter extends RecyclerView.Adapter<RecyclerReviewAd
             public void onClick(View view) {
 
                 if (itemRecyclerClickListener != null) {
-                    itemRecyclerClickListener.itemRecycleOnClickReview(position, reviewViewModel);
+                    itemRecyclerClickListener.itemRecycleOnClickReview(position, reviewViewModel,view.findViewById(R.id.image_view_reviewer));
                 }
             }
         });

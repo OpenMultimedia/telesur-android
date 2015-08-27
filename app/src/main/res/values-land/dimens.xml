@@ -8,7 +8,7 @@
 
 
     <dimen name="app_bar_layout_width">256dp</dimen>
-    <dimen name="padding_view_pager_horizontal">2dp</dimen>
+    <dimen name="padding_view_pager_horizontal">64dp</dimen>
     <dimen name="padding_view_pager_vertical">2dp</dimen>
     <dimen name="padding_view_pager">8dp</dimen>
     <dimen name="tabs_padding_left">50dip</dimen>
@@ -45,7 +45,6 @@
 
     <dimen name="item_type_three_image_height">150dp</dimen>
     <dimen name="item_type_two_image_height">280dp</dimen>
-
     <dimen name="item_type_four_top_see_now">16dp</dimen>
 
     <dimen name="app_bar_collapsign_detail">256dp</dimen>
@@ -53,6 +52,4 @@
     <dimen name="app_bar_sub_header">130dp</dimen>
 
     <dimen name="activity_news_detail_margins_lr">16dp</dimen>
-
-    <dimen name="image_resize">32dp</dimen>
 </resources>

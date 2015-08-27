@@ -3,6 +3,8 @@ package net.telesurtv.www.telesur.views.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,5 +39,11 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment, String title) {
         fragmentList.add(fragment);
         fragmentTitles.add(title);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Log.v("LOG", "On InstantiateItem " + position);
+        return super.instantiateItem(container, position);
     }
 }

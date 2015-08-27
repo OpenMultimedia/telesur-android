@@ -69,6 +69,7 @@
 
 
     <string name="appbar_scrolling_custom_view_behavior" translatable="false">net.telesurtv.www.telesur.views.view.FixedScrollingViewBehavior</string>
+    <string name="share_menu">compartir</string>
 
 
 </resources>

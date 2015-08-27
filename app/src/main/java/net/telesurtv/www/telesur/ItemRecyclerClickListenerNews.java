@@ -1,5 +1,7 @@
 package net.telesurtv.www.telesur;
 
+import android.view.View;
+
 import net.telesurtv.www.telesur.model.NewsViewModel;
 
 /**
@@ -7,5 +9,5 @@ import net.telesurtv.www.telesur.model.NewsViewModel;
  */
 public interface ItemRecyclerClickListenerNews {
 
-    void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel);
+    void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel,View image);
 }

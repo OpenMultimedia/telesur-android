@@ -1,10 +1,13 @@
 package net.telesurtv.www.telesur;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
@@ -40,14 +45,15 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentOutstandingNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener,ItemRecyclerClickListenerNews, AppBarLayout.OnOffsetChangedListener {
+public abstract class BaseFragmentOutstandingNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListenerNews, AppBarLayout.OnOffsetChangedListener {
 
     RecyclerView recyclerViewNewsList;
-   SwipeRefreshLayout refreshLayoutNews;
+    SwipeRefreshLayout refreshLayoutNews;
     public RecyclerNewsOutstandingAdapter recyclerNewsAdapter;
     private AppBarLayout appBarLayout;
     List<NewsViewModel> newsViewModelArrayList = new ArrayList<>();
-
+    private ProgressBar progressBarNews;
+    private TextView txtMessage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +85,12 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
         recyclerViewNewsList = (RecyclerView) view.findViewById(R.id.news_recycler);
         refreshLayoutNews = (SwipeRefreshLayout) view.findViewById(R.id.news_base_refresh);
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+        progressBarNews = (ProgressBar) view.findViewById(R.id.progress_bar_news);
+        txtMessage = (TextView) view.findViewById(R.id.txt_message_news);
         appBarLayout.addOnOffsetChangedListener(this);
+        progressBarNews.setVisibility(View.VISIBLE);
+        txtMessage.setVisibility(view.GONE);
+        refreshLayoutNews.setVisibility(View.GONE);
     }
 
 
@@ -87,7 +98,7 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
      * initialize recyclerView
      */
     protected void setupRecyclerView() {
-        int spans = getResources().getInteger(R.integer.review_columns);
+       final int spans = getResources().getInteger(R.integer.review_columns);
         final int one_span = getResources().getInteger(R.integer.show_span_1);
         final int two_span = getResources().getInteger(R.integer.show_span_2);
 
@@ -96,6 +107,10 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
+
+                if(spans == 3)
+                    if(position == 5)
+                        return 3;
 
                 return (position % 5 == 0 ? two_span : one_span);
             }
@@ -117,7 +132,7 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
      */
     protected void setupRefreshLayout() {
         Theme theme = Theme.valueOf(themeSection());
-        refreshLayoutNews.setColorSchemeResources(theme.getColorPrimary(),theme.getWindowBackground());
+        refreshLayoutNews.setColorSchemeResources(theme.getColorPrimary(), theme.getWindowBackground());
         refreshLayoutNews.setOnRefreshListener(this);
         refreshLayoutNews.setEnabled(false);
 
@@ -130,8 +145,6 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
     }
 
 
-
-
     /**
      * @param newsViewModelList videoList to update UI
      */
@@ -142,6 +155,8 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
             public void run() {
                 recyclerNewsAdapter.clear();
                 recyclerNewsAdapter.setListItems(newsViewModelList);
+                progressBarNews.setVisibility(View.GONE);
+                refreshLayoutNews.setVisibility(View.VISIBLE);
 
 
                 TimeAgo timeAgo = new TimeAgo(getResources());
@@ -246,14 +261,17 @@ public abstract class BaseFragmentOutstandingNews extends Fragment implements Sw
     protected abstract String themeSection();
 
     @Override
-    public void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel) {
+    public void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel, View imageView) {
         Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-        intent.putExtra("news",getItem(newsViewModel));
-        intent.putExtra("news_section",getTitleSection());
+        intent.putExtra("news", getItem(newsViewModel));
+        intent.putExtra("news_section", getTitleSection());
         intent.putExtra("news_themes", themeSection());
-        startActivity(intent);
-    }
 
+        Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairImage);
+        if (Build.VERSION.SDK_INT >= 16)
+            getActivity().startActivity(intent, optionsCompat.toBundle());
+    }
 
 
     private Bundle getItem(NewsViewModel newsViewModel) {

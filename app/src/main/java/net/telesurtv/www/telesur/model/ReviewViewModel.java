@@ -11,7 +11,16 @@ public class ReviewViewModel {
     private String imageUrl;
     private String content;
     private String date;
+    private String link;
 
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public String getAuthor() {
         return author;

@@ -48,12 +48,12 @@ public class FragmentPrueba extends Fragment implements  SwipeRefreshLayout.OnRe
 
         setupRefreshLayout();
 
-    /*    refreshLayout.postOnAnimation(new Runnable() {
+       refreshLayout.postOnAnimation(new Runnable() {
             @Override
             public void run() {
                 refreshLayout.setRefreshing(true);
             }
-        });*/
+        });
 
         setupRecyclerView(storiesList);
 

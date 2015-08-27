@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="review_columns">3</integer>
+    <integer name="show_span_1">1</integer>
+    <integer name="show_span_2">1</integer>
+    <integer name="video_span">3</integer>
+</resources>

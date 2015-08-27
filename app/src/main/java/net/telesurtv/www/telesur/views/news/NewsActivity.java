@@ -15,6 +15,8 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +29,7 @@ import net.telesurtv.www.telesur.data.api.models.news.News;
 import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
 import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.model.Image;
+import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
 
 import org.apache.commons.io.IOUtils;
@@ -51,6 +54,8 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AnimatorSet animatorSet;
     private Interpolator mInterpolator;
+    int currentPagerPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +68,28 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         if (viewPager != null)
             setUpViewPager(viewPager);
 
-         initializeFirstElement();
+
+        if (savedInstanceState != null)
+            viewPager.setCurrentItem(savedInstanceState.getInt("position"));
+        else
+            currentPagerPosition = 0;
+
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("position", currentPagerPosition);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentPagerPosition = savedInstanceState.getInt("position");
+
+    }
 
     @Override
     protected void onResume() {
@@ -86,29 +109,11 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         backgroundNews = (ImageView) findViewById(R.id.background_news);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-
-
         // intialize interpolator
         mInterpolator = AnimationUtils.loadInterpolator(this, android.R.interpolator.overshoot);
 
-    }
-
-
-    /**
-     * this method initialize oustanding category
-     */
-    private void initializeFirstElement() {
-        backgroundNews.setScaleY(0);
-        backgroundNews.setScaleY(0);
-        backgroundNews.animate().scaleX(1).scaleY(1).setInterpolator(mInterpolator).setStartDelay(300);
-        frameLayoutBackground.setBackgroundColor(getResources().getColor(R.color.theme_blue_transparent_primary));
-        setupColorShape(getResources().getColor(R.color.theme_blue_primary));
-        iconNews.setImageResource(R.drawable.ic_v_menu_news);
-
-        if (Build.VERSION.SDK_INT >= 21)
-            getWindow().setStatusBarColor(getResources().getColor(R.color.oustanding_status_bar));
-
         getImageListNews(EndPoint.RSS_OUSTANDING);
+
     }
 
 
@@ -146,7 +151,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     private void setViewPagerListener() {
 
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -154,14 +159,18 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
 
             @Override
             public void onPageSelected(int position) {
-                setThemeBackground(position);
+                currentPagerPosition = position;
+                setThemeBackground(currentPagerPosition);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        };
+
+        viewPager.addOnPageChangeListener(pageChangeListener);
+        pageChangeListener.onPageSelected(currentPagerPosition);
 
     }
 
@@ -183,43 +192,45 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         int primaryColor = getResources().getColor(R.color.black);
         int primaryDarkColor = getResources().getColor(R.color.black);
         int backgroundColor = getResources().getColor(R.color.black);
-        String category = "";
+
 
         switch (position) {
             case 0:
-                primaryColor = getResources().getColor(R.color.theme_blue_primary);
-                primaryDarkColor = getResources().getColor(R.color.theme_blue_primary_dark);
-                backgroundColor = getResources().getColor(R.color.theme_blue_transparent_primary);
-                category = EndPoint.RSS_OUSTANDING;
-                break;
-            case 1:
                 primaryColor = getResources().getColor(R.color.theme_red_primary);
                 primaryDarkColor = getResources().getColor(R.color.theme_red_primary_dark);
                 backgroundColor = getResources().getColor(R.color.theme_red_transparent_primary);
-                category = EndPoint.RSS_LATAM;
+
+
+                break;
+            case 1:
+                primaryColor = getResources().getColor(R.color.theme_yellow_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_yellow_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_yellow_transparent_primary);
+
+
                 break;
             case 2:
                 primaryColor = getResources().getColor(R.color.theme_green_primary);
                 primaryDarkColor = getResources().getColor(R.color.theme_green_primary_dark);
                 backgroundColor = getResources().getColor(R.color.theme_green_transparent_primary);
-                category = EndPoint.RSS_WORLD;
+
                 break;
             case 3:
-                primaryColor = getResources().getColor(R.color.theme_yellow_primary);
-                primaryDarkColor = getResources().getColor(R.color.theme_yellow_primary_dark);
-                backgroundColor = getResources().getColor(R.color.theme_yellow_transparent_primary);
-                category = EndPoint.RSS_SPORTS;
-                break;
-            case 4:
                 primaryColor = getResources().getColor(R.color.theme_purple_primary);
                 primaryDarkColor = getResources().getColor(R.color.theme_purple_primary_dark);
                 backgroundColor = getResources().getColor(R.color.theme_purple_transparent_primary);
-                category = EndPoint.RSS_CULTURE;
+
+                break;
+            case 4:
+                primaryColor = getResources().getColor(R.color.theme_blue_primary);
+                primaryDarkColor = getResources().getColor(R.color.theme_blue_primary_dark);
+                backgroundColor = getResources().getColor(R.color.theme_blue_transparent_primary);
+
                 break;
         }
 
 
-       // getImageListNews(category);
+        // getImageListNews(category);
 
 
         int[] icons = {R.drawable.ic_v_menu_news, R.drawable.ic_menu_america, R.drawable.ic_menu_world, R.drawable.ic_menu_soports, R.drawable.ic_menu_culture};
@@ -354,7 +365,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     }
 
     /**
-     *
      * @param section getListImages
      */
     private void getImageListNews(String section) {
@@ -371,7 +381,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
                             IOUtils.copy(response.getBody().in(), writer, "UTF-8");
 
                             News[] listNews = ParserNews.getListNews(writer.toString());
-                            final List<Image> imageList = new ArrayList<>();
+                            List<Image> imageList = new ArrayList<>();
                             imageList.clear();
                             for (int i = 0; i < listNews.length; i++) {
 

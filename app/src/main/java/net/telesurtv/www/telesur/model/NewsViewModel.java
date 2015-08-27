@@ -12,6 +12,7 @@ public class NewsViewModel {
     private String contentNews;
     private String authorNews;
     private String descriptionNews;
+    private String linkNews;
     private int primaryColor;
     private int primaryDarkColor;
 
@@ -85,6 +86,14 @@ public class NewsViewModel {
 
     public void setDescriptionNews(String descriptionNews) {
         this.descriptionNews = descriptionNews;
+    }
+
+    public String getLinkNews() {
+        return linkNews;
+    }
+
+    public void setLinkNews(String linkNews) {
+        this.linkNews = linkNews;
     }
 
 }

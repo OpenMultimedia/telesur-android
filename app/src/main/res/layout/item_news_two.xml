@@ -19,9 +19,9 @@
 
 
             <ImageView
-                android:id="@+id/image_view_picture_news_two"
+                android:id="@+id/image_view_picture_news"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="@dimen/item_type_two_image_height"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ff" />
 

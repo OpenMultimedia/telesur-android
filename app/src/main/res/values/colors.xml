@@ -2,11 +2,11 @@
 <resources>
 
     <!--Base application color #E53935 , #304FFE -->
-    <color name="primaryDark">#303F9F</color>
-    <!--<color name="primaryDark">#E14642</color>-->
-    <color name="primary">#3F51B5</color>
+    <color name="primaryDark">#D50000</color>
+    <!--<color name="primaryDark">#E14642 , #3F51B5</color>-->
+    <color name="primary">#FF5252</color>
     <!--<color name="primary">#EB675C  </color>  #7E7E7E-->
-    <color name="accent">#FF4081</color>
+    <color name="accent">#FF1744</color>
     <color name="primary_text_color">#7E7E7E</color>
     <!--<color name="accent">#7E7E7E</color>-->
     <color name="window_background">#FFF5F5F5</color>

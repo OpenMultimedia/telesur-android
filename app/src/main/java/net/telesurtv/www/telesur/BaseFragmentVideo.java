@@ -21,6 +21,7 @@ import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 import net.telesurtv.www.telesur.views.adapter.RecyclerVideoAdapter;
 import net.telesurtv.www.telesur.views.videos.VideoReproductorActivity;
+import net.telesurtv.www.telesur.views.view.LoadMoreDetector;
 
 import org.apache.commons.io.IOUtils;
 
@@ -37,12 +38,13 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListener {
+public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListener, LoadMoreDetector.Listener {
 
     RecyclerView recyclerViewVideoList;
     SwipeRefreshLayout refreshLayoutVideo;
     public RecyclerVideoAdapter recyclerVideoAdapter;
     List<VideoViewModel> videoList = new ArrayList<>();
+    LoadMoreDetector loadMoreDetector;
 
 
     @Override
@@ -83,10 +85,20 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
      * initialize recyclerView
      */
     protected void setupRecyclerView() {
-        recyclerViewVideoList.setLayoutManager(new LinearLayoutManager(recyclerViewVideoList.getContext()));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerViewVideoList.getContext());
+
+        recyclerViewVideoList.setLayoutManager(linearLayoutManager);
         recyclerViewVideoList.setItemAnimator(new DefaultItemAnimator());
         recyclerViewVideoList.setAdapter(recyclerVideoAdapter);
         recyclerVideoAdapter.setItemRecyclerClickListener(this);
+        loadMoreDetector = new LoadMoreDetector(linearLayoutManager);
+        loadMoreDetector.setListener(this);
+        loadMoreDetector.setEnabled(true);
+        loadMoreDetector.setLoading(false);
+        recyclerViewVideoList.addOnScrollListener(loadMoreDetector);
+
+
         getListVideos(getSection());
     }
 
@@ -200,5 +212,14 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
         startActivity(intent);
 
         Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoadMore() {
+        Toast.makeText(getActivity(), "estas en el ultimo", Toast.LENGTH_SHORT).show();
+        loadMoreDetector.setEnabled(true);
+        loadMoreDetector.setLoading(false);
+
+
     }
 }

@@ -10,6 +10,17 @@ import java.util.Locale;
  */
 public class Config {
 
+
+    public static final String NEWS_TITLE = "news_title";
+    public static final String NEWS_DESCRIPTION = "news_description";
+    public static final String NEWS_AUTHOR = "news_author";
+    public static final String NEWS_CONTENT = "news_content";
+    public static final String NEWS_CATEGORY = "news_category";
+    public static final String NEWS_IMAGE = "news_image";
+    public static final String NEWS_DATE = "news_date";
+    public static final String NEWS_LINK= "news_link";
+
+
     public static String date_to_human(String time) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         Date date;

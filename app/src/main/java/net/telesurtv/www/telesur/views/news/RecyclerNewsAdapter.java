@@ -89,7 +89,7 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 if (itemRecyclerClickListenerNews != null) {
 
-                    itemRecyclerClickListenerNews.itemRecycleOnClickNews(position, newsViewModel);
+                    itemRecyclerClickListenerNews.itemRecycleOnClickNews(position, newsViewModel,view.findViewById(R.id.image_view_picture_news));
                 }
 
 
@@ -139,6 +139,10 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    public List<NewsViewModel> getNewsViewModelListItems() {
+        return newsViewModelListItems;
+    }
+
     @Override
     public int getItemViewType(int position) {
 
@@ -179,7 +183,7 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTitleNewsTwo = (TextView) itemView.findViewById(R.id.txt_title_news_two);
             txtCategoryTwo = (TextView) itemView.findViewById(R.id.txt_category_news_two);
             txtDataNewsTwo = (TextView) itemView.findViewById(R.id.txt_data_news_two);
-            imageViewNewsTwo = (ImageView) itemView.findViewById(R.id.image_view_picture_news_two);
+            imageViewNewsTwo = (ImageView) itemView.findViewById(R.id.image_view_picture_news);
 
         }
 
@@ -196,7 +200,7 @@ public class RecyclerNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTitleNewsThree = (TextView) itemView.findViewById(R.id.txt_title_news_three);
             txtCategoryThree = (TextView) itemView.findViewById(R.id.txt_category_news_three);
             txtDataNewsThree = (TextView) itemView.findViewById(R.id.txt_data_news_three);
-            imageViewNewsThree = (ImageView) itemView.findViewById(R.id.image_view_picture_news_three);
+            imageViewNewsThree = (ImageView) itemView.findViewById(R.id.image_view_picture_news);
 
         }
 

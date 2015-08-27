@@ -1,9 +1,12 @@
 package net.telesurtv.www.telesur;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +15,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
@@ -45,6 +50,8 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
     RecyclerView recyclerViewNewsList;
     SwipeRefreshLayout refreshLayoutNews;
     public RecyclerReviewAdapter recyclerReviewAdapter;
+    ProgressBar progressBarReview;
+    TextView txtMessage;
     List<ReviewViewModel> newsViewModelArrayList = new ArrayList<>();
 
 
@@ -77,7 +84,11 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
     public void setUpViews(View view) {
         recyclerViewNewsList = (RecyclerView) view.findViewById(R.id.news_recycler);
         refreshLayoutNews = (SwipeRefreshLayout) view.findViewById(R.id.review_base_refresh);
-
+        progressBarReview = (ProgressBar) view.findViewById(R.id.progress_bar_review);
+        txtMessage = (TextView) view.findViewById(R.id.txt_message_review);
+        progressBarReview.setVisibility(View.VISIBLE);
+        txtMessage.setVisibility(view.GONE);
+        refreshLayoutNews.setVisibility(View.GONE);
 
     }
 
@@ -124,7 +135,10 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
             public void run() {
                 recyclerReviewAdapter.clear();
                 recyclerReviewAdapter.setListItems(newsViewModelList);
+                progressBarReview.setVisibility(View.GONE);
+                refreshLayoutNews.setVisibility(View.VISIBLE);
                 refreshLayoutNews.setRefreshing(false);
+
 
             }
         });
@@ -161,6 +175,7 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
                                 reviewViewModel.setAuthor(new String(notice.getAuthor().getBytes("UTF-16"), "UTF-8"));
                                 reviewViewModel.setTitle(notice.getTitle());
                                 reviewViewModel.setAuthor(notice.getAuthor());
+                                reviewViewModel.setLink(notice.getLink());
 
                                 if (notice.getDescription() != null)
                                     reviewViewModel.setDescription(notice.getDescription());
@@ -216,12 +231,15 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
 
 
     @Override
-    public void itemRecycleOnClickReview(int position, ReviewViewModel reviewViewModel) {
+    public void itemRecycleOnClickReview(int position, ReviewViewModel reviewViewModel,View imageView) {
 
         Intent intent = new Intent(getActivity(), ReviewDetailActivity.class);
         intent.putExtra("review_news", getItem(reviewViewModel));
         intent.putExtra("review_title", getTitleSection());
-        startActivity(intent);
+        Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairImage);
+        if (Build.VERSION.SDK_INT >= 16)
+            getActivity().startActivity(intent, optionsCompat.toBundle());
     }
 
 
@@ -233,6 +251,7 @@ public abstract class BaseFragmentReview extends Fragment implements SwipeRefres
         bundle.putString("review_content", reviewViewModel.getContent());
         bundle.putString("review_image", reviewViewModel.getImageUrl());
         bundle.putString("review_date", reviewViewModel.getDate());
+        bundle.putString("review_link", reviewViewModel.getLink());
         return bundle;
     }
 }

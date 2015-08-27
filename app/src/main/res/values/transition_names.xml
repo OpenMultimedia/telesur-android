@@ -2,4 +2,5 @@
 <resources>
 
     <string name="transition_toolbar">ToolbarTransition</string>
+    <string name="transition_image_view">ImageTransition</string>
 </resources>
