@@ -66,7 +66,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_bulb" />
+                android:background="@drawable/ic_action_image_brightness_7" />
 
             <net.telesurtv.www.telesur.views.view.video.BrightnessSeekBar
                 android:id="@+id/media_controller_brightness"
@@ -96,7 +96,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_action_music_2" />
+                android:background="@drawable/ic_action_av_volume_up" />
 
         </LinearLayout>
 

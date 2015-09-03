@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_type_three_image_height"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ff" />
+                 />
 
 
             <LinearLayout

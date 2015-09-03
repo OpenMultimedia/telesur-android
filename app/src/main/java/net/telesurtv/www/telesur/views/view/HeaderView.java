@@ -44,8 +44,10 @@ public class HeaderView extends LinearLayout {
 
         if (date.equals(""))
             txtAuthor.setText("Escrito por " +Html.fromHtml(author));
-        else
+        else if(!author.equals(""))
             txtAuthor.setText(Html.fromHtml(date) + " - " + Html.fromHtml(author));
+        else
+            txtAuthor.setText(Html.fromHtml(date));
 
 
     }

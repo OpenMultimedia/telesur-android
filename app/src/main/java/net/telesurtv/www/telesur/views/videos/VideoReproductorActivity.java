@@ -3,6 +3,7 @@
 package net.telesurtv.www.telesur.views.videos;
 
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -119,8 +120,12 @@ public class VideoReproductorActivity extends AppCompatActivity implements ItemR
         //"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
      //   textureView.setVideo(video, fullScreenMediaPlayerController.DEFAULT_VIDEO_START);
         textureView.setVideo(video, mediaFensterPlayerController.DEFAULT_VIDEO_START);
+
         textureView.start();
     }
+
+
+
 
     @Override
     public void itemRecycleOnClick(int position, VideoViewModel videoViewModel) {

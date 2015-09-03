@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerReview;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.ProgramViewModel;
+import net.telesurtv.www.telesur.ItemRecyclerClickListenerProgram;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,14 @@ public class RecyclerProgramAdapter extends RecyclerView.Adapter<RecyclerProgram
 
 
     float[] vibrant;
-    ItemRecyclerClickListenerReview itemRecyclerClickListener;
 
-    public void setItemRecyclerClickListener(ItemRecyclerClickListenerReview itemRecyclerClickListener) {
-        this.itemRecyclerClickListener = itemRecyclerClickListener;
+    ItemRecyclerClickListenerProgram itemRecyclerClickListenerProgram;
+
+
+    public void setItemRecyclerClickListenerProgram(ItemRecyclerClickListenerProgram itemRecyclerClickListenerProgram) {
+        this.itemRecyclerClickListenerProgram = itemRecyclerClickListenerProgram;
     }
+
 
 
     public RecyclerProgramAdapter() {
@@ -117,16 +120,16 @@ public class RecyclerProgramAdapter extends RecyclerView.Adapter<RecyclerProgram
 
 
 
-/*
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (itemRecyclerClickListener != null) {
-                    itemRecyclerClickListener.itemRecycleOnClickReview(position, programViewModel);
+                if (itemRecyclerClickListenerProgram != null) {
+                    itemRecyclerClickListenerProgram.itemRecycleOnClickProgram(position, programViewModel);
                 }
             }
-        });*/
+        });
 
 
     }

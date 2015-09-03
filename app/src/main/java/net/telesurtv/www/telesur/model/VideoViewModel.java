@@ -12,6 +12,8 @@ public class VideoViewModel {
     private String data;
     private String visitCounter;
     private String videoURL;
+    private String description;
+    private String linkVideoNavegator;
     private int primaryColor;
 
     public String getBackground() {
@@ -76,6 +78,22 @@ public class VideoViewModel {
 
     public void setPrimaryColor(int primaryColor) {
         this.primaryColor = primaryColor;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLinkVideoNavegator() {
+        return linkVideoNavegator;
+    }
+
+    public void setLinkVideoNavegator(String linkVideoNavegator) {
+        this.linkVideoNavegator = linkVideoNavegator;
     }
 
 }

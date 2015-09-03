@@ -3,34 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:fitsSystemWindows="true"
-    >
 
+    >
 
     <net.telesurtv.www.telesur.views.view.video.FensterVideoView
         android:id="@+id/play_video_texture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
         android:layout_gravity="center"
-        android:fitsSystemWindows="true"
-        android:keepScreenOn="true" />
+        android:background="@color/black"
+
+        />
 
     <net.telesurtv.www.telesur.views.view.video.MediaFensterPlayerController
         android:id="@+id/play_video_controller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:animateLayoutChanges="true"
-        android:fitsSystemWindows="true" />
+        android:animateLayoutChanges="true" />
 
-    <ImageView
-        android:id="@+id/media_full_screen"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_full_screen" />
+
+    <LinearLayout
+        android:id="@+id/progress_bar_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/progress_bar_buffer_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txt_progress_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:text="Cargando..."
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!--<ImageView-->
+    <!--android:id="@+id/media_full_screen"-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="25dp"-->
+    <!--android:layout_gravity="end"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:src="@drawable/ic_full_screen" />-->
 
 
 </FrameLayout>

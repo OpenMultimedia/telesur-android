@@ -50,6 +50,8 @@ public class VideoTemporal {
 
     private String descarga_url;
 
+    @SerializedName("navegador_url")
+    private String navegatorURL;
 
     public Program getPrograma() {
         return programa;
@@ -97,5 +99,8 @@ public class VideoTemporal {
         return archivo_url;
     }
 
+    public String getNavegatorURL() {
+        return navegatorURL;
+    }
 
 }

@@ -16,15 +16,15 @@
     </style>
 
     <style name="MediaButton.Previous">
-        <item name="android:src">@android:drawable/ic_media_rew</item>
+        <item name="android:src">@drawable/ic_action_av_fast_rewind</item>
     </style>
 
     <style name="MediaButton.Play">
-        <item name="android:src">@drawable/ic_media_play</item>
+        <item name="android:src">@drawable/ic_action_av_play_arrow_video</item>
     </style>
 
     <style name="MediaButton.Next">
-        <item name="android:src">@android:drawable/ic_media_ff</item>
+        <item name="android:src">@drawable/ic_action_av_fast_forward</item>
     </style>
 
     <style name="MediaText">

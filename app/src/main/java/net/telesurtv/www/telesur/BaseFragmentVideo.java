@@ -22,8 +22,10 @@ import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.VideoViewModel;
+import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.views.adapter.RecyclerVideoAdapter;
 import net.telesurtv.www.telesur.views.program.RecyclerProgramAdapter;
+import net.telesurtv.www.telesur.views.videos.VideoRepActivity;
 import net.telesurtv.www.telesur.views.videos.VideoReproductorActivity;
 import net.telesurtv.www.telesur.views.view.LoadMoreDetector;
 
@@ -53,6 +55,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     TextView txtMesage;
 
     private AppBarLayout appBarLayout;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +180,10 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
                         video.setTitle(videoItem.getTitulo());
                         video.setBackground(videoItem.getThumbnail_grande());
                         video.setDuration(videoItem.getDuracion());
-                        video.setData(videoItem.getFecha());
+                        video.setData(Config.date_to_human(videoItem.getFecha()));
+                        video.setDescription(videoItem.getDescripcion());
+                        video.setLinkVideoNavegator(videoItem.getNavegatorURL());
+
                         if (videoItem.getCategoria() == null)
                             video.setCategory("teleSUR");
                         else
@@ -222,11 +228,18 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     public void itemRecycleOnClick(int position, VideoViewModel videoViewModel) {
 
 
-        Intent intent = new Intent(getActivity(), VideoReproductorActivity.class);
-        intent.putExtra("video", videoViewModel.getVideoURL());
+        //   Intent intent = new Intent(getActivity(), VideoReproductorActivity.class);
+        Intent intent = new Intent(getActivity(), VideoRepActivity.class);
+        intent.putExtra("video_url", videoViewModel.getVideoURL());
+        intent.putExtra("video_title", videoViewModel.getTitle());
+        intent.putExtra("video_category", videoViewModel.getCategory());
+        intent.putExtra("video_duration", videoViewModel.getDuration());
+        intent.putExtra("video_description", videoViewModel.getDescription());
+        intent.putExtra("video_data", videoViewModel.getData());
+        intent.putExtra("video_link", videoViewModel.getLinkVideoNavegator());
+        intent.putExtra("video_share", "-Video: ");
         startActivity(intent);
 
-        Toast.makeText(getActivity(), Integer.toString(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override

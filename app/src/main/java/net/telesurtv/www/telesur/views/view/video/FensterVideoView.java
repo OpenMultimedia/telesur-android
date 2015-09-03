@@ -716,6 +716,8 @@ public class FensterVideoView extends TextureView implements MediaController.Med
         return mAudioSession;
     }
 
+
+    // show progress bar whuen is loading
     private final OnInfoListener onInfoToPlayStateListener = new OnInfoListener() {
 
         @Override

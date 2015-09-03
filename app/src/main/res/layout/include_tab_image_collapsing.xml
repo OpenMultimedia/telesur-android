@@ -64,22 +64,15 @@
             android:paddingBottom="49dip"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
 
+                <!--?attr/actionBarSize    " -->
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginRight="20dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/logo_toolbar_telesur" />
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/telesur_toolbar_g" />
 
 
-
-            </LinearLayout>
 
                 <!--<TextView-->
                     <!--android:id="@+id/txt_toolbar_tite"-->

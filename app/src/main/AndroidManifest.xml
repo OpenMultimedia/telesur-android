@@ -56,6 +56,10 @@
            />
 
         <activity
+            android:name=".views.videos.VideoRepActivity"
+            />
+
+        <activity
             android:name=".views.review.ReviewDetailActivity"
             android:label="@string/review_detail_name" />
 

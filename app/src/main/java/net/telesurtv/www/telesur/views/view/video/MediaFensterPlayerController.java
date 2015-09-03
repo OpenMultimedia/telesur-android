@@ -56,6 +56,23 @@ public final class MediaFensterPlayerController extends RelativeLayout implement
             show(DEFAULT_TIMEOUT);
         }
     };
+
+    private final OnClickListener mPrevListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            skipVideoBackwards();
+        }
+    };
+
+    private final OnClickListener mNextListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            skipVideoForward();
+        }
+    };
+
+
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private FensterPlayerControllerVisibilityListener visibilityListener;
@@ -194,7 +211,9 @@ public final class MediaFensterPlayerController extends RelativeLayout implement
         mPauseButton.setOnClickListener(mPauseListener);
 
         mNextButton = (ImageButton) findViewById(R.id.media_controller_next);
+        mNextButton.setOnClickListener(mNextListener);
         mPrevButton = (ImageButton) findViewById(R.id.media_controller_previous);
+        mPrevButton.setOnClickListener(mPrevListener);
 
         mProgress = (SeekBar) findViewById(R.id.media_controller_progress);
         mProgress.setOnSeekBarChangeListener(mSeekListener);
@@ -337,6 +356,8 @@ public final class MediaFensterPlayerController extends RelativeLayout implement
         return position;
     }
 
+
+
     @Override
     public boolean onTrackballEvent(final MotionEvent ev) {
         show(DEFAULT_TIMEOUT);
@@ -397,9 +418,9 @@ public final class MediaFensterPlayerController extends RelativeLayout implement
         }
 
         if (mFensterPlayer.isPlaying()) {
-            mPauseButton.setImageResource(android.R.drawable.ic_media_pause);
+            mPauseButton.setImageResource(R.drawable.ic_action_av_pause_video);
         } else {
-            mPauseButton.setImageResource(android.R.drawable.ic_media_play);
+            mPauseButton.setImageResource(R.drawable.ic_action_av_play_arrow_video);
         }
     }
 

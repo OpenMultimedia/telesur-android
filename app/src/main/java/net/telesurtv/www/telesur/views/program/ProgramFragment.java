@@ -1,5 +1,6 @@
 package net.telesurtv.www.telesur.views.program;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Subscribe;
 
+import net.telesurtv.www.telesur.ItemRecyclerClickListenerProgram;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.ProgramViewModel;
+import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.OttoBus;
+import net.telesurtv.www.telesur.views.videos.VideoRepActivity;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
 import org.apache.commons.io.IOUtils;
@@ -39,7 +43,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 15/07/15.
  */
-public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListenerProgram {
 
     public ProgramFragment() {
     }
@@ -73,13 +77,13 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         //recyclerViewProgram.setLayoutManager(new LinearLayoutManager(recyclerViewProgram.getContext()));
         recyclerViewProgram.addItemDecoration(new ItemOffsetDecoration(recyclerViewProgram.getContext(), R.dimen.item_decoration));
         recyclerViewProgram.setItemAnimator(new DefaultItemAnimator());
-
+        recyclerProgramAdapter.setItemRecyclerClickListenerProgram(this);
         recyclerViewProgram.setAdapter(recyclerProgramAdapter);
 
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.program_swipe_refresh);
-        progressBarProgram = (ProgressBar)rootView.findViewById(R.id.progress_bar_program);
-        txtPrograms = (TextView)rootView.findViewById(R.id.txt_message_program);
+        progressBarProgram = (ProgressBar) rootView.findViewById(R.id.progress_bar_program);
+        txtPrograms = (TextView) rootView.findViewById(R.id.txt_message_program);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -165,7 +169,10 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         programViewModel.setTitle(videoItem.getTitulo());
                         programViewModel.setImage(videoItem.getThumbnail_grande());
                         programViewModel.setProgramImage(videoItem.getPrograma().getImagen_url());
-
+                        programViewModel.setData(Config.date_to_human(videoItem.getFecha()));
+                        programViewModel.setDescription(videoItem.getDescripcion());
+                        programViewModel.setUrl(videoItem.getArchivo_url());
+                        programViewModel.setLinkNavegation(videoItem.getNavegatorURL());
 
                         if (videoItem.getCategoria() == null)
                             programViewModel.setCategory("telesur");
@@ -218,5 +225,19 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         if (slugRefresh != null)
             getListVideos(slugRefresh);
 
+    }
+
+    @Override
+    public void itemRecycleOnClickProgram(int position, ProgramViewModel videoViewModel) {
+        Intent intent = new Intent(getActivity(), VideoRepActivity.class);
+        intent.putExtra("video_url", videoViewModel.getUrl());
+        intent.putExtra("video_title", videoViewModel.getTitle());
+        intent.putExtra("video_category", videoViewModel.getCategory());
+        intent.putExtra("video_duration", videoViewModel.getDuration());
+        intent.putExtra("video_description", videoViewModel.getDescription());
+        intent.putExtra("video_data", videoViewModel.getData());
+        intent.putExtra("video_link", videoViewModel.getLinkNavegation());
+        intent.putExtra("video_share", "-Programa: ");
+        startActivity(intent);
     }
 }
