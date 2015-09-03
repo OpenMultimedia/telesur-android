@@ -115,7 +115,7 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
        //     txtDuration = (TextView) itemView.findViewById(R.id.txt_duration);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title);
             //TODO hacer txt_position para telefonos
-            txtPosition = (TextView) itemView.findViewById(R.id.txt_position);
+        //    txtPosition = (TextView) itemView.findViewById(R.id.txt_position);
             txtCategory = (TextView) itemView.findViewById(R.id.txt_category);
             txtData = (TextView) itemView.findViewById(R.id.txt_data);
 
@@ -127,7 +127,7 @@ public class RecyclerVideoAdapter extends RecyclerView.Adapter<RecyclerView.View
    //     holder.txtDuration.setText(video.getDuration());
         holder.txtTitle.setText(video.getTitle());
         holder.txtCategory.setText(video.getCategory());
-        holder.txtPosition.setText(Integer.toString((position+1)));
+      //  holder.txtPosition.setText(Integer.toString((position+1)));
       //  holder.txtData.setText(Config.date_to_human(video.getData()) + " · " + video.getVisitCounter() + " reproducciones");
         holder.txtData.setText(video.getDuration());
         Glide.with(holder.imageViewBackground.getContext()).load(video.getBackground()).into(holder.imageViewBackground);

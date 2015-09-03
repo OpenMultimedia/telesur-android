@@ -3,6 +3,7 @@ package net.telesurtv.www.telesur;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
@@ -20,6 +23,7 @@ import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 import net.telesurtv.www.telesur.views.adapter.RecyclerVideoAdapter;
+import net.telesurtv.www.telesur.views.program.RecyclerProgramAdapter;
 import net.telesurtv.www.telesur.views.videos.VideoReproductorActivity;
 import net.telesurtv.www.telesur.views.view.LoadMoreDetector;
 
@@ -38,15 +42,17 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 28/07/15.
  */
-public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListener, LoadMoreDetector.Listener {
+public abstract class BaseFragmentVideo extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListener, LoadMoreDetector.Listener, AppBarLayout.OnOffsetChangedListener {
 
     RecyclerView recyclerViewVideoList;
     SwipeRefreshLayout refreshLayoutVideo;
     public RecyclerVideoAdapter recyclerVideoAdapter;
     List<VideoViewModel> videoList = new ArrayList<>();
     LoadMoreDetector loadMoreDetector;
+    ProgressBar progressBar;
+    TextView txtMesage;
 
-
+    private AppBarLayout appBarLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +82,13 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     public void setUpViews(View view) {
         recyclerViewVideoList = (RecyclerView) view.findViewById(R.id.pruebas_video_recycler);
         refreshLayoutVideo = (SwipeRefreshLayout) view.findViewById(R.id.video_refresh);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar_video);
+        txtMesage = (TextView) view.findViewById(R.id.txt_message_video);
+        appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+        appBarLayout.addOnOffsetChangedListener(this);
+        progressBar.setVisibility(View.VISIBLE);
+        txtMesage.setVisibility(View.GONE);
+        refreshLayoutVideo.setVisibility(View.GONE);
 
     }
 
@@ -109,7 +121,7 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
     protected void setupRefreshLayout() {
         refreshLayoutVideo.setColorSchemeResources(R.color.primaryDark, R.color.primary);
         refreshLayoutVideo.setOnRefreshListener(this);
-
+        refreshLayoutVideo.setEnabled(false);
     }
 
 
@@ -129,7 +141,10 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
             public void run() {
                 recyclerVideoAdapter.clear();
                 recyclerVideoAdapter.setListItems(videoViewModels);
+                progressBar.setVisibility(View.GONE);
+                refreshLayoutVideo.setVisibility(View.VISIBLE);
                 refreshLayoutVideo.setRefreshing(false);
+                refreshLayoutVideo.setEnabled(false);
             }
         });
     }
@@ -221,5 +236,10 @@ public abstract class BaseFragmentVideo extends Fragment implements SwipeRefresh
         loadMoreDetector.setLoading(false);
 
 
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        refreshLayoutVideo.setEnabled((i == 0));
     }
 }

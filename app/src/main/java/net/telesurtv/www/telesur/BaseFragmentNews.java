@@ -257,6 +257,8 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
         refreshLayoutNews.setEnabled(i == 0);
+
+
     }
 
 

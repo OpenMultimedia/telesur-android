@@ -55,4 +55,6 @@
     <dimen name="activity_news_detail_margins_lr">16dp</dimen>
 
     <dimen name="image_resize">32dp</dimen>
+
+    <dimen name="spacing_double">8dp</dimen>
 </resources>

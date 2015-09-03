@@ -3,39 +3,60 @@ package net.telesurtv.www.telesur.views.videos;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.otto.Produce;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
+import net.telesurtv.www.telesur.util.OttoBus;
 
 
-public class VideoListDetailActivity extends NavigatorActivity {
+public class VideoListDetailActivity extends NavigatorActivity implements AppBarLayout.OnOffsetChangedListener{
 
 
-    AppBarLayout appBarLayout;
+
     TextView txtSection;
+
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         if (getIntent() != null)
-            setTheme(getIntent().getIntExtra("video_theme", 0));
+            setTheme(getIntent().getIntExtra("video_theme",0));
+
+
+           /* if (Build.VERSION.SDK_INT >= 21)
+                getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));*/
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_videos);
 
         setupSubActivityWithTitle();
-       // appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        txtSection = (TextView) findViewById(R.id.txt_title_section);
+
+        //collapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+      //  imageView = (ImageView)findViewById(R.id.image_view_icon_video_detail);
+
+
         intializeFromIntent();
 
-        if (Build.VERSION.SDK_INT >= 21)
-            ViewCompat.setTransitionName(txtSection, getString(R.string.transition_toolbar));
+        if (Build.VERSION.SDK_INT >= 21){
+        //   ViewCompat.setTransitionName(getToolbar(), getString(R.string.transition_toolbar));
+
+        }
+
 
 
     }
+
 
 
     private void intializeFromIntent() {
@@ -51,6 +72,16 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
     private void initializeListFragment(int position) {
 
+        int[] icons = {
+                R.drawable.ic_v_menu_news,
+                R.drawable.ic_v_menu_interview,
+                R.drawable.ic_v_menu_documental,
+                R.drawable.ic_v_menu_info,
+                R.drawable.ic_v_menu_specials,
+                R.drawable.ic_v_menu_report
+        };
+
+       // imageView.setImageResource(icons[position]);
         Fragment fragment = null;
         String title = null;
         switch (position) {
@@ -82,7 +113,10 @@ public class VideoListDetailActivity extends NavigatorActivity {
 
         }
         fragmentTransactionReplace(fragment);
-        txtSection.setText(title);
+        if(getSupportActionBar() != null)
+           getSupportActionBar().setTitle(title);
+       // txtSection.setText(title);
+       // collapsingToolbarLayout.setTitle(title);
     //    getSupportActionBar().setTitle(title);
 
 
@@ -95,4 +129,9 @@ public class VideoListDetailActivity extends NavigatorActivity {
     }
 
 
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+        System.out.println(i);
+
+    }
 }

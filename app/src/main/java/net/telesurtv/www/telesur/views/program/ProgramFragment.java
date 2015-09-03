@@ -22,7 +22,6 @@ import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.ProgramViewModel;
 import net.telesurtv.www.telesur.util.OttoBus;
-import net.telesurtv.www.telesur.views.adapter.RecyclerProgramAdapter;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
 import org.apache.commons.io.IOUtils;

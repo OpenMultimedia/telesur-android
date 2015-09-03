@@ -9,21 +9,7 @@
     android:paddingRight="@dimen/video_item_padding_horizontal"
     android:paddingTop="@dimen/video_item_padding_vertical">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
 
-        <TextView
-            android:id="@+id/txt_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_marginLeft="32dp"
-            android:text="10"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -43,7 +29,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight=".4"
+        android:layout_weight=".5"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="16dp">
@@ -84,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt_category"
             android:layout_gravity="center"
-            android:layout_margin="32dp"
+            android:layout_margin="40dp"
             android:maxLines="1"
             android:text="@string/placeholder_lorem_ipsum"
             android:textSize="16sp" />

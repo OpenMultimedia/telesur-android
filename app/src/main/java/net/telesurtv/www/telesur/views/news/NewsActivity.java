@@ -109,6 +109,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         backgroundNews = (ImageView) findViewById(R.id.background_news);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
+
         // intialize interpolator
         mInterpolator = AnimationUtils.loadInterpolator(this, android.R.interpolator.overshoot);
 
@@ -237,6 +238,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
         frameLayoutBackground.setBackgroundColor(backgroundColor);
         collapsingToolbarLayout.setContentScrimColor(primaryColor);
 
+
         // setup shape
         setupColorShape(primaryColor);
         animateCircleShape(icons[position]);
@@ -271,13 +273,13 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     private void setupHeaderImages(final List<Image> images, final int index) {
 
         if (index != images.size() - 1) {
-            Picasso.with(this).load(images.get(index + 1).getUrl());
+            Picasso.with(this).load(images.get(index + 1).getUrl()).fit().centerCrop();
         }
 
-        Picasso.with(this).load(images.get(index).getUrl()).into(imageView, new Callback() {
+        Picasso.with(this).load(images.get(index).getUrl()).fit().centerCrop().into(imageView, new Callback() {
             @Override
             public void onSuccess() {
-                imageView.setAlpha(.95f);
+                //  imageView.setAlpha(.40f);
                 long duration = 5000;
                 float transStartX;
                 float transStartY;
@@ -430,7 +432,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
             }
         });
     }
-
 
 
 }

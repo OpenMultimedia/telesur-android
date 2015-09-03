@@ -81,6 +81,7 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
         LinearLayout mBackground;
         View view;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
@@ -88,6 +89,7 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
             icon = (ImageView) itemView.findViewById(R.id.category_icon_video);
             title = (TextView) itemView.findViewById(R.id.category_title_video);
             mBackground = (LinearLayout)itemView.findViewById(R.id.category_background_video);
+
 
 
         }
@@ -98,11 +100,15 @@ public class RecyclerVideoTypeAdapter extends RecyclerView.Adapter<RecyclerView.
 
         Theme theme = Theme.valueOf(videoMenu.getTheme());
         holder.title.setText(videoMenu.getTitle());
-        holder.title.setTextColor(getColor(theme.getTxtColorPrimary()));
-        holder.title.setBackgroundColor(getColor(theme.getColorPrimary()));
-        holder.icon.setBackgroundColor(getColor(theme.getWindowBackground()));
+       // holder.title.setTextColor(getColor(theme.getTxtColorPrimary()));
+        holder.title.setTextColor(getColor(R.color.white));
+       // holder.title.setBackgroundColor(getColor(theme.getColorPrimary()));
+       // holder.title.setBackgroundColor(getColor(R.color.white));
+       // holder.icon.setBackgroundColor(getColor(theme.getWindowBackground()));
         holder.icon.setImageResource(videoMenu.getIcon());
-        holder.mBackground.setBackgroundColor(getColor(theme.getWindowBackground()));
+     //   holder.mBackground.setBackgroundColor(getColor(theme.getWindowBackground()));
+        holder.mBackground.setBackgroundColor(getColor(theme.getColorPrimary()));
+
 
     }
 

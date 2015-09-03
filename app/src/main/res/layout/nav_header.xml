@@ -5,12 +5,22 @@
     android:gravity="top|end"
     android:background="@color/primary">
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         android:layout_marginRight="16dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_incio"
+            android:layout_marginRight="4dp"
+            android:layout_alignBottom="@+id/linearLayout"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -17,7 +17,7 @@ public enum Theme {
     documental(R.color.theme_green_primary, R.color.theme_green_background, R.color.theme_green_text, R.style.Telesur_Green),
     infografi(R.color.theme_purple_primary, R.color.theme_purple_background, R.color.theme_purple_text, R.style.Telesur_Purple),
     special(R.color.theme_blue_primary, R.color.theme_blue_background, R.color.theme_blue_text, R.style.Telesur_Blue),
-    report(R.color.theme_red_primary, R.color.theme_red_background, R.color.theme_red_text, R.style.Telesur_Red);
+    report(R.color.theme_orange_primary, R.color.theme_orange_background, R.color.theme_orange_text, R.style.Telesur_Orange);
 
     private final int colorPrimary;
     private final int windowBackground;

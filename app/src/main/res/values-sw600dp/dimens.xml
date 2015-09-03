@@ -14,5 +14,7 @@
 
     <dimen name="item_decoration">6dp</dimen>
 
+    <dimen name="spacing_double">16dp</dimen>
+
 
 </resources>

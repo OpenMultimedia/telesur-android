@@ -1,15 +1,18 @@
 package net.telesurtv.www.telesur.views.videos;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
+
+
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoMenu;
 import net.telesurtv.www.telesur.ItemRecyclerClickListenerMenuVideo;
 import net.telesurtv.www.telesur.util.Theme;
+import net.telesurtv.www.telesur.util.TransitionHelper;
 import net.telesurtv.www.telesur.views.adapter.RecyclerVideoTypeAdapter;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
@@ -71,7 +75,7 @@ public class VideoFragment extends Fragment implements ItemRecyclerClickListener
         };
 
 
-        String[] enumNames = {"news", "interview", "documental", "infografi", "special", "report"};
+        String[] enumNames = {"news","report", "interview", "documental", "infografi", "special"};
 
 
         int[] icons = {
@@ -124,8 +128,11 @@ public class VideoFragment extends Fragment implements ItemRecyclerClickListener
         Intent intent = new Intent(getActivity(), VideoListDetailActivity.class);
         intent.putExtra("video_theme", videoMenu.getStyle());
         intent.putExtra("video_position", position);
-        Pair<View, String> pairTitle = Pair.create(toolbar, getString(R.string.transition_toolbar));
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairTitle);
+       // final Pair[] pairs = TransitionHelper.createSafeTransitionParticipants(getActivity(), Pair.create(toolbar, getString(R.string.transition_toolbar)));
+        final Pair[] pairs = TransitionHelper.createSafeTransitionParticipants(getActivity(), new Pair<>(toolbar, getString(R.string.transition_toolbar)));
+       // Pair<View, String> pairTitle = Pair.create(toolbar, getString(R.string.transition_toolbar));
+        //ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs);
+        ActivityOptions optionsCompat = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
         if (Build.VERSION.SDK_INT >= 16)
             getActivity().startActivity(intent, optionsCompat.toBundle());
     }
