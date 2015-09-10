@@ -1,6 +1,8 @@
 package net.telesurtv.www.telesur.data;
 
 
+import net.telesurtv.www.telesur.data.api.models.streaming.RootSchedule;
+
 import retrofit.client.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -22,6 +24,13 @@ public interface TelesurApiService {
 
     @GET(EndPoint.TELESUR_CLIP)
     Observable<Response> getPrograms(@Query(EndPoint.CLIP_QUERY_DETAIL) String detail, @Query(EndPoint.CLIP_QUERY_FIRST) int first, @Query(EndPoint.CLIP_QUERY_LAST) int last, @Query(EndPoint.CLIP_QUERY_KIND) String category,@Query((EndPoint.CLIP_QUERY_PROGRAM)) String program);
+
+    @GET(EndPoint.TELESUR_CLIP)
+    Observable<Response> getAllPrograms(@Query(EndPoint.CLIP_QUERY_DETAIL) String detail, @Query(EndPoint.CLIP_QUERY_FIRST) int first, @Query(EndPoint.CLIP_QUERY_LAST) int last, @Query(EndPoint.CLIP_QUERY_KIND) String category);
+
+    @GET(EndPoint.TELESUR_SCHEDULE)
+    Observable <RootSchedule> getSchedule();
+
 
 
 }

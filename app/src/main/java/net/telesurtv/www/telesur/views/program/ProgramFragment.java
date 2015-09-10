@@ -134,18 +134,80 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void subscribeSlug(String slug) {
         progressBarProgram.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.GONE);
-        getListVideos(slug);
-        slugRefresh = slug;
+
+
+        if (slug.equals("all")) {
+            getAllVideos();
+            slugRefresh = "all";
+        } else {
+            getListVideos(slug);
+            slugRefresh = slug;
+        }
+
 
     }
 
 
     /**
-     * +
-     * this method make request to get Program List
-     *
-     * @param slugPrograma identificator of program
+     * this method make request all Videos
      */
+
+    protected void getAllVideos() {
+
+        TelesurApiService clientServiceTelesur = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
+        clientServiceTelesur.getAllPrograms("completo", 1, 20, "programa").
+                subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response>() {
+            @Override
+            public void call(Response response) {
+
+
+                final StringWriter writer = new StringWriter();
+
+                try {
+                    IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+                    programViewModelList.clear();
+                    VideoTemporal[] videoTemporal = new GsonBuilder().create().fromJson(writer.toString(), VideoTemporal[].class);
+
+                    for (int i = 0; i < videoTemporal.length; i++) {
+                        VideoTemporal videoItem = videoTemporal[i];
+                        ProgramViewModel programViewModel = new ProgramViewModel();
+                        programViewModel.setTitle(videoItem.getTitulo());
+                        programViewModel.setImage(videoItem.getThumbnail_grande());
+                        programViewModel.setProgramImage(videoItem.getPrograma().getImagen_url());
+                        programViewModel.setData(Config.date_to_human(videoItem.getFecha()));
+                        programViewModel.setDescription(videoItem.getDescripcion());
+                        programViewModel.setUrl(videoItem.getArchivo_url());
+                        programViewModel.setLinkNavegation(videoItem.getNavegatorURL());
+
+                        if (videoItem.getCategoria() == null)
+                            programViewModel.setCategory("telesur");
+                        else
+                            programViewModel.setCategory(videoItem.getCategoria().getNombre());
+
+
+                        programViewModelList.add(programViewModel);
+
+                    }
+
+                    updateUI(programViewModelList);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+
+    }
 
     protected void getListVideos(String slugPrograma) {
 
@@ -222,8 +284,16 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onRefresh() {
 
-        if (slugRefresh != null)
-            getListVideos(slugRefresh);
+        // if (slugRefresh != null)
+        //   getListVideos(slugRefresh);
+
+        if (slugRefresh != null) {
+            if (slugRefresh.equals("all"))
+                getAllVideos();
+            else
+                getListVideos(slugRefresh);
+        }
+
 
     }
 

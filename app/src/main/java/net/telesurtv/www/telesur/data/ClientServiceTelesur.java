@@ -10,7 +10,8 @@ import net.telesurtv.www.telesur.data.api.ItemAdapterFactory;
 import java.util.Date;
 
 import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import retrofit.converter.SimpleXMLConverter;
+
 
 /**
  * Created by Jhordan on 28/07/15.
@@ -21,23 +22,21 @@ public class ClientServiceTelesur {
 
 
     private static RestAdapter telesurRestAdapter() {
-
-        return new RestAdapter.Builder()
-                .setEndpoint(EndPoint.TELESUR_API)
-                      // .setConverter(new GsonConverter(getGsonBuilder()))
-                        // .setErrorHandler(new RetrofitErrorHandler())
-                .build();
-
+        return new RestAdapter.Builder().setEndpoint(EndPoint.TELESUR_API).build();
+        // .setConverter(new GsonConverter(getGsonBuilder()))
+        // .setErrorHandler(new RetrofitErrorHandler())
     }
 
     public static RestAdapter getRestAdapter() {
-        if (restAdapter == null) {
+        if (restAdapter == null)
             restAdapter = telesurRestAdapter();
-        }
+
         return restAdapter;
     }
 
-
+    public static RestAdapter getStaticRestAdapter() {
+        return new RestAdapter.Builder().setEndpoint(EndPoint.TELESUR_STATIC).setConverter(new SimpleXMLConverter()).build();
+    }
 
 
     private static Gson getConverter() {

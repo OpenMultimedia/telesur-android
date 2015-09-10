@@ -94,8 +94,6 @@ public abstract class BaseFragmentNews extends Fragment implements SwipeRefreshL
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-
-
         outState.putString("download_news", getAdapterItems());
         super.onSaveInstanceState(outState);
     }

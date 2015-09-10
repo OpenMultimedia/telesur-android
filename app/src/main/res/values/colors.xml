@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--Base application color #E53935 , #304FFE -->
-    <color name="primaryDark">#D50000</color>
+    <!--Base application color #E53935 , #304FFE  #FF5252  #D50000-->
+    <color name="primaryDark">#BF1133</color>
     <!--<color name="primaryDark">#E14642 , #3F51B5</color>-->
-    <color name="primary">#FF5252</color>
+    <color name="primary">#FF1744</color>
     <!--<color name="primary">#EB675C  </color>  #7E7E7E-->
     <color name="accent">#FF1744</color>
     <color name="primary_text_color">#7E7E7E</color>
     <!--<color name="accent">#7E7E7E</color>-->
     <!--<color name="window_background">#FFF5F5F5</color>-->
-    <color name="window_background">#e3e3e3</color>
+    <color name="window_background">#FFF5F5F5</color>
     <color name="primary_video_detail">#607D8B</color>
     <color name="primary_dark_video_detail">#455A64</color>
 
@@ -91,13 +91,13 @@
     <color name="theme_blue_original_primary">#039BE5</color>
     <color name="theme_blue_transparent_primary">#99039BE5</color>
 
-    <color name="theme_red_background">#FF8A80</color>
-    <color name="theme_red_primary_dark">#D50000</color>
-    <color name="theme_red_primary">#FF5252</color>
-    <color name="theme_red_accent">#D50000</color>
+    <color name="theme_red_background">#FF5252</color>
+    <color name="theme_red_primary_dark">#BF1133</color>
+    <color name="theme_red_primary">#FF1744</color>
+    <color name="theme_red_accent">#FF1744</color>
     <color name="theme_red_text">@color/text_light</color>
-    <color name="theme_red_original_primary">#E53935</color>
-    <color name="theme_red_transparent_primary">#99E53935</color>
+    <color name="theme_red_original_primary">#FF1744</color>
+    <color name="theme_red_transparent_primary">#99FF1744</color>
 
     <color name="theme_yellow_background">#FFCC80</color>
     <color name="theme_yellow_primary">#FFA726</color>
@@ -112,7 +112,7 @@
     <color name="theme_orange_primary">#FF5722</color>
     <color name="theme_orange_accent">#FF5722</color>
     <color name="theme_orange_text">@color/text_light</color>
-    <color name="theme_orange_primary_dark">#FF5722</color>
+    <color name="theme_orange_primary_dark">#E64A19</color>
     <color name="theme_orange_original_primary">#FF5722</color>
     <color name="theme_orange_transparent_primary">#99F4511E</color>
 

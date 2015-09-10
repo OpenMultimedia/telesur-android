@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by Jhordan on 15/07/15.
@@ -34,6 +35,37 @@ public class Config {
         return time;
 
     }
+
+    public static String getHour(String time) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.getDefault());
+        Date date;
+        try {
+            date = df.parse(time);
+            SimpleDateFormat post = new SimpleDateFormat("HH:mm");
+            time = post.format(date);
+        } catch (Exception e) {
+        }
+
+        return time;
+
+    }
+
+
+    public static String getHourVenezuela(String time) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.getDefault());
+        Date date;
+        try {
+            date = df.parse(time);
+            SimpleDateFormat post = new SimpleDateFormat("HH:mm");
+            post.setTimeZone(TimeZone.getTimeZone("America/Caracas"));
+            time = post.format(date);
+        } catch (Exception e) {
+        }
+
+        return time;
+
+    }
+
 
     public static String getDateFormated(String myTime) {
         String finalDate = "";

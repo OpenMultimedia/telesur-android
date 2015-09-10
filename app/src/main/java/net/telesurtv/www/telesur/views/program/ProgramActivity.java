@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Produce;
@@ -53,15 +54,11 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Act
 
         spinnerAdapter = new ProgramSpinnerAdapter(this);
 
-        ArrayList<ProgramItem> programItems = new ArrayList<>();
-
         ProgramItem programItem = new ProgramItem();
-        programItem.setName("Programas");
+        programItem.setName("Todos");
         programItem.setSlug("slug");
-        programItems.add(programItem);
-
-
-        spinnerAdapter.addItems(programItems);
+        programItemList.add(programItem);
+        spinnerAdapter.addItems(programItemList);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -159,10 +156,7 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Act
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                spinnerAdapter.clear();
                 spinnerAdapter.addItems(programItems);
-
             }
         });
 
@@ -182,7 +176,14 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Act
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        programSlug = ((ProgramItem) spinner.getItemAtPosition(i)).getSlug();
+
+        Toast.makeText(ProgramActivity.this,Integer.toString(i),Toast.LENGTH_SHORT).show();
+
+        if(i== 0)
+            programSlug = "all";
+        else
+            programSlug = ((ProgramItem) spinner.getItemAtPosition(i)).getSlug();
+
         OttoBus.getInstance().post(programSlug);
     }
 
