@@ -16,14 +16,12 @@ import net.telesurtv.www.telesur.R;
 public class ActionBarDrawerListener implements DrawerLayout.DrawerListener, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
-    private Listener listener;
     private NavigationTarget pendingNavigation;
     private BaseNavigationDrawerActivity activity;
 
 
     public ActionBarDrawerListener(BaseNavigationDrawerActivity activity, DrawerLayout drawerLayout) {
         this.activity = activity;
-        this.listener = Classes.from(activity);
         this.drawerLayout = drawerLayout;
 
     }
@@ -82,13 +80,10 @@ public class ActionBarDrawerListener implements DrawerLayout.DrawerListener, Nav
 
                 break;
             case R.id.drawer_item_settings:
-                listener.onNotImplementedFeatureSelected();
 
+                pendingNavigation = new SettingsNavigationTarget();
                 break;
-            case R.id.drawer_item_about:
-                pendingNavigation = new AboutNavigationTarget();
 
-                break;
 
         }
 
@@ -100,9 +95,7 @@ public class ActionBarDrawerListener implements DrawerLayout.DrawerListener, Nav
     }
 
 
-    public interface Listener {
-        void onNotImplementedFeatureSelected();
-    }
+
 
     interface NavigationTarget {
         void navigateUsing(Navigator navigator);

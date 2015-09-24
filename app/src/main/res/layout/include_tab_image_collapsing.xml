@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/padding_view_pager"
+            android:layout_marginBottom="6dp"
             android:clipToPadding="false"
             android:paddingLeft="@dimen/tabs_padding_left"
             app:tabGravity="center"

@@ -26,16 +26,16 @@
             android:title="@string/streaming" />
     </group>
 
-    <group android:id="@+id/drawer_item_settings">
+    <group android:id="@+id/drawer_sub_groups">
         <item
-            android:id="@+id/navigation_sub_item_1"
+            android:id="@+id/drawer_item_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings" />
 
-        <item
-            android:id="@+id/drawer_item_about"
-            android:icon="@drawable/ic_about"
-            android:title="@string/about" />
+        <!--<item-->
+            <!--android:id="@+id/drawer_item_about"-->
+            <!--android:icon="@drawable/ic_about"-->
+            <!--android:title="@string/about" />-->
     </group>
 
 </menu>

@@ -3,10 +3,11 @@ package net.telesurtv.www.telesur.drawer;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 
-import net.telesurtv.www.telesur.views.about.AboutActivity;
+import net.telesurtv.www.telesur.views.settings.AboutActivity;
 import net.telesurtv.www.telesur.views.news.NewsActivity;
 import net.telesurtv.www.telesur.views.program.ProgramActivity;
 import net.telesurtv.www.telesur.views.review.ReviewActivity;
+import net.telesurtv.www.telesur.views.settings.SettingsActivity;
 import net.telesurtv.www.telesur.views.streaming.StreamingActivity;
 import net.telesurtv.www.telesur.views.videos.VideosActivity;
 
@@ -42,6 +43,7 @@ public class Navigator {
     }
 
     public void toSettings() {
+        startNewActivityBack(SettingsActivity.class);
     }
 
     public void toAbout() {

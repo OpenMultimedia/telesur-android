@@ -72,4 +72,30 @@
     <string name="share_menu">compartir</string>
 
 
+    <!-- settings-->
+
+    <string name="settings_category_alerts">Alertas</string>
+    <string name="pref_setting_notification_key">notifys</string>
+    <string name="pref_settings_title">Configurar notificaciones</string>
+
+    <string name="settings_category_help">Apoyo</string>
+    <string name="pref_setting_evaluation_key">evaluation</string>
+    <string name="pref_settings_title_evaluation">¿Te gusta teleSUR? Califica esta aplicación</string>
+
+    <string name="settings_category_about">Acerca de</string>
+    <string name="pref_setting_about_key">about</string>
+    <string name="pref_settings_title_about">Acerca de teleSUR</string>
+
+    <string name="pref_setting_privacity_key">privacity</string>
+    <string name="pref_settings_title_privacity">Condiciones del servicio y Privacidad</string>
+
+    <string name="pref_settings_read_key">read</string>
+    <string name="pref_settings_title_read">Leer más sobre teleSUR</string>
+
+    <string name="pref_title_notification">Configurar notificaciones</string>
+    <string name="pref_title_about">Acerca de</string>
+    <string name="pref_title_privacity">Privacidad</string>
+    <string name="pref_title_read">Leér sobre teleSUR</string>
+
+
 </resources>

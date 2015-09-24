@@ -10,7 +10,7 @@ import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
 
 
-public class StreamingActivity extends BaseNavigationDrawerActivity implements ActionBarDrawerListener.Listener {
+public class StreamingActivity extends BaseNavigationDrawerActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -54,10 +54,7 @@ public class StreamingActivity extends BaseNavigationDrawerActivity implements A
 
 
 
-    @Override
-    public void onNotImplementedFeatureSelected() {
 
-    }
 
 
 

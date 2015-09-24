@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_category_alerts">
+
+        <Preference
+            android:key="@string/pref_setting_notification_key"
+            android:title="@string/pref_settings_title">
+
+            <!--<intent android:action=".activities.AboutActivity" />-->
+        </Preference>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_category_help">
+
+        <Preference
+            android:key="@string/pref_setting_evaluation_key"
+            android:defaultValue=""
+            android:title="@string/pref_settings_title_evaluation">
+
+            <!--<intent android:action=".activities.AboutActivity" />-->
+        </Preference>
+
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_category_about">
+
+        <Preference
+            android:key="@string/pref_setting_about_key"
+            android:defaultValue=""
+            android:title="@string/pref_settings_title_about">
+
+        </Preference>
+
+        <Preference
+            android:key="@string/pref_setting_privacity_key"
+            android:defaultValue=""
+            android:title="@string/pref_settings_title_privacity">
+
+            <!--<intent android:action=".activities.AboutActivity" />-->
+        </Preference>
+
+
+        <Preference
+            android:key="@string/pref_settings_read_key"
+            android:defaultValue=""
+            android:title="@string/pref_settings_title_read">
+
+            <!--<intent android:action=".activities.AboutActivity" />-->
+        </Preference>
+
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

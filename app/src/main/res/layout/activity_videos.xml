@@ -10,4 +10,23 @@
 
     <include layout="@layout/include_navigation_view" />
 
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="256dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="right|end"-->
+        <!--android:paddingTop="40dp"-->
+        <!--android:elevation="8dp"-->
+        <!--android:id="@+id/filter_wrapper"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="vertical"-->
+        <!--android:fitsSystemWindows="false">-->
+        <!-- -->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/filter"-->
+            <!--android:layout_width="256dp"-->
+            <!--android:layout_height="match_parent"/>-->
+    <!--</RelativeLayout>-->
+
+
 </android.support.v4.widget.DrawerLayout>

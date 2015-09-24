@@ -20,7 +20,7 @@
                 android:id="@+id/news_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/window_background"
+                android:background="@color/transparent"
                 android:clipToPadding="false"
                 android:columnWidth="300dp"
                 android:paddingBottom="@dimen/padding_view_pager_vertical"

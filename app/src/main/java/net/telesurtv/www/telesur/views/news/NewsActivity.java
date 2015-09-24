@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -45,7 +46,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
-public class NewsActivity extends BaseNavigationDrawerActivity implements ActionBarDrawerListener.Listener {
+public class NewsActivity extends BaseNavigationDrawerActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -176,10 +177,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity implements Action
     }
 
 
-    @Override
-    public void onNotImplementedFeatureSelected() {
-
-    }
 
 
     /**

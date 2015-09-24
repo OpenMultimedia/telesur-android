@@ -6,7 +6,7 @@ import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 
 
-public class VideosActivity extends BaseNavigationDrawerActivity implements ActionBarDrawerListener.Listener {
+public class VideosActivity extends BaseNavigationDrawerActivity {
 
 
     @Override
@@ -19,8 +19,4 @@ public class VideosActivity extends BaseNavigationDrawerActivity implements Acti
     }
 
 
-    @Override
-    public void onNotImplementedFeatureSelected() {
-
-    }
 }

@@ -35,7 +35,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
-public class ProgramActivity extends BaseNavigationDrawerActivity implements ActionBarDrawerListener.Listener,AdapterView.OnItemSelectedListener {
+public class ProgramActivity extends BaseNavigationDrawerActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
     ProgramSpinnerAdapter spinnerAdapter;
@@ -65,10 +65,6 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Act
     }
 
 
-    @Override
-    public void onNotImplementedFeatureSelected() {
-
-    }
 
 
     @Override
