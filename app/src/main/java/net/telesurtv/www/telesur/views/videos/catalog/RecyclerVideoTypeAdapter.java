@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoMenu;
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerMenuVideo;
 import net.telesurtv.www.telesur.util.Theme;
 
 import java.util.List;

@@ -17,9 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerNews;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.util.Config;

@@ -1,92 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:layout_margin="16dp"
-            android:elevation="2dp"
-            app:cardCornerRadius="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/accent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="teleSUR en Directo"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-
-                <ImageView
-                    android:id="@+id/image_view_play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_player_program" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Ver transmisión"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="No te pierdas la transmisión en vivo y asegurate de ver toda nuestra programación que hemos preparado para ti. "
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-        </android.support.v7.widget.CardView>
-
+        android:layout_height="256dp"
+        android:layout_margin="16dp"
+        android:elevation="2dp"
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/accent"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <!--<android.support.v4.widget.SwipeRefreshLayout-->
-                <!--android:id="@+id/streaming_base_refresh"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="teleSUR en Directo"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/streaming_recycler"
+            <ImageView
+                android:id="@+id/image_view_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_player_program"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Ver transmisión"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="left"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="No te pierdas la transmisión en vivo y asegurate de ver toda nuestra programación que hemos preparado para ti. "
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <net.telesurtv.www.telesur.views.view.AutofitRecyclerView
+                android:id="@+id/rv_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/window_background"
@@ -95,29 +88,35 @@
                 android:paddingBottom="@dimen/padding_view_pager_vertical"
                 android:paddingLeft="@dimen/padding_view_pager_horizontal"
                 android:paddingRight="@dimen/padding_view_pager_horizontal"
-                android:paddingTop="@dimen/padding_view_pager_vertical" />
-
-            <!--</android.support.v4.widget.SwipeRefreshLayout>-->
-            <ProgressBar
-                android:id="@+id/progress_bar_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateOnly="true" />
-
-            <TextView
-                android:id="@+id/txt_message_video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Not results found" />
-
-            <ImageView
-                android:id="@+id/image_server"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/not_server"/>
+                android:paddingTop="@dimen/padding_view_pager_vertical"/>
 
 
-        </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+        <ProgressBar
+            android:id="@+id/pb_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="120dp"
+            android:indeterminateOnly="true"/>
+
+        <TextView
+            android:id="@+id/txt_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

@@ -2,7 +2,7 @@ package net.telesurtv.www.telesur.views.videos.video;
 
 import android.os.Bundle;
 
-import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
+import net.telesurtv.www.telesur.drawer.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
 
 

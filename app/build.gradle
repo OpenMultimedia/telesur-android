@@ -66,6 +66,8 @@ dependencies {
     compile squareDependencies.converter_simple_xml
     compile squareDependencies.converter_gson
     compile squareDependencies.otto
+    compile squareDependencies.okhttp
+    compile squareDependencies.okhttpurlconnection
     compile squareDependencies.picasso
 
     compile reactiveDependecies.rxandroid

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerMenuVideo;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoMenu;
 import net.telesurtv.www.telesur.views.videos.video.VideoListDetailActivity;

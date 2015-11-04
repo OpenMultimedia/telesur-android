@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerNews;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
 

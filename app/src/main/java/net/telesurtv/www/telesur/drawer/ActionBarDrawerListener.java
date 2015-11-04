@@ -5,9 +5,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.novoda.notils.caster.Classes;
-
-import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
 
 /**

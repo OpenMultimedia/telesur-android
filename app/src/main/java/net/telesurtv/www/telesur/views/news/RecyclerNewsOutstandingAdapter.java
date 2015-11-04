@@ -1,6 +1,5 @@
 package net.telesurtv.www.telesur.views.news;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListenerNews;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.views.videos.video.VideosActivity;

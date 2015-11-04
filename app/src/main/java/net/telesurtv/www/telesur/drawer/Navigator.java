@@ -5,7 +5,7 @@ import android.support.v4.app.ActivityCompat;
 
 import net.telesurtv.www.telesur.views.settings.AboutActivity;
 import net.telesurtv.www.telesur.views.news.NewsActivity;
-import net.telesurtv.www.telesur.views.program.ProgramActivity;
+import net.telesurtv.www.telesur.views.program.slug.ProgramSlugActivity;
 import net.telesurtv.www.telesur.views.review.ReviewActivity;
 import net.telesurtv.www.telesur.views.settings.SettingsActivity;
 import net.telesurtv.www.telesur.views.streaming.StreamingActivity;
@@ -31,7 +31,7 @@ public class Navigator {
     }
 
     public void toPrograms() {
-        startNewActivity(ProgramActivity.class);
+        startNewActivity(ProgramSlugActivity.class);
     }
 
     public void toReview() {

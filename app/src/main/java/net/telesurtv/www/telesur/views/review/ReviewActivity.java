@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
-import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
+import net.telesurtv.www.telesur.drawer.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
 

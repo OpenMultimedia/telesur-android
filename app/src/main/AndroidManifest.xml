@@ -70,7 +70,7 @@
 
 
         <activity
-            android:name=".views.program.ProgramActivity"
+            android:name=".views.program.slug.ProgramSlugActivity"
             android:label="@string/programas"/>
 
         <activity

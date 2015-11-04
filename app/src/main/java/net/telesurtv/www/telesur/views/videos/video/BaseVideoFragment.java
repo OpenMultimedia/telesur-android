@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.telesurtv.www.telesur.ItemRecyclerClickListener;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoViewModel;
 import net.telesurtv.www.telesur.views.view.LoadMoreDetector;

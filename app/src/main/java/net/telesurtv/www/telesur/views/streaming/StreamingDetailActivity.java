@@ -15,6 +15,4 @@ public class StreamingDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_streaming);
     }
 
-
-
 }

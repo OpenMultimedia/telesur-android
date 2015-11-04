@@ -19,7 +19,6 @@ import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.streaming.Program;
 import net.telesurtv.www.telesur.data.api.models.streaming.RootSchedule;
-import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.model.Streaming;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.InternetConnection;
@@ -45,7 +44,7 @@ public class FragmentS extends Fragment {
 
     RecyclerView mRecyclerView;
     ImageView imageView;
-    SimpleAdapter mAdapter;
+    StreamingAdapter mAdapter;
     ProgressBar progressBarReview;
     TextView txtMessage;
     private ImageView imageViewServer;
@@ -57,9 +56,9 @@ public class FragmentS extends Fragment {
 
         setUpRecyclerView(rootView);
 
-        progressBarReview = (ProgressBar) rootView.findViewById(R.id.progress_bar_video);
+        //progressBarReview = (ProgressBar) rootView.findViewById(R.id.progress_bar_video);
         imageViewServer = (ImageView) rootView.findViewById(R.id.image_server);
-        txtMessage = (TextView) rootView.findViewById(R.id.txt_message_video);
+       // txtMessage = (TextView) rootView.findViewById(R.id.txt_message_video);
         progressBarReview.setVisibility(View.VISIBLE);
         txtMessage.setVisibility(View.GONE);
         imageViewServer.setVisibility(View.GONE);
@@ -142,7 +141,7 @@ public class FragmentS extends Fragment {
     }
 
     private void setUpRecyclerView(View rootView) {
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.streaming_recycler);
+        //mRecyclerView = (RecyclerView) rootView.findViewById(R.id.streaming_recycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -153,7 +152,7 @@ public class FragmentS extends Fragment {
             @Override
             public void run() {
 
-                mAdapter = new SimpleAdapter(getActivity(), programm);
+                mAdapter = new StreamingAdapter(getActivity(), programm);
                 List<SimpleSectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
 
                 sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Lunes"));

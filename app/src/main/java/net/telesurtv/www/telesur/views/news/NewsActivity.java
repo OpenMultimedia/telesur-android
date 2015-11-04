@@ -29,7 +29,7 @@ import com.squareup.otto.Produce;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
+import net.telesurtv.www.telesur.drawer.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.data.api.models.Notification;
 import net.telesurtv.www.telesur.model.Image;

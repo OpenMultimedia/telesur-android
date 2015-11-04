@@ -30,8 +30,9 @@ public class ClientServiceTelesur {
 
     public static Retrofit getStaticRestAdapter() {
         return new Retrofit.Builder()
-                .baseUrl(TelesurApiConstants.TELESUR_STATIC)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(TelesurApiConstants.TELESUR_STATIC)
                 .build();
     }
 
