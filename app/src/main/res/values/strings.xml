@@ -98,4 +98,13 @@
     <string name="pref_title_read">Leér sobre teleSUR</string>
 
 
+    <!--  messages -->
+
+    <string name="not_internet_conection">En este momento no estas conectado</string>
+    <string name="expected_error_token">Parece que ocurrio un error en el servidor. Inténtalo de nuevo.</string>
+    <string name="expected_error_video">Parece que ocurrio un error en el servidor y no pudimos cargar el video en teleSUR inténtalo de nuevo más tarde.</string>
+    <string name="expected_error_wifi">En este momento no estas conectado a internet. Inténtalo de nuevo más tarde.</string>
+    <string name="loading_message">Cargando...</string>
+
+
 </resources>

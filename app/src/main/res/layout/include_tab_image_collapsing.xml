@@ -65,40 +65,10 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 
-
-                <!--?attr/actionBarSize    " -->
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/telesur_toolbar_g" />
-
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/txt_toolbar_tite"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/news"-->
-
-                    <!--android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
-                    <!--android:textColor="@android:color/white" />-->
-
-
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/logo_toolbar_telesur"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/txt_toolbar_title"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/news"-->
-                <!--android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
-                <!--android:textColor="@android:color/white" />-->
-
-
-
 
 
         </android.support.v7.widget.Toolbar>

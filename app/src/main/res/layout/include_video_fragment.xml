@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/video_fragment"
-        android:name="net.telesurtv.www.telesur.views.videos.VideoFragment"
+        android:name="net.telesurtv.www.telesur.views.videos.catalog.VideoCatalogFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

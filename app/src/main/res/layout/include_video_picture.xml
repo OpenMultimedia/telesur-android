@@ -8,8 +8,7 @@
         android:id="@+id/image_view_background"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ff" />
+        android:scaleType="center"/>
 
     <TextView
         android:id="@+id/txt_duration"

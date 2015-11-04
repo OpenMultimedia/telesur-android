@@ -11,6 +11,15 @@ public class LoadMoreDetector extends RecyclerView.OnScrollListener {
     private final LinearLayoutManager layoutManager;
 
     private boolean enabled;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
     private boolean loading;
     private Listener listener;
 

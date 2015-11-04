@@ -68,10 +68,6 @@ public class ProgramSpinnerAdapter extends BaseAdapter {
         }
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
         textView.setText(getTitle(position));
-
-
-
-
         return view;
     }
 

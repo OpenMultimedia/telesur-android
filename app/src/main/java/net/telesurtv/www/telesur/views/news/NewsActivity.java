@@ -3,6 +3,10 @@ package net.telesurtv.www.telesur.views.news;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -10,6 +14,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -17,33 +22,24 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.pushwoosh.BasePushMessageReceiver;
+import com.pushwoosh.BaseRegistrationReceiver;
+import com.pushwoosh.PushManager;
+import com.squareup.otto.Produce;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.data.ClientServiceTelesur;
-import net.telesurtv.www.telesur.data.EndPoint;
-import net.telesurtv.www.telesur.data.TelesurApiService;
-import net.telesurtv.www.telesur.data.api.models.news.News;
-import net.telesurtv.www.telesur.data.api.models.news.ParserNews;
-import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
+import net.telesurtv.www.telesur.data.api.models.Notification;
 import net.telesurtv.www.telesur.model.Image;
-import net.telesurtv.www.telesur.model.NewsViewModel;
+import net.telesurtv.www.telesur.storage.Preferences;
+import net.telesurtv.www.telesur.util.InternetConnection;
+import net.telesurtv.www.telesur.util.OttoBus;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit.client.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 
 public class NewsActivity extends BaseNavigationDrawerActivity {
@@ -56,6 +52,48 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
     private AnimatorSet animatorSet;
     private Interpolator mInterpolator;
     int currentPagerPosition;
+    String linkFromNotification;
+    //push woosh
+
+    BroadcastReceiver mBroadcastReceiver = new BaseRegistrationReceiver() {
+        @Override
+        public void onRegisterActionReceive(Context context, Intent intent) {
+            checkMessage(intent);
+        }
+    };
+
+    //Push message receiver
+    private BroadcastReceiver mReceiver = new BasePushMessageReceiver() {
+        @Override
+        protected void onMessageReceive(Intent intent) {
+            //JSON_DATA_KEY contains JSON payload of push notification.
+            showMessage("push message is " + intent.getExtras().getString(JSON_DATA_KEY));
+        }
+    };
+
+    //Registration of the receivers
+    public void registerReceivers() {
+        IntentFilter intentFilter = new IntentFilter(getPackageName() + ".action.PUSH_MESSAGE_RECEIVE");
+
+        registerReceiver(mReceiver, intentFilter, getPackageName() + ".permission.C2D_MESSAGE", null);
+
+        registerReceiver(mBroadcastReceiver, new IntentFilter(getPackageName() + "." + PushManager.REGISTER_BROAD_CAST_ACTION));
+    }
+
+    public void unregisterReceivers() {
+        //Unregister receivers on pause
+        try {
+            unregisterReceiver(mReceiver);
+        } catch (Exception e) {
+            // pass.
+        }
+
+        try {
+            unregisterReceiver(mBroadcastReceiver);
+        } catch (Exception e) {
+            //pass through
+        }
+    }
 
 
     @Override
@@ -76,6 +114,53 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
             currentPagerPosition = 0;
 
 
+        //Register receivers for push notifications
+        registerReceivers();
+
+        //Create and start push manager
+        PushManager pushManager = PushManager.getInstance(this);
+
+        //Start push manager, this will count app open for Pushwoosh stats as well
+        try {
+            pushManager.onStartup(this);
+        } catch (Exception e) {
+            //push notifications are not available or AndroidManifest.xml is not configured properly
+        }
+
+        //Register for push!
+        pushManager.registerForPushNotifications();
+
+        checkMessage(getIntent());
+
+
+        // other code
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        try {
+            OttoBus.getInstance().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        try {
+
+            OttoBus.getInstance().unregister(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -95,7 +180,29 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //Re-register receivers on resume
+        registerReceivers();
         setViewPagerListener();
+
+
+        if (InternetConnection.isNetworkMobile(this)) {
+            if (!InternetConnection.connectionState(this) && !InternetConnection.mobileConnection(this)) {
+                showToast(R.string.not_internet_conection);
+            }
+        } else if (!InternetConnection.connectionState(this)) {
+            showToast(R.string.not_internet_conection);
+        }
+
+
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //Unregister receivers on pause
+        unregisterReceivers();
     }
 
     /**
@@ -114,7 +221,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         // intialize interpolator
         mInterpolator = AnimationUtils.loadInterpolator(this, android.R.interpolator.overshoot);
 
-        getImageListNews(EndPoint.RSS_OUSTANDING);
+//        getImageListNews(TelesurApiConstants.RSS_OUSTANDING);
 
     }
 
@@ -175,8 +282,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         pageChangeListener.onPageSelected(currentPagerPosition);
 
     }
-
-
 
 
     /**
@@ -366,7 +471,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
     /**
      * @param section getListImages
      */
-    private void getImageListNews(String section) {
+    /*private void getImageListNews(String section) {
 
         TelesurApiService telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
         telesurApiService.getNewsList(section).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).
@@ -377,7 +482,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
                         final StringWriter writer = new StringWriter();
 
                         try {
-                            IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+                          //  IOUtils.copy(response.getBody().in(), writer, "UTF-8");
 
                             News[] listNews = ParserNews.getListNews(writer.toString());
                             List<Image> imageList = new ArrayList<>();
@@ -386,13 +491,18 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
 
                                 News notice = listNews[i];
                                 Image image = new Image();
-                                image.setUrl(notice.getEnclosure().getUrl());
+                                if (notice.getEnclosure().getUrl() != null)
+                                    image.setUrl(notice.getEnclosure().getUrl());
+                                else
+                                    image.setUrl("http://www.telesurtv.net/arte/LogoBlanco648X351.jpg");
+
+
                                 imageList.add(image);
                             }
 
                             updateUI(imageList);
 
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -405,7 +515,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
                     }
                 });
 
-    }
+    }*/
 
     /**
      * @param imageList listImages
@@ -430,5 +540,144 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         });
     }
 
+    private void checkMessage(Intent intent) {
+
+        if (null != intent) {
+            if (intent.hasExtra(PushManager.PUSH_RECEIVE_EVENT)) {
+                getNotification(intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
+                showMessage(intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
+            } else if (intent.hasExtra(PushManager.REGISTER_EVENT)) {
+                showMessage("register");
+            } else if (intent.hasExtra(PushManager.UNREGISTER_EVENT)) {
+                showMessage("unregister");
+            } else if (intent.hasExtra(PushManager.REGISTER_ERROR_EVENT)) {
+                showMessage("register error");
+            } else if (intent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT)) {
+                showMessage("unregister error");
+            }
+
+
+            resetIntentValues();
+        }
+    }
+
+
+    private void getNotification(String notificationMessage) {
+
+        // String titleDomi = "Líderes mundiales piden fin del bloqueo a Cuba en la ONU";
+        // String sectionDomi = "M";
+        // String linkDomi = "http://www.telesurtv.net/news/Israel-pide-dialogo-con-Palestina-un-dia-despues-de-atacar-Gaza-20151001-0020.html";
+
+        // openDetailFromNotification(sectionDomi, linkDomi);
+
+
+        Notification notification = new GsonBuilder().create().fromJson(notificationMessage, Notification.class);
+        Log.i("data", notification.getTitle());
+        Log.i("data", notification.getUserData().getSection());
+        Log.i("data", notification.getUserData().getLink());
+
+        showMessage(notification.getTitle() + " " + notification.getUserData().getSection() + " " + notification.getUserData().getLink());
+        //      showMessage(notificationMessage);
+
+        openDetailFromNotification(notification.getUserData().getSection(), notification.getUserData().getLink());
+
+        Preferences.setNotification(NewsActivity.this, "execute");
+        //Intent intent = new Intent(NewsActivity.this, NotificationActivity.class);
+        //intent.putExtra("link", notification.getUserData().getLink());
+        //intent.putExtra("link", "http://www.telesurtv.net/news/Israel-pide-dialogo-con-Palestina-un-dia-despues-de-atacar-Gaza-20151001-0020.html");
+        // startActivity(intent);
+
+
+    }
+
+    @Produce
+    public String produceLink() {
+        return linkFromNotification;
+    }
+
+    /**
+     * Will check main Activity intent and if it contains any PushWoosh data, will clear it
+     */
+    private void resetIntentValues() {
+        Intent mainAppIntent = getIntent();
+        if (mainAppIntent.hasExtra(PushManager.PUSH_RECEIVE_EVENT)) {
+            mainAppIntent.removeExtra(PushManager.PUSH_RECEIVE_EVENT);
+        } else if (mainAppIntent.hasExtra(PushManager.REGISTER_EVENT)) {
+            mainAppIntent.removeExtra(PushManager.REGISTER_EVENT);
+        } else if (mainAppIntent.hasExtra(PushManager.UNREGISTER_EVENT)) {
+            mainAppIntent.removeExtra(PushManager.UNREGISTER_EVENT);
+        } else if (mainAppIntent.hasExtra(PushManager.REGISTER_ERROR_EVENT)) {
+            mainAppIntent.removeExtra(PushManager.REGISTER_ERROR_EVENT);
+        } else if (mainAppIntent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT)) {
+            mainAppIntent.removeExtra(PushManager.UNREGISTER_ERROR_EVENT);
+        }
+
+        setIntent(mainAppIntent);
+    }
+
+    private void openDetailFromNotification(String section, String link) {
+
+
+        final String OUSTANDING = "P";
+        final String LATAM = "L";
+        final String WORLD = "M";
+        final String SPORTS = "D";
+        final String CULTURE = "C";
+        int positionNotify = 0;
+
+        switch (section) {
+            case OUSTANDING:
+                positionNotify = 0;
+                break;
+            case LATAM:
+                positionNotify = 1;
+                break;
+            case WORLD:
+                positionNotify = 2;
+                break;
+            case SPORTS:
+                positionNotify = 3;
+                break;
+            case CULTURE:
+                positionNotify = 4;
+                break;
+        }
+
+
+        System.out.println("dato " + section);
+        System.out.println("dato " + link);
+        System.out.println("dato " + positionNotify);
+
+        setViewPagerListenerNoti(positionNotify);
+        linkFromNotification = link;
+
+        OttoBus.getInstance().post(linkFromNotification);
+
+
+        System.out.println("producer " + linkFromNotification);
+
+        System.out.println("dato position notify" + positionNotify);
+
+        System.out.println(linkFromNotification);
+
+
+    }
+
+    private void setViewPagerListenerNoti(int pos) {
+        viewPager.setCurrentItem(pos);
+        currentPagerPosition = pos;
+    }
+
+    private void showMessage(String message) {
+        // Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+    }
+
+    private void showToast(int message) {
+        Toast.makeText(this, getResources().getString(message), Toast.LENGTH_SHORT).show();
+    }
 
 }
+
+
+

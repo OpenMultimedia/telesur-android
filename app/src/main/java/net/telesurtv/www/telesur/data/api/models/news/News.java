@@ -16,7 +16,7 @@ public class News {
     @SerializedName("title")
     private String title;
     @SerializedName("author")
-    private String author;
+    private Object author;
     @SerializedName("content")
     private String content;
     @SerializedName("link")
@@ -26,7 +26,7 @@ public class News {
     @SerializedName("enclosure")
     private Enclosure enclosure;
     @SerializedName("thumbnails")
-    private Thumbnails thumbnails;
+    private transient Thumbnails thumbnails;
 
     public String getCategory() {
         return category;
@@ -44,7 +44,7 @@ public class News {
         return title;
     }
 
-    public String getAuthor() {
+    public Object getAuthor() {
         return author;
     }
 

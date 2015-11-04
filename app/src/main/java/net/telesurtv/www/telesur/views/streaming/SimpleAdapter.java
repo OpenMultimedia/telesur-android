@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.data.EndPoint;
+import net.telesurtv.www.telesur.data.TelesurApiConstants;
 import net.telesurtv.www.telesur.model.Streaming;
 
 import java.util.List;
@@ -75,7 +75,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         holder.txtHour.setText("Hora local " + streaming.getStarHourVenezuela() + " - " + streaming.getFinishHourVenezuela());
         holder.txtCaracas.setText(streaming.getStarHour() + "  -  " + streaming.getFinishHour());
         holder.txtSinopsis.setText(streaming.getSinopsis());
-        Picasso.with(holder.imageViewIcon.getContext()).load(EndPoint.TELESUR_SCHEDULE_PHOTOS + streaming.getPhoto()).into(holder.imageViewIcon);
+        Picasso.with(holder.imageViewIcon.getContext()).load(TelesurApiConstants.TELESUR_SCHEDULE_PHOTOS + streaming.getPhoto()).into(holder.imageViewIcon);
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

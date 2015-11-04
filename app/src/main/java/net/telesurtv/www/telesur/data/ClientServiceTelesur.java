@@ -1,55 +1,38 @@
 package net.telesurtv.www.telesur.data;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
-
-import net.telesurtv.www.telesur.data.api.ItemAdapterFactory;
-
-import java.util.Date;
-
-import retrofit.RestAdapter;
-import retrofit.converter.SimpleXMLConverter;
-
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
+import retrofit.SimpleXmlConverterFactory;
 
 /**
  * Created by Jhordan on 28/07/15.
  */
 public class ClientServiceTelesur {
 
-    private static RestAdapter restAdapter;
+    private static Retrofit retrofit;
 
 
-    private static RestAdapter telesurRestAdapter() {
-        return new RestAdapter.Builder().setEndpoint(EndPoint.TELESUR_API).build();
-        // .setConverter(new GsonConverter(getGsonBuilder()))
-        // .setErrorHandler(new RetrofitErrorHandler())
+    private static Retrofit telesurRestAdapter() {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(TelesurApiConstants.TELESUR_API)
+                .build();
     }
 
-    public static RestAdapter getRestAdapter() {
-        if (restAdapter == null)
-            restAdapter = telesurRestAdapter();
+    public static Retrofit getRestAdapter() {
+        if (retrofit == null)
+            retrofit = telesurRestAdapter();
 
-        return restAdapter;
+        return retrofit;
     }
 
-    public static RestAdapter getStaticRestAdapter() {
-        return new RestAdapter.Builder().setEndpoint(EndPoint.TELESUR_STATIC).setConverter(new SimpleXMLConverter()).build();
-    }
-
-
-    private static Gson getConverter() {
-        return new GsonBuilder()
-                .registerTypeAdapterFactory(new ItemAdapterFactory())
-                .create();
-    }
-
-
-    private static Gson getGsonBuilder() {
-
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Date.class, new DateTypeAdapter()).create();
+    public static Retrofit getStaticRestAdapter() {
+        return new Retrofit.Builder()
+                .baseUrl(TelesurApiConstants.TELESUR_STATIC)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build();
     }
 
 

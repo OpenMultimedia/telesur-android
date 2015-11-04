@@ -1,9 +1,14 @@
 package net.telesurtv.www.telesur.data.api.models.news;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by Jhordan on 03/08/15.
@@ -12,6 +17,7 @@ public class ParserNews {
 
     public static News[] getListNews(String jsonlistNews) {
 
+        JsonArray jsonElements = new JsonArray();
         try {
             JsonElement jsonElement = new JsonParser().parse(jsonlistNews);
 

@@ -7,6 +7,7 @@
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical">
 
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/program_swipe_refresh"
         android:layout_width="match_parent"
@@ -27,12 +28,11 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-
     <ProgressBar
         android:id="@+id/progress_bar_program"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:layout_gravity="center"
         android:indeterminateOnly="true"/>
 
@@ -40,8 +40,14 @@
         android:id="@+id/txt_message_program"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:text="Not results found"
         android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/image_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/not_server"/>
 </LinearLayout>
 

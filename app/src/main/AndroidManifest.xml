@@ -1,124 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.telesurtv.www.telesur">
+<manifest package="net.telesurtv.www.telesur"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.AppTheme.Telesur">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
 
-        <!-- PushWoosh-start  -->
-        <meta-data android:name="PW_APPID" android:value="A00C5-B191F" />
-        <meta-data android:name="PW_PROJECT_ID" android:value="A71010445670" />
-        <!-- PushWoosh-end  -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <activity
-            android:name=".views.videos.VideoReproductorActivity"
-            android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+    <!-- PushWoosh permision -->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".views.news.NewsActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".views.videos.VideosActivity"
-            android:label="@string/videos" />
-
-        <activity
-            android:name=".views.program.ProgramActivity"
-            android:label="@string/programas" />
-
-        <activity
-            android:name=".views.review.ReviewActivity"
-            android:label="@string/review" />
-
-        <activity
-            android:name=".views.streaming.StreamingActivity"
-            android:label="@string/streaming" />
-
-        <activity
-            android:name=".views.settings.AboutActivity"
-            android:label="@string/about" />
-        <activity
-            android:name=".views.settings.SettingsActivity"
-            android:label="@string/settings" />
-
-
-        <activity android:name=".views.videos.VideoDetailActivity" />
-
-        <activity
-            android:name=".views.videos.VideoListDetailActivity"
-            android:label="@string/video_detail_name"
-           />
-
-        <activity
-            android:name=".views.videos.VideoRepActivity"
-            />
-
-        <activity
-            android:name=".views.streaming.StreamingDetailActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            />
-
-        <activity
-            android:name=".views.review.ReviewDetailActivity"
-            android:label="@string/review_detail_name" />
-
-        <activity android:name=".views.news.NewsDetailActivity" />
-
-
-        <!-- PUSWHOOSH { -->
-
-        <activity android:name="com.pushwoosh.richpages.RichPageActivity" />
-
-        <activity android:name="com.pushwoosh.MessageActivity" />
-
-        <activity android:name="com.pushwoosh.PushHandlerActivity" />
-
-        <!--<activity android:name="com.arellomobile.android.push.PushWebview"/>-->
-
-
-        <receiver
-            android:name="com.google.android.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-                <category android:name="${applicationId}"/>
-            </intent-filter>
-        </receiver>
-        <service android:name="com.arellomobile.android.push.PushGCMIntentService"/>
-
-        <!-- } PUSHWOOSH -->
-
-
-    </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- Permission to get DeviceId -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
 
     <!--
      Creates a custom permission so only this app can receive its messages.
@@ -129,15 +28,156 @@
     <permission
         android:name="net.telesurtv.www.telesur.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-    <uses-permission
-        android:name="net.telesurtv.www.telesur.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="net.telesurtv.www.telesur.permission.C2D_MESSAGE"/>
 
     <!-- This app has permission to register and receive data message. -->
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
 
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppTheme.Telesur">
 
+        <meta-data
+            android:name="PW_APPID"
+            android:value="A00C5-B191F"/>
+
+        <meta-data
+            android:name="PW_PROJECT_ID"
+            android:value="A71010445670"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <activity
+            android:name=".views.splash.SplashScreen"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".views.news.RefactorNewsActivity"
+            android:label="@string/app_name">
+
+        </activity>
+
+
+        <activity
+            android:name=".views.program.ProgramActivity"
+            android:label="@string/programas"/>
+
+        <activity
+            android:name=".views.review.ReviewActivity"
+            android:label="@string/review"/>
+
+        <activity
+            android:name=".views.streaming.StreamingActivity"
+            android:label="@string/streaming"/>
+
+        <activity
+            android:name=".views.settings.AboutActivity"
+            android:label="@string/about"/>
+        <activity
+            android:name=".views.settings.SettingsActivity"
+            android:label="@string/settings"/>
+
+
+        <!-- videos -->
+
+
+        <activity
+            android:name=".views.videos.video.VideosActivity"
+            android:label="@string/videos"/>
+
+        <activity
+            android:name=".views.videos.video.VideoListDetailActivity"
+            android:label="@string/video_detail_name"/>
+
+        <activity android:name=".views.videos.video.VideoDetailActivity"/>
+
+        <activity
+            android:name=".views.videos.reproductor.VideoReproductorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape"/>
+
+
+        <activity
+            android:name=".views.settings.NotificationActivity"
+            android:label="Notificación"/>
+
+        <activity
+            android:name=".views.streaming.StreamingDetailActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".views.review.ReviewDetailActivity"
+            android:label="@string/review_detail_name"/>
+
+        <activity android:name=".views.news.NewsDetailActivity"/>
+
+
+        <!-- PUSWHOOSH PUSH NOTIFICATION  -->
+
+
+        <activity android:name="com.pushwoosh.richpages.RichPageActivity"/>
+        <activity android:name="com.pushwoosh.MessageActivity"/>
+        <activity android:name="com.pushwoosh.PushHandlerActivity"/>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="net.telesurtv.www.telesur"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.pushwoosh.GCMListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.pushwoosh.GCMInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.pushwoosh.GCMRegistrationService"
+            android:exported="false"></service>
+
+
+        <activity
+            android:name=".views.news.NewsActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="net.telesurtv.www.telesur.MESSAGE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--  PUSHWOOSH -->
+
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="819430849d723ed637e27a82c2df9e2a2a54951d"/>
+    </application>
 
 
 </manifest>

@@ -10,14 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.streaming.Program;
 import net.telesurtv.www.telesur.data.api.models.streaming.RootSchedule;
+import net.telesurtv.www.telesur.model.ReviewViewModel;
 import net.telesurtv.www.telesur.model.Streaming;
 import net.telesurtv.www.telesur.util.Config;
+import net.telesurtv.www.telesur.util.InternetConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,9 @@ public class FragmentS extends Fragment {
     RecyclerView mRecyclerView;
     ImageView imageView;
     SimpleAdapter mAdapter;
+    ProgressBar progressBarReview;
+    TextView txtMessage;
+    private ImageView imageViewServer;
 
     @Nullable
     @Override
@@ -49,21 +57,53 @@ public class FragmentS extends Fragment {
 
         setUpRecyclerView(rootView);
 
-        imageView = (ImageView)rootView.findViewById(R.id.image_view_play);
+        progressBarReview = (ProgressBar) rootView.findViewById(R.id.progress_bar_video);
+        imageViewServer = (ImageView) rootView.findViewById(R.id.image_server);
+        txtMessage = (TextView) rootView.findViewById(R.id.txt_message_video);
+        progressBarReview.setVisibility(View.VISIBLE);
+        txtMessage.setVisibility(View.GONE);
+        imageViewServer.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+
+        imageView = (ImageView) rootView.findViewById(R.id.image_view_play);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),StreamingDetailActivity.class));
+
+
+                if (InternetConnection.isNetworkMobile(getActivity())) {
+                    if (!InternetConnection.connectionState(getActivity()) && !InternetConnection.mobileConnection(getActivity())) {
+
+                        showToast(R.string.expected_error_wifi);
+                    }
+                } else if (!InternetConnection.connectionState(getActivity())) {
+                    showToast(R.string.expected_error_wifi);
+
+                } else {
+                    startActivity(new Intent(getActivity(), StreamingDetailActivity.class));
+                }
+
+
             }
         });
 
-        getData();
+
 
 
         return rootView;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void showToast(int message) {
+        Toast.makeText(getActivity(), getResources().getString(message), Toast.LENGTH_LONG).show();
+    }
 
     private void getData() {
         TelesurApiService telesurApiService = ClientServiceTelesur.getStaticRestAdapter().create(TelesurApiService.class);
@@ -76,6 +116,27 @@ public class FragmentS extends Fragment {
             @Override
             public void call(Throwable throwable) {
                 throwable.printStackTrace();
+
+                mRecyclerView.setVisibility(View.GONE);
+                progressBarReview.setVisibility(View.GONE);
+                txtMessage.setVisibility(View.VISIBLE);
+
+                if (InternetConnection.isNetworkMobile(getActivity())) {
+                    if (!InternetConnection.connectionState(getActivity()) && !InternetConnection.mobileConnection(getActivity())) {
+
+                        txtMessage.setText(R.string.not_internet_conection);
+                        imageViewServer.setVisibility(View.VISIBLE);
+                    }
+                } else if (!InternetConnection.connectionState(getActivity())) {
+
+                    txtMessage.setText(R.string.not_internet_conection);
+                    imageViewServer.setVisibility(View.VISIBLE);
+                } else {
+                    txtMessage.setText(R.string.expected_error_token);
+                    imageViewServer.setVisibility(View.VISIBLE);
+
+
+                }
             }
         });
     }
@@ -107,6 +168,10 @@ public class FragmentS extends Fragment {
                 SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, mAdapter);
                 mSectionedAdapter.setSections(sections.toArray(dummy));
                 mRecyclerView.setAdapter(mSectionedAdapter);
+
+                mRecyclerView.setVisibility(View.VISIBLE);
+                progressBarReview.setVisibility(View.GONE);
+
 
             }
         });

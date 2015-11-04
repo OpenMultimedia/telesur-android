@@ -10,6 +10,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/news_base_refresh"
             android:layout_width="match_parent"
@@ -44,8 +45,14 @@
             android:id="@+id/txt_message_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="120dp"
             android:text="Not results found" />
+
+        <ImageView
+            android:id="@+id/image_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/not_server"/>
     </LinearLayout>
 
 </FrameLayout>

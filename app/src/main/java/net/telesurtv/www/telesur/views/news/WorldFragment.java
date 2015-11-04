@@ -1,25 +1,16 @@
 package net.telesurtv.www.telesur.views.news;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import net.telesurtv.www.telesur.BaseFragmentNews;
-import net.telesurtv.www.telesur.data.EndPoint;
+import net.telesurtv.www.telesur.R;
+import net.telesurtv.www.telesur.data.TelesurApiConstants;
 
 /**
  * Created by Jhordan on 15/07/15.
  */
-public class WorldFragment extends BaseFragmentNews {
+public class WorldFragment extends BaseNewsFragment {
 
-    public WorldFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
 
     public static WorldFragment newInstance() {
         return new WorldFragment();
@@ -28,16 +19,38 @@ public class WorldFragment extends BaseFragmentNews {
 
     @Override
     protected String getSection() {
-        return EndPoint.RSS_WORLD;
+        return TelesurApiConstants.RSS_WORLD;
     }
 
     @Override
     protected String getTitleSection() {
-        return EndPoint.SECTION_WORLD ;
+        return TelesurApiConstants.SECTION_WORLD;
     }
 
     @Override
     protected String themeSection() {
-        return BaseFragmentNews.THEME_WORLD;
+        return TelesurApiConstants.THEME_WORLD;
     }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        final int spans = getResources().getInteger(R.integer.review_columns);
+        final int one_span = getResources().getInteger(R.integer.show_span_1);
+        final int two_span = getResources().getInteger(R.integer.show_span_2);
+
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), spans);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position % 5 == 0 ? two_span : one_span);
+            }
+        });
+        return manager;
+    }
+
+    @Override
+    protected RecyclerView.Adapter getAdapter() {
+        return new RecyclerNewsAdapter();
+    }
+
 }

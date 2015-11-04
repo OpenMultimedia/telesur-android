@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,18 +25,17 @@ import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.model.ProgramViewModel;
 import net.telesurtv.www.telesur.util.Config;
+import net.telesurtv.www.telesur.util.InternetConnection;
 import net.telesurtv.www.telesur.util.OttoBus;
-import net.telesurtv.www.telesur.views.videos.VideoRepActivity;
+import net.telesurtv.www.telesur.views.videos.video.VideoDetailActivity;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.client.Response;
+
+import retrofit.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -57,6 +57,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
     List<ProgramViewModel> programViewModelList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
     ProgressBar progressBarProgram;
+    private ImageView imageViewServer;
     TextView txtPrograms;
     String slugRefresh;
 
@@ -80,7 +81,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         recyclerProgramAdapter.setItemRecyclerClickListenerProgram(this);
         recyclerViewProgram.setAdapter(recyclerProgramAdapter);
 
-
+        imageViewServer = (ImageView) rootView.findViewById(R.id.image_server);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.program_swipe_refresh);
         progressBarProgram = (ProgressBar) rootView.findViewById(R.id.progress_bar_program);
         txtPrograms = (TextView) rootView.findViewById(R.id.txt_message_program);
@@ -90,6 +91,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout.setVisibility(View.GONE);
         progressBarProgram.setVisibility(View.VISIBLE);
         txtPrograms.setVisibility(View.GONE);
+        imageViewServer.setVisibility(View.GONE);
 
 
         return rootView;
@@ -135,12 +137,13 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         progressBarProgram.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.GONE);
 
+        System.out.println("ññego el slug" + slug);
 
         if (slug.equals("all")) {
-            getAllVideos();
+            //getAllVideos();
             slugRefresh = "all";
         } else {
-            getListVideos(slug);
+           // getListVideos(slug);
             slugRefresh = slug;
         }
 
@@ -164,7 +167,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 final StringWriter writer = new StringWriter();
 
                 try {
-                    IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+                   // IOUtils.copy(response.getBody().in(), writer, "UTF-8");
                     programViewModelList.clear();
                     VideoTemporal[] videoTemporal = new GsonBuilder().create().fromJson(writer.toString(), VideoTemporal[].class);
 
@@ -191,7 +194,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                     updateUI(programViewModelList);
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -203,6 +206,28 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void call(Throwable throwable) {
                 throwable.printStackTrace();
+
+                progressBarProgram.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.GONE);
+                txtPrograms.setVisibility(View.VISIBLE);
+
+
+                if (InternetConnection.isNetworkMobile(getActivity())) {
+                    if (!InternetConnection.connectionState(getActivity()) && !InternetConnection.mobileConnection(getActivity())) {
+
+                        txtPrograms.setText(R.string.not_internet_conection);
+                        imageViewServer.setVisibility(View.VISIBLE);
+                    }
+                } else if (!InternetConnection.connectionState(getActivity())) {
+
+                    txtPrograms.setText(R.string.not_internet_conection);
+                    imageViewServer.setVisibility(View.VISIBLE);
+                } else {
+                    txtPrograms.setText(R.string.expected_error_token);
+                    imageViewServer.setVisibility(View.VISIBLE);
+
+                }
+
             }
         });
 
@@ -221,7 +246,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 final StringWriter writer = new StringWriter();
 
                 try {
-                    IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+                  //  IOUtils.copy(response.getBody().in(), writer, "UTF-8");
                     programViewModelList.clear();
                     VideoTemporal[] videoTemporal = new GsonBuilder().create().fromJson(writer.toString(), VideoTemporal[].class);
 
@@ -248,7 +273,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                     updateUI(programViewModelList);
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -299,7 +324,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void itemRecycleOnClickProgram(int position, ProgramViewModel videoViewModel) {
-        Intent intent = new Intent(getActivity(), VideoRepActivity.class);
+        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
         intent.putExtra("video_url", videoViewModel.getUrl());
         intent.putExtra("video_title", videoViewModel.getTitle());
         intent.putExtra("video_category", videoViewModel.getCategory());

@@ -23,6 +23,7 @@ import com.squareup.picasso.Target;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
+import net.telesurtv.www.telesur.storage.Preferences;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.Theme;
 
@@ -39,7 +40,7 @@ public class NewsDetailActivity extends NavigatorActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Preferences.setNotification(NewsDetailActivity.this, "not_execute");
 
         if (getIntent() != null) {
             theme = Theme.valueOf(getIntent().getStringExtra("news_themes"));

@@ -1,15 +1,16 @@
 package net.telesurtv.www.telesur.views.news;
 
-import net.telesurtv.www.telesur.BaseFragmentNews;
-import net.telesurtv.www.telesur.data.EndPoint;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import net.telesurtv.www.telesur.R;
+import net.telesurtv.www.telesur.data.TelesurApiConstants;
 
 /**
  * Created by Jhordan on 15/07/15.
  */
-public class CultureFragment extends BaseFragmentNews {
+public class CultureFragment extends BaseNewsFragment {
 
-    public CultureFragment() {
-    }
 
     public static CultureFragment newInstance() {
         return new CultureFragment();
@@ -17,16 +18,38 @@ public class CultureFragment extends BaseFragmentNews {
 
     @Override
     protected String getSection() {
-        return EndPoint.RSS_CULTURE;
+        return TelesurApiConstants.RSS_CULTURE;
     }
 
     @Override
     protected String getTitleSection() {
-        return EndPoint.SECTION_CULTURE;
+        return TelesurApiConstants.SECTION_CULTURE;
     }
 
     @Override
     protected String themeSection() {
-        return BaseFragmentNews.THEME_CULTURE;
+        return TelesurApiConstants.THEME_CULTURE;
     }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        final int spans = getResources().getInteger(R.integer.review_columns);
+        final int one_span = getResources().getInteger(R.integer.show_span_1);
+        final int two_span = getResources().getInteger(R.integer.show_span_2);
+
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), spans);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position % 5 == 0 ? two_span : one_span);
+            }
+        });
+        return manager;
+    }
+
+    @Override
+    protected RecyclerView.Adapter getAdapter() {
+        return new RecyclerNewsAdapter();
+    }
+
 }

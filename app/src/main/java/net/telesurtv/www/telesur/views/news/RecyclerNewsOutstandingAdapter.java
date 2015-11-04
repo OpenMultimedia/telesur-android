@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import net.telesurtv.www.telesur.ItemRecyclerClickListenerNews;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
-import net.telesurtv.www.telesur.views.videos.VideosActivity;
+import net.telesurtv.www.telesur.views.videos.video.VideosActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +104,7 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View view) {
 
                 if (itemRecyclerClickListenerNews != null) {
+                    if(position != 5)
 
                     itemRecyclerClickListenerNews.itemRecycleOnClickNews(position, newsViewModel,view.findViewById(R.id.image_view_picture_news));
                 }
@@ -239,15 +240,14 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
             textView = (TextView) itemView.findViewById(R.id.dato);
             btnSeeNow = (Button) itemView.findViewById(R.id.btn_see_now);
 
-            btnSeeNow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            btnSeeNow.setOnClickListener((View view) ->{
 
-                    Context context = view.getContext();
+
+                Context context = view.getContext();
                     Intent intent = new Intent(context, VideosActivity.class);
                     context.startActivity(intent);
-                    ((Activity)context).finish();
-                }
+                    //((Activity)context).finish();
+
             });
 
 

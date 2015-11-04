@@ -1,37 +1,21 @@
 package net.telesurtv.www.telesur.views.review;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
-import net.telesurtv.www.telesur.BaseFragmentReview;
+import net.telesurtv.www.telesur.data.TelesurApiConstants;
 
 /**
  * Created by Jhordan on 15/07/15.
  */
-public class BlogFragment extends BaseFragmentReview{
-
-    public BlogFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+public class BlogFragment extends BaseReviewFragment{
 
     public static BlogFragment newInstance() {
         return new BlogFragment();
     }
 
-
-    @Override
-    protected String getSection() {
-        return "/rss/RssBlogs.xml";
+    @Override protected String getSection() {
+        return TelesurApiConstants.RSS_BLOG;
     }
 
-    @Override
-    protected String getTitleSection() {
-        return "Blog";
+    @Override protected String getTitleSection() {
+        return TelesurApiConstants.SECTION_BLOG;
     }
 }

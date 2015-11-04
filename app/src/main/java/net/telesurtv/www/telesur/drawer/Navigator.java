@@ -9,7 +9,7 @@ import net.telesurtv.www.telesur.views.program.ProgramActivity;
 import net.telesurtv.www.telesur.views.review.ReviewActivity;
 import net.telesurtv.www.telesur.views.settings.SettingsActivity;
 import net.telesurtv.www.telesur.views.streaming.StreamingActivity;
-import net.telesurtv.www.telesur.views.videos.VideosActivity;
+import net.telesurtv.www.telesur.views.videos.video.VideosActivity;
 
 /**
  * Created by Jhordan on 28/07/15.
@@ -51,8 +51,9 @@ public class Navigator {
     }
 
     private void startNewActivity(Class<?> Class) {
-        Intent newsIntent = new Intent(activity, Class);
-        ActivityCompat.startActivity(activity, newsIntent, null);
+        Intent intent = new Intent(activity, Class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        ActivityCompat.startActivity(activity, intent, null);
         activity.overridePendingTransition(0, 0);
         activity.finish();
     }

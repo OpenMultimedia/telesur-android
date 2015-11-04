@@ -10,72 +10,54 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.gson.GsonBuilder;
 import com.squareup.otto.Produce;
 
 import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.data.ClientServiceTelesur;
-import net.telesurtv.www.telesur.data.TelesurApiService;
-import net.telesurtv.www.telesur.data.api.models.program.Program;
-import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.model.ProgramItem;
 import net.telesurtv.www.telesur.util.OttoBus;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.client.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 
-public class ProgramActivity extends BaseNavigationDrawerActivity implements AdapterView.OnItemSelectedListener {
+public class ProgramActivity extends BaseNavigationDrawerActivity implements ProgramMvpView, AdapterView.OnItemSelectedListener {
 
-    Spinner spinner;
-    ProgramSpinnerAdapter spinnerAdapter;
-    private String programSlug;
-    List<ProgramItem> programItemList = new ArrayList<>();
+    private Spinner spinner;
+    private ProgramSpinnerAdapter spinnerAdapter;
+    private String programSlug = "all";
+    private ProgramPresenter programPresenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program);
-
         setHighLevelActivityOther();
-        initializeView();
+        initializeViews();
 
-
-        spinnerAdapter = new ProgramSpinnerAdapter(this);
-
-        ProgramItem programItem = new ProgramItem();
+       /* ProgramItem programItem = new ProgramItem();
         programItem.setName("Todos");
         programItem.setSlug("slug");
         programItemList.add(programItem);
+
+        spinnerAdapter = new ProgramSpinnerAdapter(this);
         spinnerAdapter.addItems(programItemList);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(this);*/
+
+        programPresenter = new ProgramPresenter();
+        programPresenter.attachedView(this);
+
+        spinnerAdapter = new ProgramSpinnerAdapter(this);
+
 
     }
-
-
 
 
     @Override
     public void onStart() {
         super.onStart();
-
-        try {
-            OttoBus.getInstance().register(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        programPresenter.onStart();
 
 
     }
@@ -83,22 +65,35 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Ada
     @Override
     public void onStop() {
         super.onStop();
+        programPresenter.onStop();
+    }
 
-        try {
-
-            OttoBus.getInstance().unregister(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    @Override
+    public void showProgramList(ArrayList<ProgramItem> programItems) {
+        spinnerAdapter.addItems(programItems);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        getProgramList();
+        programPresenter.onResume();
 
+
+
+      /*  if (InternetConnection.isNetworkMobile(ProgramActivity.this)) {
+            if (!InternetConnection.connectionState(ProgramActivity.this) && !InternetConnection.mobileConnection(ProgramActivity.this)) {
+
+                showToast(R.string.expected_error_wifi);
+            }
+        } else if (!InternetConnection.connectionState(ProgramActivity.this)) {
+            showToast(R.string.expected_error_wifi);
+
+        } else {
+            //getProgramList();
+        }*/
 
 
     }
@@ -109,7 +104,21 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Ada
         return programSlug;
     }
 
-    private void getProgramList() {
+
+    private void makeRequest() {
+
+     /*   TelesurApiService telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
+        telesurApiService.getProgramList("100", "nombre", "slug")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(programListSlug -> Observable.from(programListSlug))
+                .flatMap(programVideo -> telesurApiService.getPrograms("completo", 1, 20, "programa"))
+                .subscribe(ListVieos -> )*/
+
+
+    }
+
+   /* private void getProgramList() {
 
         TelesurApiService telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
         telesurApiService.getProgramList("100", "nombre", "slug").subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response>() {
@@ -119,10 +128,11 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Ada
                 final StringWriter writer = new StringWriter();
 
                 try {
-                    IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+                    //IOUtils.copy(response.getBody().in(), writer, "UTF-8");
+
+                    programItemList.clear();
 
                     Program[] listNamePrograms = new GsonBuilder().create().fromJson(writer.toString(), Program[].class);
-                    programItemList.clear();
                     for (int i = 0; i < listNamePrograms.length; i++) {
                         Program program = listNamePrograms[i];
                         ProgramItem programItem = new ProgramItem();
@@ -130,11 +140,11 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Ada
                         programItem.setSlug(program.getSlug());
                         programItemList.add(programItem);
 
-                        if(i == 0)
+                        if (i == 0)
                             programSlug = program.getSlug();
                     }
                     updateUI(programItemList);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -145,46 +155,51 @@ public class ProgramActivity extends BaseNavigationDrawerActivity implements Ada
                 throwable.printStackTrace();
             }
         });
-    }
+    }*/
 
-    private void updateUI(final List<ProgramItem> programItems) {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                spinnerAdapter.addItems(programItems);
-            }
-        });
-
-    }
-
-    private void initializeView() {
+    private void initializeViews() {
         Toolbar toolbar = getToolbar();
         View spinnerContainer = LayoutInflater.from(this).inflate(R.layout.toolbar_spinner, toolbar, false);
         ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         toolbar.addView(spinnerContainer, lp);
         spinner = (Spinner) spinnerContainer.findViewById(R.id.toolbar_spinner);
-
-
     }
-
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        Toast.makeText(ProgramActivity.this,Integer.toString(i),Toast.LENGTH_SHORT).show();
-
-        if(i== 0)
+        Toast.makeText(ProgramActivity.this, Integer.toString(i), Toast.LENGTH_LONG).show();
+        if (i == 0)
             programSlug = "all";
         else
             programSlug = ((ProgramItem) spinner.getItemAtPosition(i)).getSlug();
 
-        OttoBus.getInstance().post(programSlug);
+        programPresenter.onItemSelected(programSlug);
+
     }
+
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void OttoPost(String programSlug) {
+        OttoBus.getInstance().post(programSlug);
+    }
+
+
+    private void showToast(int message) {
+        Toast.makeText(this, getResources().getString(message), Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        programPresenter.detachView();
+        super.onDestroy();
     }
 }

@@ -6,37 +6,27 @@ import android.support.v4.view.ViewPager;
 
 import net.telesurtv.www.telesur.BaseNavigationDrawerActivity;
 import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.drawer.ActionBarDrawerListener;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class ReviewActivity extends BaseNavigationDrawerActivity {
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
 
+    @Bind(R.id.view_pager) ViewPager view_pager_review;
+    @Bind(R.id.tabs) TabLayout tabs_review;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-
         setHighLevelActivity();
-        setupViews();
+        ButterKnife.bind(this);
 
-        if (viewPager != null)
-            setUpViewPager(viewPager);
+        if (view_pager_review != null)
+            setUpViewPager(view_pager_review);
 
-
-    }
-
-
-    /**
-     * getViews from xml
-     */
-    private void setupViews() {
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
     }
 
     /*
@@ -49,7 +39,7 @@ public class ReviewActivity extends BaseNavigationDrawerActivity {
         fmAdapter.addFragment(InterviewFragment.newInstance(), getString(R.string.interview));
         fmAdapter.addFragment(BlogFragment.newInstance(), getString(R.string.blogs));
         viewPager.setAdapter(fmAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        tabs_review.setupWithViewPager(viewPager);
     }
 
 

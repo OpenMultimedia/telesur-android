@@ -23,7 +23,7 @@
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/ff" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -57,6 +57,20 @@
             android:textSize="14sp" />
 
 
+
+        <TextView
+            android:id="@+id/txt_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_title"
+            android:layout_gravity="start"
+            android:layout_marginTop="2dp"
+            android:text="Política"
+            android:textSize="14sp" />
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +79,7 @@
         android:layout_weight=".2">
 
         <TextView
-            android:id="@+id/txt_data"
+            android:id="@+id/txt_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txt_category"

@@ -44,7 +44,6 @@ public class VideoTemporal {
     private String descripcion;
 
 
-
     @SerializedName("programa")
     private Program programa;
 
@@ -56,8 +55,6 @@ public class VideoTemporal {
     public Program getPrograma() {
         return programa;
     }
-
-
 
     public String getPlayer_html_url() {
         return player_html_url;
