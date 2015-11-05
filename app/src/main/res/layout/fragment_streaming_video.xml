@@ -73,12 +73,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/srl_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <net.telesurtv.www.telesur.views.view.AutofitRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,8 +86,6 @@
                 android:paddingRight="@dimen/padding_view_pager_horizontal"
                 android:paddingTop="@dimen/padding_view_pager_vertical"/>
 
-
-        </android.support.v4.widget.SwipeRefreshLayout>
 
 
         <ProgressBar
