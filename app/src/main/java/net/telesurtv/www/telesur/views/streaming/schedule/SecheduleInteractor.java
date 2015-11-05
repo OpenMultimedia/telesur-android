@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 import net.telesurtv.www.telesur.data.TelesurApiService;
 import net.telesurtv.www.telesur.data.api.models.streaming.Program;
@@ -15,7 +15,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Jhordan on 04/11/15.
  */
-public class StreamingInteractor {
+public class SecheduleInteractor {
 
     private TelesurApiService telesurApiService;
 
@@ -23,7 +23,7 @@ public class StreamingInteractor {
     private List<SimpleSectionedRecyclerViewAdapter.Section> sectionList = new ArrayList<>();
     private List<Streaming> streamingList = new ArrayList<>();
 
-    public StreamingInteractor(TelesurApiService telesurApiService) {
+    public SecheduleInteractor(TelesurApiService telesurApiService) {
         this.telesurApiService = telesurApiService;
     }
 

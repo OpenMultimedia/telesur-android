@@ -10,19 +10,19 @@ import android.view.ViewConfiguration;
 /**
  * Created by Jhordan on 27/07/15.
  */
-public class FensterGestureControllerView extends View {
+public class TelesurGestureControllerView extends View {
     private GestureDetector gestureDetector;
-    private FensterEventsListener listener;
+    private TelesurEventsListener listener;
 
-    public FensterGestureControllerView(Context context) {
+    public TelesurGestureControllerView(Context context) {
         super(context);
     }
 
-    public FensterGestureControllerView(Context context, AttributeSet attrs) {
+    public TelesurGestureControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FensterGestureControllerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TelesurGestureControllerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -43,8 +43,8 @@ public class FensterGestureControllerView extends View {
         gestureDetector.onTouchEvent(event);
     }
 
-    public void setFensterEventsListener(FensterEventsListener listener){
-        gestureDetector = new GestureDetector(getContext(), new FensterGestureListener(listener, ViewConfiguration.get(getContext())));
+    public void setFensterEventsListener(TelesurEventsListener listener){
+        gestureDetector = new GestureDetector(getContext(), new TelesurGestureListener(listener, ViewConfiguration.get(getContext())));
     }
 
 

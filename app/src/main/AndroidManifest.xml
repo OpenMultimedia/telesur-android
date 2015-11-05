@@ -78,7 +78,7 @@
             android:label="@string/review"/>
 
         <activity
-            android:name=".views.streaming.StreamingActivity"
+            android:name=".views.streaming.schedule.StreamingActivity"
             android:label="@string/streaming"/>
 
         <activity
@@ -113,7 +113,7 @@
             android:label="Notificación"/>
 
         <activity
-            android:name=".views.streaming.StreamingDetailActivity"
+            android:name=".views.streaming.streaming.StreamingDetailActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape"/>
 

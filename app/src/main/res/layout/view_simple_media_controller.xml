@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<net.telesurtv.www.telesur.views.view.video.FensterTouchRoot xmlns:android="http://schemas.android.com/apk/res/android"
+<net.telesurtv.www.telesur.views.view.video.TelesurTouchRoot xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/media_controller_touch_root"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -72,4 +72,4 @@
 
   </RelativeLayout>
 
-</net.telesurtv.www.telesur.views.view.video.FensterTouchRoot>
+</net.telesurtv.www.telesur.views.view.video.TelesurTouchRoot>

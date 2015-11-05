@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 /**
  * Created by Jhordan on 10/09/15.

@@ -1,7 +1,6 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.videos.reproductor;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,53 +12,40 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import net.telesurtv.www.telesur.R;
-import net.telesurtv.www.telesur.views.view.video.FensterPlayerControllerVisibilityListener;
-import net.telesurtv.www.telesur.views.view.video.FensterVideoView;
-import net.telesurtv.www.telesur.views.view.video.MediaFensterPlayerController;
+import net.telesurtv.www.telesur.views.view.video.TelesurPlayerControllerVisibilityListener;
+import net.telesurtv.www.telesur.views.view.video.TelesurVideoView;
+import net.telesurtv.www.telesur.views.view.video.MediaVideoPlayerController;
 
 /**
  * Created by Jhordan on 15/07/15.
  */
-public class FragmentSchedule extends Fragment implements FensterPlayerControllerVisibilityListener {
+public class ReproductorFragment extends Fragment implements TelesurPlayerControllerVisibilityListener {
 
-    public FragmentSchedule() {
+    public ReproductorFragment() {
     }
 
-    public static FragmentSchedule newInstance() {
-        return new FragmentSchedule();
+    public static ReproductorFragment newInstance() {
+        return new ReproductorFragment();
     }
 
-    private FensterVideoView textureView;
-    private MediaFensterPlayerController mediaFensterPlayerController;
+    private TelesurVideoView textureView;
+    private MediaVideoPlayerController mediaVideoPlayerController;
     ProgressBar progressBarVideo;
     LinearLayout linearLayoutItemBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_reproductor, container, false);
 
-        textureView = (FensterVideoView) rootView.findViewById(R.id.play_video_texture);
-        mediaFensterPlayerController = (MediaFensterPlayerController) rootView.findViewById(R.id.play_video_controller);
+        textureView = (TelesurVideoView) rootView.findViewById(R.id.play_video_texture);
+        mediaVideoPlayerController = (MediaVideoPlayerController) rootView.findViewById(R.id.play_video_controller);
         progressBarVideo = (ProgressBar)rootView.findViewById(R.id.progress_bar_buffer_video);
         linearLayoutItemBar = (LinearLayout)rootView.findViewById(R.id.progress_bar_item);
 
-        mediaFensterPlayerController.setVisibilityListener(this);
-        textureView.setMediaController(mediaFensterPlayerController);
+        mediaVideoPlayerController.setVisibilityListener(this);
+        textureView.setMediaController(mediaVideoPlayerController);
 
-        textureView.setVideo(Uri.parse("http://streaming.openmultimedia.biz:1935/blive/ngrp:balta.stream_all/playlist.m3u8"), mediaFensterPlayerController.DEFAULT_VIDEO_START);
-        textureView.start();
-
-
-
-        textureView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-
-               mediaPlayer.setOnInfoListener(onInfoToPlayStateListener);
-
-            }
-        });
 
         if (Build.VERSION.SDK_INT >= 21)
             getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.black));
@@ -73,6 +59,28 @@ public class FragmentSchedule extends Fragment implements FensterPlayerControlle
         super.onStop();
         textureView.suspend();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try{
+            initializeVideo(getActivity().getIntent().getStringExtra("video"));
+        }catch (Exception e){
+            e.printStackTrace();
+            //iv_error.setVisibility(View.VISIBLE);
+           // txt_error.setVisibility(View.VISIBLE);
+          //  include_video.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void initializeVideo(String video) {
+        textureView.setVideo(video, mediaVideoPlayerController.DEFAULT_VIDEO_START);
+        textureView.start();
+        textureView.setOnPreparedListener((MediaPlayer mediaPlayer) -> mediaPlayer.setOnInfoListener(onInfoToPlayStateListener));
+    }
+
+
 
     private final MediaPlayer.OnInfoListener onInfoToPlayStateListener = new MediaPlayer.OnInfoListener() {
 
@@ -119,12 +127,9 @@ public class FragmentSchedule extends Fragment implements FensterPlayerControlle
 
         final View decorView = getActivity().getWindow().getDecorView();
         decorView.setSystemUiVisibility(newVis);
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(final int visibility) {
-                if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
-                    mediaFensterPlayerController.show();
-                }
+        decorView.setOnSystemUiVisibilityChangeListener((int visibility) -> {
+            if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) == 0) {
+                mediaVideoPlayerController.show();
             }
         });
     }

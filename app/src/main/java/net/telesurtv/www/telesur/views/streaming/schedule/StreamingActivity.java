@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -30,7 +30,7 @@ public class StreamingActivity extends BaseNavigationDrawerActivity {
 
     private void setUpViewPager(ViewPager viewPager) {
         FragmentAdapter fmAdapter = new FragmentAdapter(getSupportFragmentManager());
-        fmAdapter.addFragment(StreamingFragment.newInstance(), getString(R.string.signal));
+        fmAdapter.addFragment(ScheduleFragment.newInstance(), getString(R.string.signal));
         viewPager.setAdapter(fmAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

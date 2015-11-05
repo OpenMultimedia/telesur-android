@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 import net.telesurtv.www.telesur.model.Streaming;
 

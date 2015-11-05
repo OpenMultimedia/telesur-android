@@ -9,22 +9,22 @@ import android.widget.FrameLayout;
 /**
  * A custom layout we put as a layout root to get notified about any screen touches.
  */
-public final class FensterTouchRoot extends FrameLayout {
+public final class TelesurTouchRoot extends FrameLayout {
 
     public static final int MIN_INTERCEPTION_TIME = 1000;
     private long lastInterception;
 
     private OnTouchReceiver touchReceiver;
 
-    public FensterTouchRoot(final Context context) {
+    public TelesurTouchRoot(final Context context) {
         super(context);
     }
 
-    public FensterTouchRoot(final Context context, final AttributeSet attrs) {
+    public TelesurTouchRoot(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FensterTouchRoot(final Context context, final AttributeSet attrs, final int defStyle) {
+    public TelesurTouchRoot(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 

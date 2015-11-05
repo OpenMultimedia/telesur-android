@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
@@ -10,51 +10,51 @@ import java.util.List;
 /**
  * Created by Jhordan on 04/11/15.
  */
-public class StreamingPresenter implements Presenter<StreamingMvpView>,TelesurStreamingCallBack{
+public class StreamingPresenter implements Presenter<SecheduleMvpView>,TelesurStreamingCallBack{
 
-    private StreamingMvpView streamingMvpView;
-    private StreamingInteractor streamingInteractor;
+    private SecheduleMvpView secheduleMvpView;
+    private SecheduleInteractor secheduleInteractor;
     private TelesurApiService telesurApiService;
 
     public StreamingPresenter(){
         telesurApiService = ClientServiceTelesur.getStaticRestAdapter().create(TelesurApiService.class);
-        streamingInteractor = new StreamingInteractor(telesurApiService);
+        secheduleInteractor = new SecheduleInteractor(telesurApiService);
 
     }
 
     @Override
-    public void attachedView(StreamingMvpView view) {
+    public void attachedView(SecheduleMvpView view) {
         if(view == null)
             throw new IllegalArgumentException("You can't set a null view");
 
-        streamingMvpView = view;
-        streamingMvpView.showProgress();
-        streamingInteractor.getScheduleFromServer(this);
+        secheduleMvpView = view;
+        secheduleMvpView.showProgress();
+        secheduleInteractor.getScheduleFromServer(this);
     }
 
 
     @Override
     public void onItemSelected(int position, Streaming streaming) {
-      streamingMvpView.launchCanal(position,streaming);
+      secheduleMvpView.launchCanal(position,streaming);
     }
 
 
     @Override
     public void onLoaderVideos(List<Streaming> program, List<SimpleSectionedRecyclerViewAdapter.Section> sectionList) {
-        streamingMvpView.hideProgress();
-        streamingMvpView.showProgramScheduleList(program,sectionList);
+        secheduleMvpView.hideProgress();
+        secheduleMvpView.showProgramScheduleList(program,sectionList);
     }
 
     @Override
     public void onFaliedToGetData(String error) {
         if(error.equals(NetworkErrorException.SERVER_INTERNET_ERROR))
-            streamingMvpView.showConnectionErrorMessage();
+            secheduleMvpView.showConnectionErrorMessage();
         else
-            streamingMvpView.showUnknownErrorMessage();
+            secheduleMvpView.showUnknownErrorMessage();
     }
 
     @Override
     public void detachView() {
-        streamingMvpView = null;
+        secheduleMvpView = null;
     }
 }

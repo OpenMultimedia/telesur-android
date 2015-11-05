@@ -1,4 +1,4 @@
-package net.telesurtv.www.telesur.views.streaming;
+package net.telesurtv.www.telesur.views.streaming.schedule;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * Created by Jhordan on 10/09/15.
  */
-public class StreamingAdapter extends RecyclerView.Adapter<StreamingAdapter.SimpleViewHolder> {
+public class SecheduleAdapter extends RecyclerView.Adapter<SecheduleAdapter.SimpleViewHolder> {
 
     private final Context mContext;
     private List<Streaming> mData;
@@ -61,7 +60,7 @@ public class StreamingAdapter extends RecyclerView.Adapter<StreamingAdapter.Simp
         }
     }
 
-    public StreamingAdapter(Context context, List<Streaming> data) {
+    public SecheduleAdapter(Context context, List<Streaming> data) {
         mContext = context;
         // if (data != null)
         // mData = new ArrayList<>(Arrays.asList(data));

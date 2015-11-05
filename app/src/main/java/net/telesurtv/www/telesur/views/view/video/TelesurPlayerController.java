@@ -3,9 +3,9 @@ package net.telesurtv.www.telesur.views.view.video;
 /**
  * Created by Jhordan on 27/07/15.
  */
-public interface FensterPlayerController {
+public interface TelesurPlayerController {
 
-    void setMediaPlayer(FensterPlayer fensterPlayer);
+    void setMediaPlayer(TelesurPlayer telesurPlayer);
 
     void setEnabled(boolean value);
 
@@ -15,6 +15,6 @@ public interface FensterPlayerController {
 
     void hide();
 
-    void setVisibilityListener(FensterPlayerControllerVisibilityListener visibilityListener);
+    void setVisibilityListener(TelesurPlayerControllerVisibilityListener visibilityListener);
 
 }

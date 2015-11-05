@@ -7,7 +7,7 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <net.telesurtv.www.telesur.views.view.video.FensterGestureControllerView
+    <net.telesurtv.www.telesur.views.view.video.TelesurGestureControllerView
         android:id="@+id/media_controller_gestures_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

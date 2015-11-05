@@ -8,7 +8,7 @@ import net.telesurtv.www.telesur.views.news.NewsActivity;
 import net.telesurtv.www.telesur.views.program.slug.ProgramSlugActivity;
 import net.telesurtv.www.telesur.views.review.ReviewActivity;
 import net.telesurtv.www.telesur.views.settings.SettingsActivity;
-import net.telesurtv.www.telesur.views.streaming.StreamingActivity;
+import net.telesurtv.www.telesur.views.streaming.schedule.StreamingActivity;
 import net.telesurtv.www.telesur.views.videos.video.VideosActivity;
 
 /**

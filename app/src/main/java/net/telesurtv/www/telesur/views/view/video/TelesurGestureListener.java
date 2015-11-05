@@ -8,15 +8,15 @@ import android.view.ViewConfiguration;
 /**
  * Created by Jhordan on 27/07/15.
  */
-public class FensterGestureListener implements GestureDetector.OnGestureListener {
+public class TelesurGestureListener implements GestureDetector.OnGestureListener {
 
     private static final int SWIPE_THRESHOLD = 100;
     private final int minFlingVelocity;
 
     public static final String TAG = "FensterGestureListener";
-    private final FensterEventsListener listener;
+    private final TelesurEventsListener listener;
 
-    public FensterGestureListener(FensterEventsListener listener, ViewConfiguration viewConfiguration) {
+    public TelesurGestureListener(TelesurEventsListener listener, ViewConfiguration viewConfiguration) {
         this.listener = listener;
         minFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
     }

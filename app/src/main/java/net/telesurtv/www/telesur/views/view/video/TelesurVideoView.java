@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Jhordan on 27/07/15.
  */
 
-public class FensterVideoView extends TextureView implements MediaController.MediaPlayerControl, FensterPlayer {
+public class TelesurVideoView extends TextureView implements MediaController.MediaPlayerControl, TelesurPlayer {
 
     public static final String TAG = "TextureVideoView";
     public static final int VIDEO_BEGINNING = 0;
@@ -104,7 +104,7 @@ public class FensterVideoView extends TextureView implements MediaController.Med
     private SurfaceTexture mSurfaceTexture;
     private MediaPlayer mMediaPlayer = null;
     private int mAudioSession;
-    private FensterPlayerController fensterPlayerController;
+    private TelesurPlayerController telesurPlayerController;
     private OnCompletionListener mOnCompletionListener;
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
     private int mCurrentBufferPercentage;
@@ -114,15 +114,15 @@ public class FensterVideoView extends TextureView implements MediaController.Med
     private boolean mCanPause;
     private boolean mCanSeekBack;
     private boolean mCanSeekForward;
-    private FensterVideoStateListener onPlayStateListener;
+    private TelesurVideoStateListener onPlayStateListener;
 
     private AlertDialog errorDialog;
 
-    public FensterVideoView(final Context context, final AttributeSet attrs) {
+    public TelesurVideoView(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FensterVideoView(final Context context, final AttributeSet attrs, final int defStyle) {
+    public TelesurVideoView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         videoSizeCalculator = new VideoSizeCalculator();
         initVideoView();
@@ -137,13 +137,13 @@ public class FensterVideoView extends TextureView implements MediaController.Med
     @Override
     public void onInitializeAccessibilityEvent(final AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
-        event.setClassName(FensterVideoView.class.getName());
+        event.setClassName(TelesurVideoView.class.getName());
     }
 
     @Override
     public void onInitializeAccessibilityNodeInfo(final AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(FensterVideoView.class.getName());
+        info.setClassName(TelesurVideoView.class.getName());
     }
 
     public int resolveAdjustedSize(final int desiredSize, final int measureSpec) {
@@ -257,18 +257,18 @@ public class FensterVideoView extends TextureView implements MediaController.Med
         mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
     }
 
-    public void setMediaController(final FensterPlayerController controller) {
+    public void setMediaController(final TelesurPlayerController controller) {
         hideMediaController();
-        fensterPlayerController = controller;
+        telesurPlayerController = controller;
         attachMediaController();
     }
 
     private void attachMediaController() {
-        if (mMediaPlayer != null && fensterPlayerController != null) {
-            fensterPlayerController.setMediaPlayer(this);
+        if (mMediaPlayer != null && telesurPlayerController != null) {
+            telesurPlayerController.setMediaPlayer(this);
 //            View anchorView = this.getParent() instanceof View ? (View) this.getParent() : this;
 //            fensterPlayerController.setAnchorView(anchorView);
-            fensterPlayerController.setEnabled(isInPlaybackState());
+            telesurPlayerController.setEnabled(isInPlaybackState());
         }
     }
 
@@ -294,8 +294,8 @@ public class FensterVideoView extends TextureView implements MediaController.Med
             if (mOnPreparedListener != null) {
                 mOnPreparedListener.onPrepared(mMediaPlayer);
             }
-            if (fensterPlayerController != null) {
-                fensterPlayerController.setEnabled(true);
+            if (telesurPlayerController != null) {
+                telesurPlayerController.setEnabled(true);
             }
             videoSizeCalculator.setVideoSize(mp.getVideoWidth(), mp.getVideoHeight());
 
@@ -318,8 +318,8 @@ public class FensterVideoView extends TextureView implements MediaController.Med
     }
 
     private void showStickyMediaController() {
-        if (fensterPlayerController != null) {
-            fensterPlayerController.show(0);
+        if (telesurPlayerController != null) {
+            telesurPlayerController.show(0);
         }
     }
 
@@ -372,14 +372,14 @@ public class FensterVideoView extends TextureView implements MediaController.Med
     };
 
     private void hideMediaController() {
-        if (fensterPlayerController != null) {
-            fensterPlayerController.hide();
+        if (telesurPlayerController != null) {
+            telesurPlayerController.hide();
         }
     }
 
     private void showMediaController() {
-        if (fensterPlayerController != null) {
-            fensterPlayerController.show();
+        if (telesurPlayerController != null) {
+            telesurPlayerController.show();
         }
     }
 
@@ -552,8 +552,8 @@ public class FensterVideoView extends TextureView implements MediaController.Med
 
     @Override
     public boolean onTrackballEvent(final MotionEvent ev) {
-        if (isInPlaybackState() && fensterPlayerController != null) {
-            fensterPlayerController.show();
+        if (isInPlaybackState() && telesurPlayerController != null) {
+            telesurPlayerController.show();
         }
         return false;
     }
@@ -567,7 +567,7 @@ public class FensterVideoView extends TextureView implements MediaController.Med
                 keyCode != KeyEvent.KEYCODE_MENU &&
                 keyCode != KeyEvent.KEYCODE_CALL &&
                 keyCode != KeyEvent.KEYCODE_ENDCALL;
-        if (isInPlaybackState() && isKeyCodeSupported && fensterPlayerController != null) {
+        if (isInPlaybackState() && isKeyCodeSupported && telesurPlayerController != null) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (mMediaPlayer.isPlaying()) {
                     pause();
@@ -590,7 +590,7 @@ public class FensterVideoView extends TextureView implements MediaController.Med
                 }
                 return true;
             } else {
-                fensterPlayerController.show();
+                telesurPlayerController.show();
             }
         }
 
@@ -749,7 +749,7 @@ public class FensterVideoView extends TextureView implements MediaController.Med
         return onPlayStateListener != null;
     }
 
-    public void setOnPlayStateListener(final FensterVideoStateListener onPlayStateListener) {
+    public void setOnPlayStateListener(final TelesurVideoStateListener onPlayStateListener) {
         this.onPlayStateListener = onPlayStateListener;
     }
 

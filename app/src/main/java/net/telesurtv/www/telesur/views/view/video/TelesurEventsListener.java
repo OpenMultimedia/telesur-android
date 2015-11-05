@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 /**
  * Created by Jhordan on 27/07/15.
  */
-public interface FensterEventsListener {
+public interface TelesurEventsListener {
 
     void onTap();
 

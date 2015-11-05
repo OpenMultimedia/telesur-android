@@ -32,7 +32,7 @@ import java.util.Locale;
  * It's actually a view currently, as is the android MediaController.
  * (which is a bit odd and should be subject to change.)
  */
-public final class SimpleMediaFensterPlayerController extends FrameLayout implements FensterPlayerController, FensterVideoStateListener, FensterTouchRoot.OnTouchReceiver {
+public final class SimpleMediaTelesurPlayerController extends FrameLayout implements TelesurPlayerController, TelesurVideoStateListener, TelesurTouchRoot.OnTouchReceiver {
 
     public static final String TAG = "PlayerController";
     public static final int DEFAULT_VIDEO_START = 0;
@@ -41,8 +41,8 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
 
-    private FensterPlayerControllerVisibilityListener visibilityListener;
-    private FensterPlayer mFensterPlayer;
+    private TelesurPlayerControllerVisibilityListener visibilityListener;
+    private TelesurPlayer mTelesurPlayer;
     private boolean mShowing;
     private boolean mDragging;
 
@@ -63,15 +63,15 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     private ProgressBar loadingView;
     private int lastPlayedSeconds = -1;
 
-    public SimpleMediaFensterPlayerController(final Context context) {
+    public SimpleMediaTelesurPlayerController(final Context context) {
         this(context, null);
     }
 
-    public SimpleMediaFensterPlayerController(final Context context, final AttributeSet attrs) {
+    public SimpleMediaTelesurPlayerController(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SimpleMediaFensterPlayerController(final Context context, final AttributeSet attrs, final int defStyle) {
+    public SimpleMediaTelesurPlayerController(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -82,13 +82,13 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     }
 
     @Override
-    public void setMediaPlayer(final FensterPlayer fensterPlayer) {
-        mFensterPlayer = fensterPlayer;
+    public void setMediaPlayer(final TelesurPlayer telesurPlayer) {
+        mTelesurPlayer = telesurPlayer;
         updatePausePlay();
     }
 
     @Override
-    public void setVisibilityListener(final FensterPlayerControllerVisibilityListener visibilityListener) {
+    public void setVisibilityListener(final TelesurPlayerControllerVisibilityListener visibilityListener) {
         this.visibilityListener = visibilityListener;
     }
 
@@ -110,7 +110,7 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
-        FensterTouchRoot touchRoot = (FensterTouchRoot) findViewById(R.id.media_controller_touch_root);
+        TelesurTouchRoot touchRoot = (TelesurTouchRoot) findViewById(R.id.media_controller_touch_root);
         touchRoot.setOnTouchReceiver(this);
 
         bottomControlsRoot = findViewById(R.id.media_controller_bottom_area);
@@ -217,18 +217,18 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     }
 
     private int setProgress() {
-        if (mFensterPlayer == null || mDragging) {
+        if (mTelesurPlayer == null || mDragging) {
             return 0;
         }
-        int position = mFensterPlayer.getCurrentPosition();
-        int duration = mFensterPlayer.getDuration();
+        int position = mTelesurPlayer.getCurrentPosition();
+        int duration = mTelesurPlayer.getDuration();
         if (mProgress != null) {
             if (duration > 0) {
                 // use long to avoid overflow
                 long pos = 1000L * position / duration;
                 mProgress.setProgress((int) pos);
             }
-            int percent = mFensterPlayer.getBufferPercentage();
+            int percent = mTelesurPlayer.getBufferPercentage();
             mProgress.setSecondaryProgress(percent * 10);
         }
 
@@ -268,16 +268,16 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
             }
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-            if (uniqueDown && !mFensterPlayer.isPlaying()) {
-                mFensterPlayer.start();
+            if (uniqueDown && !mTelesurPlayer.isPlaying()) {
+                mTelesurPlayer.start();
                 updatePausePlay();
                 show(DEFAULT_TIMEOUT);
             }
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
                 || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-            if (uniqueDown && mFensterPlayer.isPlaying()) {
-                mFensterPlayer.pause();
+            if (uniqueDown && mTelesurPlayer.isPlaying()) {
+                mTelesurPlayer.pause();
                 updatePausePlay();
                 show(DEFAULT_TIMEOUT);
             }
@@ -304,7 +304,7 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
             return;
         }
 
-        if (mFensterPlayer.isPlaying()) {
+        if (mTelesurPlayer.isPlaying()) {
             mPauseButton.setImageResource(R.drawable.ic_media_pause_icon);
         } else {
             mPauseButton.setImageResource(R.drawable.ic_media_play);
@@ -312,10 +312,10 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     }
 
     private void doPauseResume() {
-        if (mFensterPlayer.isPlaying()) {
-            mFensterPlayer.pause();
+        if (mTelesurPlayer.isPlaying()) {
+            mTelesurPlayer.pause();
         } else {
-            mFensterPlayer.start();
+            mTelesurPlayer.start();
         }
         updatePausePlay();
     }
@@ -342,13 +342,13 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
     @Override
     public void onInitializeAccessibilityEvent(final AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
-        event.setClassName(SimpleMediaFensterPlayerController.class.getName());
+        event.setClassName(SimpleMediaTelesurPlayerController.class.getName());
     }
 
     @Override
     public void onInitializeAccessibilityNodeInfo(final AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName(SimpleMediaFensterPlayerController.class.getName());
+        info.setClassName(SimpleMediaTelesurPlayerController.class.getName());
     }
 
     @Override
@@ -417,9 +417,9 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
                 return;
             }
 
-            long duration = mFensterPlayer.getDuration();
+            long duration = mTelesurPlayer.getDuration();
             long newposition = (duration * progress) / 1000L;
-            mFensterPlayer.seekTo((int) newposition);
+            mTelesurPlayer.seekTo((int) newposition);
             if (mCurrentTime != null) {
                 mCurrentTime.setText(stringForTime((int) newposition));
             }
@@ -444,7 +444,7 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
             int pos;
             switch (msg.what) {
                 case FADE_OUT:
-                    if (mFensterPlayer.isPlaying()) {
+                    if (mTelesurPlayer.isPlaying()) {
                         hide();
                     } else {
                         // re-schedule to check again
@@ -455,7 +455,7 @@ public final class SimpleMediaFensterPlayerController extends FrameLayout implem
                     break;
                 case SHOW_PROGRESS:
                     pos = setProgress();
-                    if (!mDragging && mShowing && mFensterPlayer.isPlaying()) {
+                    if (!mDragging && mShowing && mTelesurPlayer.isPlaying()) {
                         final Message message = obtainMessage(SHOW_PROGRESS);
                         sendMessageDelayed(message, 1000 - (pos % 1000));
                     }
