@@ -27,7 +27,7 @@ public class ReviewInteractor {
         telesurApiService.getNewsList(section)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Reviews -> { telesurReviewCallback.onLoaderNews(setViewModelArrayList(Reviews.getRss().getChannel().getItem()));},
+                .subscribe(Reviews -> {telesurReviewCallback.onLoaderNews(setViewModelArrayList(Reviews.getRss().getChannel().getItem()));},
                            throwable -> {try{telesurReviewCallback.onFaliedToGetData(throwable.getMessage());}catch (Exception e){e.printStackTrace();}});
     }
 
@@ -69,7 +69,6 @@ public class ReviewInteractor {
             newsViewModelArrayList.add(reviewViewModel);
 
         }
-
         return newsViewModelArrayList;
 
     }

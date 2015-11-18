@@ -15,9 +15,9 @@ public class ProgramPresenter implements Presenter<ProgramMvpView> ,TelesurProgr
 
     private ProgramMvpView programMvpView;
     private ProgramInteractor programInteractor;
-
     private TelesurApiService telesurApiService;
 
+    Boolean mflag = false;
     public ProgramPresenter() {
         telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
         programInteractor = new ProgramInteractor(telesurApiService);
@@ -56,6 +56,21 @@ public class ProgramPresenter implements Presenter<ProgramMvpView> ,TelesurProgr
     }
 
     @Override
+    public void isRefreshListener(Boolean flag, String section, int initquery, int lastQuery) {
+        if(flag){
+            if(section.equals("all")){
+                programMvpView.showProgressRefresh();
+                programInteractor.getAllPrograms(initquery, lastQuery, this);
+            }else{
+                programMvpView.showProgressRefresh();
+                programInteractor.getProgram(section,initquery, lastQuery, this);
+            }
+
+        }
+        mflag = flag;
+    }
+
+    @Override
     public void onItemSelected(int position, ProgramViewModel videoViewModel) {
        programMvpView.launchReproductor(position,videoViewModel);
     }
@@ -67,7 +82,11 @@ public class ProgramPresenter implements Presenter<ProgramMvpView> ,TelesurProgr
 
     @Override
     public void onLoaderPrograms(ArrayList<ProgramViewModel> programViewModels) {
-        programMvpView.hideProgress();
+        if(mflag)
+            programMvpView.hideProgressRefresh();
+        else
+            programMvpView.hideProgress();
+
         programMvpView.showVideoList(programViewModels);
     }
 

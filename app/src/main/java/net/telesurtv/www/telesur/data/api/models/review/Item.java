@@ -14,7 +14,7 @@ public class Item {
     private String description;
     private String pubDate;
     private String title;
-    private String author;
+    private Object author;
     private String content;
     private String link;
     private String lastTime;
@@ -99,7 +99,7 @@ public class Item {
      * @return
      * The author
      */
-    public String getAuthor() {
+    public Object getAuthor() {
         return author;
     }
 
@@ -108,7 +108,7 @@ public class Item {
      * @param author
      * The author
      */
-    public void setAuthor(String author) {
+    public void setAuthor(Object author) {
         this.author = author;
     }
 

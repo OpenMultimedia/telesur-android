@@ -7,33 +7,12 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:layout_weight="0.16"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingBottom="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="15dp">
-
-
-        <TextView
-            android:id="@+id/txt_hour_caracas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:text="13:00  -  14:30" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/container_info_event"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.7"
+        android:layout_weight="0.6"
         android:background="@drawable/background_item_streaming"
         android:gravity="center"
         android:orientation="horizontal"
@@ -69,6 +48,16 @@
                 android:text="@string/placeholder_lorem_ipsum"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txt_hour_caracas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="13:00  -  14:30" />
 
             <TextView
                 android:id="@+id/txt_hour_streaming"

@@ -1,6 +1,6 @@
 package net.telesurtv.www.telesur.model;
 
-import net.telesurtv.www.telesur.data.Estadistics;
+import net.telesurtv.www.telesur.data.api.models.Estadistics;
 
 import java.util.List;
 

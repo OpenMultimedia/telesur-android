@@ -13,6 +13,17 @@ public class ProgramViewModel {
     private String description;
     private String duration;
     private String linkNavegation;
+    private String descriptionProgram;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 
     public String getLinkNavegation() {
         return linkNavegation;
@@ -86,6 +97,14 @@ public class ProgramViewModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void setDescriptionProgram(String descriptionProgram) {
+        this.descriptionProgram = descriptionProgram;
+    }
+
+    public String getDescriptionProgram() {
+        return descriptionProgram;
     }
 
 

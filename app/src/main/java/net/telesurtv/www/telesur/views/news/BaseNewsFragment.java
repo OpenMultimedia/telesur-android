@@ -32,23 +32,32 @@ import butterknife.ButterKnife;
 /**
  * Created by Jhordan on 29/10/15.
  */
-public abstract class BaseNewsFragment extends Fragment implements NewsMVPView ,
-        ItemRecyclerClickListenerNews,AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
+        ItemRecyclerClickListenerNews, AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.srl_recycler) SwipeRefreshLayout srl_news;
-    @Bind(R.id.rv_recycler)  RecyclerView rv_news;
-    @Bind(R.id.pb_recycler)  ProgressBar pv_news;
-    @Bind(R.id.txt_recycler) TextView txt_news;
-    @Bind(R.id.iv_recycler)  ImageView iv_news;
+    @Bind(R.id.srl_recycler)
+    SwipeRefreshLayout srl_news;
+    @Bind(R.id.rv_recycler)
+    RecyclerView rv_news;
+    @Bind(R.id.pb_recycler)
+    ProgressBar pv_news;
+    @Bind(R.id.txt_recycler)
+    TextView txt_news;
+    @Bind(R.id.iv_recycler)
+    ImageView iv_news;
 
     private NewsPresenter newsPresenter;
     private RecyclerView.Adapter newsAdapter;
     private AppBarLayout appBarLayout;
 
     protected abstract String getSection();
+
     protected abstract String getTitleSection();
+
     protected abstract String themeSection();
+
     protected abstract RecyclerView.LayoutManager getLayoutManager();
+
     protected abstract RecyclerView.Adapter getAdapter();
 
     @Nullable
@@ -73,11 +82,11 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView ,
     @Override
     public void showReviewList(ArrayList<NewsViewModel> newsViewModels) {
         newsAdapter = getAdapter();
-        if(newsAdapter instanceof RecyclerNewsAdapter){
+        if (newsAdapter instanceof RecyclerNewsAdapter) {
             ((RecyclerNewsAdapter) newsAdapter).setListItems(newsViewModels);
             ((RecyclerNewsAdapter) newsAdapter).setItemRecyclerClickListenerNews(this);
-        }else{
-            ((RecyclerNewsOutstandingAdapter)newsAdapter).setListItems(newsViewModels);
+        } else {
+            ((RecyclerNewsOutstandingAdapter) newsAdapter).setListItems(newsViewModels);
             ((RecyclerNewsOutstandingAdapter) newsAdapter).setItemRecyclerClickListenerNews(this);
         }
 
@@ -123,12 +132,14 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView ,
         iv_news.setImageResource(R.mipmap.ic_uknow_error);
     }
 
-    @Override public void showProgressRefresh() {
+    @Override
+    public void showProgressRefresh() {
         srl_news.setRefreshing(true);
     }
 
-    @Override public void hideProgressRefresh() {
-        if(srl_news.isRefreshing())
+    @Override
+    public void hideProgressRefresh() {
+        if (srl_news.isRefreshing())
             srl_news.setRefreshing(false);
 
         srl_news.setVisibility(View.VISIBLE);
@@ -163,7 +174,7 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView ,
     }
 
     private void initializeSwipeRefreshLayout() {
-        appBarLayout = (AppBarLayout)getActivity().findViewById(R.id.appbar);
+        appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
         appBarLayout.addOnOffsetChangedListener(this);
         Theme theme = Theme.valueOf(themeSection());
         srl_news.setColorSchemeResources(theme.getColorPrimary(), theme.getWindowBackground());
@@ -187,15 +198,14 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView ,
 
     @Override
     public void itemRecycleOnClickNews(int position, NewsViewModel newsViewModel, View image) {
-        newsPresenter.onItemSelected(position,newsViewModel,image);
+        newsPresenter.onItemSelected(position, newsViewModel, image);
     }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        if(i == 0)
-            srl_news.setEnabled(true);
-        else
-            srl_news.setEnabled(false);
+
+        srl_news.setEnabled((i == 0));
+
     }
 
     @Override

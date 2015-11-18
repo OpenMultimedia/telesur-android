@@ -73,6 +73,9 @@
             android:name=".views.program.slug.ProgramSlugActivity"
             android:label="@string/programas"/>
 
+        <activity android:name=".views.program.programs.ProgramDetailActivity"/>
+
+
         <activity
             android:name=".views.review.ReviewActivity"
             android:label="@string/review"/>
@@ -101,6 +104,9 @@
             android:label="@string/video_detail_name"/>
 
         <activity android:name=".views.videos.video.VideoDetailActivity"/>
+
+        <activity android:name=".views.videos.tags.TagListActivity"/>
+
 
         <activity
             android:name=".views.videos.reproductor.VideoReproductorActivity"

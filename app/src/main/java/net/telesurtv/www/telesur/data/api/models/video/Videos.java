@@ -51,6 +51,29 @@ public class Videos {
     @SerializedName("navegador_url")
     private String navegatorURL;
 
+    @SerializedName("corresponsal")
+    private Corresponsal corresponsal;
+
+    @SerializedName("tema")
+    private Topic topic;
+
+
+    @SerializedName("pais")
+    private Country country;
+
+    public Country getCountry() {
+        return country;
+    }
+
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Corresponsal getCorresponsal() {
+        return corresponsal;
+    }
+
     public Program getPrograma() {
         return programa;
     }

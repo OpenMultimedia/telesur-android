@@ -19,6 +19,10 @@ public interface VideosMvpView {
 
     void showUnknownErrorMessage();
 
+    void showProgressRefresh();
+
+    void hideProgressRefresh();
+
     void launchReproductor(int position, VideoViewModel videoViewModel);
 
 }

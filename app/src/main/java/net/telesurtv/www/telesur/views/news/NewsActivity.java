@@ -7,14 +7,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -37,6 +40,7 @@ import net.telesurtv.www.telesur.storage.Preferences;
 import net.telesurtv.www.telesur.util.InternetConnection;
 import net.telesurtv.www.telesur.util.OttoBus;
 import net.telesurtv.www.telesur.views.adapter.FragmentAdapter;
+import net.telesurtv.www.telesur.views.streaming.streaming.StreamingDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
     private TabLayout tabLayout;
     private FrameLayout frameLayoutBackground;
     private ImageView imageView, iconNews, backgroundNews;
+    private FloatingActionButton floatingActionButton;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private AnimatorSet animatorSet;
     private Interpolator mInterpolator;
@@ -216,6 +221,12 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         iconNews = (ImageView) findViewById(R.id.icon_news);
         backgroundNews = (ImageView) findViewById(R.id.background_news);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        floatingActionButton =  (FloatingActionButton) findViewById(R.id.fab);
+
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.theme_green_primary)));
+
+
+        floatingActionButton.setOnClickListener((View view) -> startActivity(new Intent(NewsActivity.this, StreamingDetailActivity.class)));
 
 
         // intialize interpolator

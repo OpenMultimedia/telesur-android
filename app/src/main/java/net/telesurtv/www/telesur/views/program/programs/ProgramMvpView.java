@@ -15,6 +15,10 @@ public interface ProgramMvpView {
 
     void hideProgress();
 
+    void showProgressRefresh();
+
+    void hideProgressRefresh();
+
     void showConnectionErrorMessage();
 
     void showUnknownErrorMessage();

@@ -46,10 +46,36 @@ public class VideoInteractor {
             video.setDescription(videos.getDescripcion());
             video.setLinkVideoNavegator(videos.getNavegatorURL());
 
-            if (videos.getCategoria() == null)
-                video.setCategory("teleSUR");
+
+            if(videos.getCorresponsal() == null){
+                video.setCorresponsalName("");
+                video.setCorresponsalSlug("");
+            }else{
+                video.setCorresponsalName(videos.getCorresponsal().getNombre());
+                video.setCorresponsalSlug(videos.getCorresponsal().getSlug());
+            }
+
+            if(videos.getCountry() == null)
+                video.setCorresponsalContrySlug("");
             else
+                video.setCorresponsalContrySlug(videos.getCountry().getSlug());
+
+
+            if(videos.getTopic() == null)
+                video.setTopicSlug("");
+            else
+                video.setTopicSlug(videos.getTopic().getSlug());
+
+
+            if (videos.getCategoria() == null){
+                video.setCategory("Telesur");
+                video.setCategorySlug("");
+            } else{
+                video.setCategorySlug(videos.getCategoria().getSlug());
                 video.setCategory(videos.getCategoria().getNombre());
+
+            }
+
 
             video.setVisitCounter(videos.getEstadisticas().getVistas());
             video.setVideoURL(videos.getArchivo_url());

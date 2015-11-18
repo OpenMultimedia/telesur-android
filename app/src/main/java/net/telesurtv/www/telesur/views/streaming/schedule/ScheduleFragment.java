@@ -3,11 +3,15 @@ package net.telesurtv.www.telesur.views.streaming.schedule;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +44,9 @@ public class ScheduleFragment extends Fragment implements SecheduleMvpView, Stre
     @Bind(R.id.txt_recycler) TextView txt_streaming;
     @Bind(R.id.iv_recycler)  ImageView iv_streaming;
     @Bind(R.id.iv_player_signal)  ImageView iv_play_streaming;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
 
     private StreamingPresenter streamingPresenter;
@@ -51,6 +58,15 @@ public class ScheduleFragment extends Fragment implements SecheduleMvpView, Stre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_streaming_video, container, false);
         ButterKnife.bind(this,rootView);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        collapsingToolbarLayout.setTitle("Transmisión en Vivo");
         setupRecyclerView();
         streamingPresenter = new StreamingPresenter();
         streamingPresenter.attachedView(this);

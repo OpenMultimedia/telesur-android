@@ -17,9 +17,14 @@ public class TelesurApiConstants {
     public final static String CLIP_QUERY_LAST = "ultimo";
     public final static String CLIP_QUERY_KIND = "tipo";
     public final static String CLIP_QUERY_PROGRAM = "programa";
+    public final static String CLIP_QUERY_CORRESPONSAL = "corresponsal";
+    public final static String CLIP_QUERY_TEMA = "tema";
+    public final static String CLIP_QUERY_COUNTRY = "pais";
+    public final static String CLIP_QUERY_CATEGORY = "categoria";
     public final static String TELESUR_PROGRAM = "/api/programa/";
     public final static String PROGRAM_QUERY_SHOW = "mostrar";
     public final static String PROGRAM_QUERY_LAST = "ultimo";
+    public final static String PROGRAM_REGION = "region";
     // ?cache=false is a hack to evite server cache and update de RSS
     public static final String RSS_OUSTANDING = "/rss/RssPortada.xml?cache=false";
     public static final String RSS_LATAM = "/rss/RssLatinoamerica.xml?cache=false";

@@ -61,6 +61,11 @@ public class VideoListDetailActivity extends NavigatorActivity {
                 fragment = VideoReportFragment.newInstance();
                 title = getString(R.string.report_videos);
                 break;
+
+            case 6:
+                fragment = VideoTagFragment.newInstance();
+                title = getString(R.string.report_videos);
+                break;
         }
 
         fragmentTransactionReplace(fragment);

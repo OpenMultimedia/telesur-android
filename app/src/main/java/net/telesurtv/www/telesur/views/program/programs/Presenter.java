@@ -21,4 +21,5 @@ public interface Presenter<V> {
 
     void getAllSections(int initQuery, int lastQuery);
 
+    void isRefreshListener(Boolean flag,String section,int initquery ,int lastQuery);
 }

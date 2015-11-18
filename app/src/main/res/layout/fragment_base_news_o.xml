@@ -1,8 +1,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_recycler"
@@ -19,13 +22,10 @@
             android:paddingBottom="@dimen/padding_view_pager_vertical"
             android:paddingLeft="@dimen/padding_view_pager_horizontal"
             android:paddingRight="@dimen/padding_view_pager_horizontal"
-            android:paddingTop="@dimen/padding_view_pager_vertical" />
+            android:paddingTop="@dimen/padding_view_pager_vertical"/>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-
-
 
     <ProgressBar
         android:id="@+id/pb_recycler"
@@ -33,14 +33,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="120dp"
-        android:indeterminateOnly="true" />
+        android:indeterminateOnly="true"/>
 
     <TextView
         android:id="@+id/txt_recycler"
-        android:layout_marginTop="16dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="16dp"
         android:textSize="18sp"
         />
 
@@ -50,5 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         />
+
+
 </LinearLayout>
 

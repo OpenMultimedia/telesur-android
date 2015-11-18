@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -25,7 +27,11 @@ import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
 import net.telesurtv.www.telesur.storage.Preferences;
 import net.telesurtv.www.telesur.util.Config;
+import net.telesurtv.www.telesur.util.PicassoImageGetter;
 import net.telesurtv.www.telesur.util.Theme;
+
+
+import java.io.IOException;
 
 
 public class NewsDetailActivity extends NavigatorActivity {
@@ -36,6 +42,7 @@ public class NewsDetailActivity extends NavigatorActivity {
     Theme theme;
     Bitmap b;
     String linkNews, titleNews , titleSection;
+    Drawable d = null;
 
 
     @Override
@@ -76,14 +83,20 @@ public class NewsDetailActivity extends NavigatorActivity {
             txtTitle.setText(Html.fromHtml(titleNews));
 
 
-            txtContent.setText(Html.fromHtml(bundle.getString("news_content"), getImagesHtml(this), null));
+            PicassoImageGetter picassoImageGetter = null;
+            try {
+                picassoImageGetter = new PicassoImageGetter(txtContent,getResources(), Picasso.with(this));
+                txtContent.setText(Html.fromHtml(bundle.getString("news_content"), picassoImageGetter, null));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             txtContent.setMovementMethod(LinkMovementMethod.getInstance());
 
 
             txtDescription.setText(Html.fromHtml(bundle.getString("news_description")));
 //
-
 
             txtAuthor.setText(Html.fromHtml(bundle.getString("news_date")));
 
@@ -102,7 +115,8 @@ public class NewsDetailActivity extends NavigatorActivity {
     }
 
 
-    private Html.ImageGetter getImagesHtml(final Context context) {
+
+    /*private Html.ImageGetter getImagesHtml(final Context context) {
 
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -125,7 +139,6 @@ public class NewsDetailActivity extends NavigatorActivity {
                         public void onBitmapFailed(Drawable errorDrawable) {
 
                         }
-
                         @Override
                         public void onPrepareLoad(Drawable placeHolderDrawable) {
 
@@ -151,7 +164,7 @@ public class NewsDetailActivity extends NavigatorActivity {
         };
 
 
-    }
+    }*/
 
     Point scaleImage(int w, int h, Point maxSize) {
         // Which is out of scale the most?

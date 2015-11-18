@@ -2,6 +2,7 @@ package net.telesurtv.www.telesur.views.program.slug;
 
 import net.telesurtv.www.telesur.data.ClientServiceTelesur;
 import net.telesurtv.www.telesur.data.TelesurApiService;
+import net.telesurtv.www.telesur.data.api.exception.NetworkErrorException;
 import net.telesurtv.www.telesur.model.ProgramItem;
 import net.telesurtv.www.telesur.util.OttoBus;
 
@@ -61,6 +62,18 @@ public class ProgramSlugSlugPresenter implements Presenter<ProgramSlugMvpView>, 
 
     @Override
     public void onFaliedToGetData(String error) {
+
+        if(error.equals(NetworkErrorException.SERVER_INTERNET_ERROR)){
+            ProgramItem program = new ProgramItem();
+            program.setName("Error de conexión");
+            program.setSlug("error");
+            ArrayList<ProgramItem> programItems = new ArrayList<>();
+            programItems.add(program);
+            programSlugMvpView.showProgramList(programItems);
+        }
+
+        //else
+           // programSlugMvpView.showUnknownErrorMessage();
 
     }
 }

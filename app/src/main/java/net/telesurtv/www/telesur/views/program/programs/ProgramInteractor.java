@@ -57,6 +57,8 @@ public class ProgramInteractor {
             programViewModel.setDescription(video.getDescripcion());
             programViewModel.setUrl(video.getArchivo_url());
             programViewModel.setLinkNavegation(video.getNavegatorURL());
+            programViewModel.setDescriptionProgram(video.getPrograma().getDescripcion());
+            programViewModel.setTime(video.getPrograma().getHorario());
 
             if (video.getCategoria() == null)
                 programViewModel.setCategory("telesur");

@@ -78,7 +78,7 @@ public class SecheduleAdapter extends RecyclerView.Adapter<SecheduleAdapter.Simp
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         Streaming streaming = mData.get(position);
         holder.txtTitle.setText(streaming.getName());
-        holder.txtHour.setText("Hora local " + streaming.getStarHourVenezuela() + " - " + streaming.getFinishHourVenezuela());
+        holder.txtHour.setText("Hora local: " + streaming.getStarHourVenezuela() + " - " + streaming.getFinishHourVenezuela());
         holder.txtCaracas.setText(streaming.getStarHour() + "  -  " + streaming.getFinishHour());
         holder.txtSinopsis.setText(streaming.getSinopsis());
         Picasso.with(holder.imageViewIcon.getContext()).load(TelesurApiConstants.TELESUR_SCHEDULE_PHOTOS + streaming.getPhoto()).into(holder.imageViewIcon);

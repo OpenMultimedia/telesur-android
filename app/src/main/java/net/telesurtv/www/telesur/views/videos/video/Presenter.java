@@ -11,7 +11,11 @@ public interface Presenter<V> {
 
     void setVideoSection(String section,int initquery ,int lastQuery);
 
+    void setVideoSection(String section,String generic,String tag,int initquery ,int lastQuery);
+
     void onItemSelected(int position, VideoViewModel videoViewModel);
+
+    void isRefreshListener(Boolean flag,String section,int initquery ,int lastQuery);
 
     void detachView();
 }

@@ -8,9 +8,7 @@ import net.telesurtv.www.telesur.data.api.models.video.VideoTemporal;
 import net.telesurtv.www.telesur.data.api.models.video.Videos;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import retrofit.Response;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
@@ -38,6 +36,17 @@ public interface TelesurApiService {
     @GET(TelesurApiConstants.TELESUR_SCHEDULE)
     Observable <RootSchedule> getSchedule();
 
+    @GET(TelesurApiConstants.TELESUR_CLIP)
+    Observable<ArrayList<Videos>> getTagListCorresponsal(@Query(TelesurApiConstants.CLIP_QUERY_DETAIL) String detail, @Query(TelesurApiConstants.CLIP_QUERY_FIRST) int first, @Query(TelesurApiConstants.CLIP_QUERY_LAST) int last, @Query(TelesurApiConstants.CLIP_QUERY_KIND) String category, @Query(TelesurApiConstants.CLIP_QUERY_CORRESPONSAL) String corresponsal);
+
+    @GET(TelesurApiConstants.TELESUR_CLIP)
+    Observable<ArrayList<Videos>> getTagListTopic(@Query(TelesurApiConstants.CLIP_QUERY_DETAIL) String detail, @Query(TelesurApiConstants.CLIP_QUERY_FIRST) int first, @Query(TelesurApiConstants.CLIP_QUERY_LAST) int last, @Query(TelesurApiConstants.CLIP_QUERY_KIND) String category, @Query(TelesurApiConstants.CLIP_QUERY_TEMA) String topic);
+
+    @GET(TelesurApiConstants.TELESUR_CLIP)
+    Observable<ArrayList<Videos>> getTagListCountry(@Query(TelesurApiConstants.CLIP_QUERY_DETAIL) String detail, @Query(TelesurApiConstants.CLIP_QUERY_FIRST) int first, @Query(TelesurApiConstants.CLIP_QUERY_LAST) int last, @Query(TelesurApiConstants.CLIP_QUERY_KIND) String category, @Query(TelesurApiConstants.CLIP_QUERY_COUNTRY) String country);
+
+    @GET(TelesurApiConstants.TELESUR_CLIP)
+    Observable<ArrayList<Videos>> getTagListCategory(@Query(TelesurApiConstants.CLIP_QUERY_DETAIL) String detail, @Query(TelesurApiConstants.CLIP_QUERY_FIRST) int first, @Query(TelesurApiConstants.CLIP_QUERY_LAST) int last, @Query(TelesurApiConstants.CLIP_QUERY_KIND) String category, @Query(TelesurApiConstants.CLIP_QUERY_CATEGORY) String categorya);
 
 
 }

@@ -23,6 +23,7 @@ import com.squareup.picasso.Target;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
+import net.telesurtv.www.telesur.util.PicassoImageGetter;
 import net.telesurtv.www.telesur.views.view.HeaderView;
 
 
@@ -73,7 +74,18 @@ public class ReviewDetailActivity extends NavigatorActivity {
                 getSupportActionBar().setTitle(getIntent().getStringExtra("review_title"));
 
             headerView.updateWith(bundle.getString("review_title"), bundle.getString("review_date"), bundle.getString("review_author"));
-            txtContent.setText(Html.fromHtml(bundle.getString("review_content"), getImagesHtml(this), null));
+
+
+            PicassoImageGetter picassoImageGetter = null;
+            try {
+                picassoImageGetter = new PicassoImageGetter(txtContent,getResources(), Picasso.with(this));
+                txtContent.setText(Html.fromHtml(bundle.getString("review_content"), picassoImageGetter, null));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+           // txtContent.setText(Html.fromHtml(bundle.getString(), getImagesHtml(this), null));
+
+
             txtContent.setMovementMethod(LinkMovementMethod.getInstance());
             txtDescription.setText(Html.fromHtml(bundle.getString("review_description")));
             Glide.with(this).load(bundle.getString("review_image")).into(imageViewReview);

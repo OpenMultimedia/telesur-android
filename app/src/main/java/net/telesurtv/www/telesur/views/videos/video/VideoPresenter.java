@@ -15,6 +15,7 @@ public class VideoPresenter implements Presenter<VideosMvpView>,TelesurVideosCal
     private VideoInteractor videoInteractor;
     private TelesurApiService telesurApiService;
 
+    Boolean mflag = false;
     public VideoPresenter(){
         telesurApiService = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
         videoInteractor = new VideoInteractor(telesurApiService);
@@ -35,8 +36,23 @@ public class VideoPresenter implements Presenter<VideosMvpView>,TelesurVideosCal
     }
 
     @Override
+    public void setVideoSection(String section, String generic, String tag, int initquery, int lastQuery) {
+        // do nothing
+    }
+
+
+    @Override
     public void onItemSelected(int position, VideoViewModel videoViewModel) {
         videosMvpView.launchReproductor(position,videoViewModel);
+    }
+
+    @Override
+    public void isRefreshListener(Boolean flag, String section,int initquery ,int lastQuery) {
+        if(flag){
+            videosMvpView.showProgressRefresh();
+            videoInteractor.getVideosFromServer(section,initquery,lastQuery,this);
+        }
+        mflag = flag;
     }
 
     @Override
@@ -46,7 +62,12 @@ public class VideoPresenter implements Presenter<VideosMvpView>,TelesurVideosCal
 
     @Override
     public void onLoaderVideos(ArrayList<VideoViewModel> viewModelArrayList) {
-        videosMvpView.hideProgress();
+
+        if(mflag)
+           videosMvpView.hideProgressRefresh();
+        else
+           videosMvpView.hideProgress();
+
         videosMvpView.showVideoList(viewModelArrayList);
     }
 

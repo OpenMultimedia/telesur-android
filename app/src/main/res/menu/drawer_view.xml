@@ -3,10 +3,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
+
         <item
             android:id="@+id/drawer_item_news"
             android:icon="@drawable/ic_noticias"
             android:title="@string/news" />
+
+        <item
+            android:id="@+id/drawer_item_reviews"
+            android:icon="@drawable/ic_review"
+            android:title="@string/review" />
+
+    </group>
+
+    <group android:id="@+id/drawer_sub_media">
+
         <item
             android:id="@+id/drawer_item_videos"
             android:icon="@drawable/ic_video"
@@ -16,17 +28,15 @@
             android:id="@+id/drawer_item_programas"
             android:icon="@drawable/ic_programas"
             android:title="@string/programas" />
-        <item
-            android:id="@+id/drawer_item_reviews"
-            android:icon="@drawable/ic_review"
-            android:title="@string/review" />
+
         <item
             android:id="@+id/drawer_item_streaming"
             android:icon="@drawable/ic_streaming"
             android:title="@string/streaming" />
+
     </group>
 
-    <group android:id="@+id/drawer_sub_groups">
+    <group android:id="@+id/drawer_sub_settings">
         <item
             android:id="@+id/drawer_item_settings"
             android:icon="@drawable/ic_settings"

@@ -3,6 +3,7 @@ package net.telesurtv.www.telesur.views.videos.video;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.VideoViewModel;
+import net.telesurtv.www.telesur.util.Theme;
 import net.telesurtv.www.telesur.views.view.LoadMoreDetector;
 
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ import butterknife.ButterKnife;
 /**
  * Created by Jhordan on 28/10/15.
  */
-public abstract class BaseVideoFragment extends Fragment implements VideosMvpView,ItemRecyclerClickListener,LoadMoreDetector.Listener {
+public abstract class BaseVideoFragment extends Fragment implements VideosMvpView,
+        ItemRecyclerClickListener,LoadMoreDetector.Listener,SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.srl_recycler) SwipeRefreshLayout srl_video;
     @Bind(R.id.rv_recycler)  RecyclerView rv_video;
@@ -59,6 +62,7 @@ public abstract class BaseVideoFragment extends Fragment implements VideosMvpVie
         videoPresenter = new VideoPresenter();
         videoPresenter.attachedView(this);
         setupRecyclerView();
+        initializeSwipeRefreshLayout();
         videoPresenter.setVideoSection(getSection(),1,queryLast);
         Log.i("value_request", Integer.toString(queryFirst) + Integer.toString(queryLast));
         return rootView;
@@ -105,16 +109,33 @@ public abstract class BaseVideoFragment extends Fragment implements VideosMvpVie
         iv_video.setImageResource(R.mipmap.ic_uknow_error);
     }
 
+    @Override public void showProgressRefresh() {
+        srl_video.setRefreshing(true);
+    }
+
+    @Override public void hideProgressRefresh() {
+        if(srl_video.isRefreshing())
+            srl_video.setRefreshing(false);
+
+        srl_video.setVisibility(View.VISIBLE);
+    }
+
     @Override public void launchReproductor(int position, VideoViewModel videoViewModel) {
         Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
         intent.putExtra("video_url", videoViewModel.getVideoURL());
         intent.putExtra("video_title", videoViewModel.getTitle());
         intent.putExtra("video_category", videoViewModel.getCategory());
+        intent.putExtra("video_category_slug", videoViewModel.getCategorySlug());
         intent.putExtra("video_duration", videoViewModel.getDuration());
         intent.putExtra("video_description", videoViewModel.getDescription());
         intent.putExtra("video_data", videoViewModel.getData());
         intent.putExtra("video_link", videoViewModel.getLinkVideoNavegator());
         intent.putExtra("video_image", videoViewModel.getBackground());
+        intent.putExtra("video_corres_name", videoViewModel.getCorresponsalName());
+        intent.putExtra("video_corres_slug", videoViewModel.getCorresponsalSlug());
+        intent.putExtra("video_corres_country", videoViewModel.getCorresponsalContrySlug());
+        intent.putExtra("video_topic_slug", videoViewModel.getTopicSlug());
+        intent.putExtra("video_section_origin", getSection());
         intent.putExtra("video_share", "-Video: ");
         startActivity(intent);
 
@@ -134,11 +155,12 @@ public abstract class BaseVideoFragment extends Fragment implements VideosMvpVie
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(rv_video.getContext());
         rv_video.setLayoutManager(linearLayoutManager);
         rv_video.setItemAnimator(new DefaultItemAnimator());
-        loadMoreDetector = new LoadMoreDetector(linearLayoutManager);
+
+       /* loadMoreDetector = new LoadMoreDetector(linearLayoutManager);
         loadMoreDetector.setListener(this);
         loadMoreDetector.setEnabled(true);
         loadMoreDetector.setLoading(false);
-        rv_video.addOnScrollListener(loadMoreDetector);
+        rv_video.addOnScrollListener(loadMoreDetector);*/
     }
 
 
@@ -146,11 +168,11 @@ public abstract class BaseVideoFragment extends Fragment implements VideosMvpVie
     public void onResume() {
         super.onResume();
        // loadMoreDetector.setEnabled(true);
-        loadMoreDetector.setLoading(false);
+     //   loadMoreDetector.setLoading(false);
 
 
-        System.out.println(   loadMoreDetector.isEnabled());
-        System.out.println(   loadMoreDetector.isLoading());
+//        System.out.println(   loadMoreDetector.isEnabled());
+  //      System.out.println(   loadMoreDetector.isLoading());
     }
 
     @Override
@@ -163,6 +185,24 @@ public abstract class BaseVideoFragment extends Fragment implements VideosMvpVie
         videoPresenter.setVideoSection(getSection(), queryFirst, queryLast);
 
     }
+
+    @Override
+    public void onRefresh() {
+        videoPresenter.isRefreshListener(srl_video.isRefreshing(), getSection(), 1, queryLast);
+    }
+
+
+    private void initializeSwipeRefreshLayout() {
+
+        Theme theme = Theme.valueOf("news");
+        srl_video.setColorSchemeResources(theme.getColorPrimary(), theme.getWindowBackground());
+        srl_video.setOnRefreshListener(this);
+
+
+    }
+
+
+
 
   /*  @Override
     public void onLoadMore() {

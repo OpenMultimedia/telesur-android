@@ -20,79 +20,72 @@ import com.squareup.otto.Subscribe;
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.ProgramViewModel;
 import net.telesurtv.www.telesur.util.OttoBus;
+import net.telesurtv.www.telesur.util.Theme;
 import net.telesurtv.www.telesur.views.videos.video.VideoDetailActivity;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
- * Created by Jhordan on 15/07/15.
+ * Created by Jhordan on 03/11/15.
  */
-public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ItemRecyclerClickListenerProgram {
+public class ProgramFragment extends Fragment implements ProgramMvpView, ItemRecyclerClickListenerProgram,SwipeRefreshLayout.OnRefreshListener {
 
-    public ProgramFragment() {
-    }
+    @Bind(R.id.srl_recycler)
+    SwipeRefreshLayout srl_program;
+    @Bind(R.id.rv_recycler)
+    RecyclerView rv_program;
+    @Bind(R.id.pb_recycler)
+    ProgressBar pv_program;
+    @Bind(R.id.txt_recycler)
+    TextView txt_program;
+    @Bind(R.id.iv_recycler)
+    ImageView iv_program;
 
-    public static ProgramFragment newInstance() {
-        return new ProgramFragment();
-    }
-
-    RecyclerView recyclerViewProgram;
-    RecyclerProgramAdapter recyclerProgramAdapter;
-    List<ProgramViewModel> programViewModelList = new ArrayList<>();
-    SwipeRefreshLayout swipeRefreshLayout;
-    ProgressBar progressBarProgram;
-    private ImageView imageViewServer;
-    TextView txtPrograms;
-    String slugRefresh;
+    private ProgramPresenter programPresenter;
+    private RecyclerProgramAdapter programAdapter;
+    private String slugRefresh;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recyclerProgramAdapter = new RecyclerProgramAdapter();
-
+        programAdapter = new RecyclerProgramAdapter();
+        programAdapter.setItemRecyclerClickListenerProgram(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_program, container, false);
-
-        recyclerViewProgram = (RecyclerView) rootView.findViewById(R.id.program_recycler_view);
-
-        //recyclerViewProgram.setLayoutManager(new LinearLayoutManager(recyclerViewProgram.getContext()));
-        recyclerViewProgram.addItemDecoration(new ItemOffsetDecoration(recyclerViewProgram.getContext(), R.dimen.item_decoration));
-        recyclerViewProgram.setItemAnimator(new DefaultItemAnimator());
-        recyclerProgramAdapter.setItemRecyclerClickListenerProgram(this);
-        recyclerViewProgram.setAdapter(recyclerProgramAdapter);
-
-        imageViewServer = (ImageView) rootView.findViewById(R.id.image_server);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.program_swipe_refresh);
-        progressBarProgram = (ProgressBar) rootView.findViewById(R.id.progress_bar_program);
-        txtPrograms = (TextView) rootView.findViewById(R.id.txt_message_program);
-
-        swipeRefreshLayout.setColorSchemeResources(R.color.primaryDark, R.color.primary);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setVisibility(View.GONE);
-        progressBarProgram.setVisibility(View.VISIBLE);
-        txtPrograms.setVisibility(View.GONE);
-        imageViewServer.setVisibility(View.GONE);
-
-
+        View rootView = inflater.inflate(R.layout.fragment_base_recycler, container, false);
+        ButterKnife.bind(this, rootView);
+        setupRecyclerView();
+        initializeSwipeRefreshLayout();
+        programPresenter = new ProgramPresenter();
+        programPresenter.attachedView(this);
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
+      //  programPresenter.onStart();
 
         try {
             OttoBus.getInstance().register(this);
 
         } catch (Exception e) {
-            Log.e("error bus", e.toString());
+            e.printStackTrace();
         }
 
 
@@ -102,217 +95,117 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onStop() {
         super.onStop();
 
+        //programPresenter.onStop();
+
         try {
             OttoBus.getInstance().unregister(this);
         } catch (Exception e) {
-            Log.e("error bus", e.toString());
+            e.printStackTrace();
         }
 
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        programPresenter.detachView();
+    }
 
-    /**
-     * get slug from producer
-     *
-     * @param slug id of program
-     */
+    @Override
+    public void showVideoList(ArrayList<ProgramViewModel> programViewModels) {
+        programAdapter.setListItems(programViewModels);
+        rv_program.setAdapter(programAdapter);
+
+    }
+
 
     @Subscribe
     public void subscribeSlug(String slug) {
-        progressBarProgram.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setVisibility(View.GONE);
 
-        System.out.println("ññego el slug" + slug);
+        System.out.println("llego el slug" + slug);
 
         if (slug.equals("all")) {
-            //getAllVideos();
+            programPresenter.getAllSections(1, 30);
             slugRefresh = "all";
         } else {
-           // getListVideos(slug);
+            programPresenter.setVideoSection(slug, 1, 30);
             slugRefresh = slug;
         }
 
 
+
+
     }
 
 
-    /**
-     * this method make request all Videos
-     */
+    private void setupRecyclerView() {
 
-    protected void getAllVideos() {
-
-
-        /*
-        TelesurApiService clientServiceTelesur = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
-        clientServiceTelesur.getAllPrograms("completo", 1, 20, "programa").
-                subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response>() {
-            @Override
-            public void call(Response response) {
-
-
-                final StringWriter writer = new StringWriter();
-
-                try {
-                   // IOUtils.copy(response.getBody().in(), writer, "UTF-8");
-                    programViewModelList.clear();
-                    VideoTemporal[] videoTemporal = new GsonBuilder().create().fromJson(writer.toString(), VideoTemporal[].class);
-
-                    for (int i = 0; i < videoTemporal.length; i++) {
-                        VideoTemporal videoItem = videoTemporal[i];
-                        ProgramViewModel programViewModel = new ProgramViewModel();
-                        programViewModel.setTitle(videoItem.getTitulo());
-                        programViewModel.setImage(videoItem.getThumbnail_grande());
-                        programViewModel.setProgramImage(videoItem.getPrograma().getImagen_url());
-                        programViewModel.setData(Config.date_to_human(videoItem.getFecha()));
-                        programViewModel.setDescription(videoItem.getDescripcion());
-                        programViewModel.setUrl(videoItem.getArchivo_url());
-                        programViewModel.setLinkNavegation(videoItem.getNavegatorURL());
-
-                        if (videoItem.getCategoria() == null)
-                            programViewModel.setCategory("telesur");
-                        else
-                            programViewModel.setCategory(videoItem.getCategoria().getNombre());
-
-
-                        programViewModelList.add(programViewModel);
-
-                    }
-
-                    updateUI(programViewModelList);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                throwable.printStackTrace();
-
-                progressBarProgram.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.GONE);
-                txtPrograms.setVisibility(View.VISIBLE);
-
-
-                if (InternetConnection.isNetworkMobile(getActivity())) {
-                    if (!InternetConnection.connectionState(getActivity()) && !InternetConnection.mobileConnection(getActivity())) {
-
-                        txtPrograms.setText(R.string.not_internet_conection);
-                        imageViewServer.setVisibility(View.VISIBLE);
-                    }
-                } else if (!InternetConnection.connectionState(getActivity())) {
-
-                    txtPrograms.setText(R.string.not_internet_conection);
-                    imageViewServer.setVisibility(View.VISIBLE);
-                } else {
-                    txtPrograms.setText(R.string.expected_error_token);
-                    imageViewServer.setVisibility(View.VISIBLE);
-
-                }
-
-            }
-        });
-
-*/
-    }
-
-   protected void getListVideos(String slugPrograma) {
-/*
-        TelesurApiService clientServiceTelesur = ClientServiceTelesur.getRestAdapter().create(TelesurApiService.class);
-        clientServiceTelesur.getPrograms("completo", 1, 20, "programa", slugPrograma).
-                subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Response>() {
-            @Override
-            public void call(Response response) {
-
-
-                final StringWriter writer = new StringWriter();
-
-                try {
-                  //  IOUtils.copy(response.getBody().in(), writer, "UTF-8");
-                    programViewModelList.clear();
-                    VideoTemporal[] videoTemporal = new GsonBuilder().create().fromJson(writer.toString(), VideoTemporal[].class);
-
-                    for (int i = 0; i < videoTemporal.length; i++) {
-                        VideoTemporal videoItem = videoTemporal[i];
-                        ProgramViewModel programViewModel = new ProgramViewModel();
-                        programViewModel.setTitle(videoItem.getTitulo());
-                        programViewModel.setImage(videoItem.getThumbnail_grande());
-                        programViewModel.setProgramImage(videoItem.getPrograma().getImagen_url());
-                        programViewModel.setData(Config.date_to_human(videoItem.getFecha()));
-                        programViewModel.setDescription(videoItem.getDescripcion());
-                        programViewModel.setUrl(videoItem.getArchivo_url());
-                        programViewModel.setLinkNavegation(videoItem.getNavegatorURL());
-
-                        if (videoItem.getCategoria() == null)
-                            programViewModel.setCategory("telesur");
-                        else
-                            programViewModel.setCategory(videoItem.getCategoria().getNombre());
-
-
-                        programViewModelList.add(programViewModel);
-
-                    }
-
-                    updateUI(programViewModelList);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
-
-*/
-    }
-
-
-    private void updateUI(final List<ProgramViewModel> programViewModels) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                recyclerProgramAdapter.clear();
-                recyclerProgramAdapter.setListItems(programViewModels);
-                progressBarProgram.setVisibility(View.GONE);
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
+        rv_program.addItemDecoration(new ItemOffsetDecoration(getActivity(), R.dimen.item_decoration));
+        rv_program.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
-    public void onRefresh() {
-
-        // if (slugRefresh != null)
-        //   getListVideos(slugRefresh);
-
-        if (slugRefresh != null) {
-            if (slugRefresh.equals("all"))
-                getAllVideos();
-            else
-                getListVideos(slugRefresh);
-        }
-
-
+    public void showProgress() {
+        srl_program.setVisibility(View.GONE);
+        rv_program.setVisibility(View.GONE);
+        pv_program.setVisibility(View.VISIBLE);
+        txt_program.setVisibility(View.VISIBLE);
+        iv_program.setVisibility(View.GONE);
+        txt_program.setText(getString(R.string.loading_message));
     }
 
     @Override
-    public void itemRecycleOnClickProgram(int position, ProgramViewModel videoViewModel) {
-        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+    public void hideProgress() {
+        pv_program.setVisibility(View.GONE);
+        txt_program.setVisibility(View.GONE);
+        iv_program.setVisibility(View.GONE);
+        srl_program.setVisibility(View.VISIBLE);
+        rv_program.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showConnectionErrorMessage() {
+        pv_program.setVisibility(View.GONE);
+        txt_program.setVisibility(View.VISIBLE);
+        iv_program.setVisibility(View.VISIBLE);
+        srl_program.setVisibility(View.GONE);
+        txt_program.setText(getString(R.string.expected_error_wifi));
+        iv_program.setImageResource(R.mipmap.not_server);
+    }
+
+    @Override
+    public void showUnknownErrorMessage() {
+        pv_program.setVisibility(View.GONE);
+        txt_program.setVisibility(View.VISIBLE);
+        iv_program.setVisibility(View.VISIBLE);
+        srl_program.setVisibility(View.GONE);
+        txt_program.setText(getString(R.string.expected_error_token));
+        iv_program.setImageResource(R.mipmap.ic_uknow_error);
+    }
+
+
+    @Override public void showProgressRefresh() {
+        srl_program.setRefreshing(true);
+    }
+
+    @Override public void hideProgressRefresh() {
+        if(srl_program.isRefreshing())
+            srl_program.setRefreshing(false);
+
+        srl_program.setVisibility(View.VISIBLE);
+        rv_program.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void itemRecycleOnClickProgram(int position, ProgramViewModel programViewModel) {
+        programPresenter.onItemSelected(position, programViewModel);
+    }
+
+    @Override
+    public void launchReproductor(int position, ProgramViewModel videoViewModel) {
+        Intent intent = new Intent(getActivity(), ProgramDetailActivity.class);
         intent.putExtra("video_url", videoViewModel.getUrl());
         intent.putExtra("video_title", videoViewModel.getTitle());
         intent.putExtra("video_category", videoViewModel.getCategory());
@@ -320,7 +213,28 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         intent.putExtra("video_description", videoViewModel.getDescription());
         intent.putExtra("video_data", videoViewModel.getData());
         intent.putExtra("video_link", videoViewModel.getLinkNavegation());
+        intent.putExtra("video_image", videoViewModel.getImage());
+        intent.putExtra("video_program_descripcion", videoViewModel.getDescriptionProgram());
+        intent.putExtra("video_time_p", videoViewModel.getTime());
         intent.putExtra("video_share", "-Programa: ");
         startActivity(intent);
+    }
+
+
+    @Override
+    public void onRefresh() {
+        System.out.println("Refresh: " + slugRefresh);
+
+        if(slugRefresh != null)
+           programPresenter.isRefreshListener(srl_program.isRefreshing(), slugRefresh, 1, 30);
+    }
+
+    private void initializeSwipeRefreshLayout() {
+
+        Theme theme = Theme.valueOf("news");
+        srl_program.setColorSchemeResources(theme.getColorPrimary(), theme.getWindowBackground());
+        srl_program.setOnRefreshListener(this);
+
+
     }
 }
