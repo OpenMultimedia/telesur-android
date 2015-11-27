@@ -3,8 +3,11 @@ package net.telesurtv.www.telesur.views.news;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.squareup.otto.Subscribe;
+
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.data.TelesurApiConstants;
+import net.telesurtv.www.telesur.util.OttoBus;
 
 /**
  * Created by Jhordan on 15/07/15.
@@ -14,6 +17,23 @@ public class OutstandingFragment extends BaseNewsFragment {
 
     public static OutstandingFragment newInstance() {
         return new OutstandingFragment();
+    }
+
+    String linkNotify = "null";
+
+    @Override public void onStart() {
+        super.onStart();
+
+        try {
+            OttoBus.getInstance().register(this);} catch (Exception e) {e.printStackTrace();}
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {OttoBus.getInstance().unregister(this);} catch (Exception e) {e.printStackTrace();}
+
     }
 
     @Override
@@ -56,6 +76,18 @@ public class OutstandingFragment extends BaseNewsFragment {
     @Override
     protected RecyclerView.Adapter getAdapter() {
         return new RecyclerNewsOutstandingAdapter();
+    }
+
+    @Override
+    protected String linkNotification() {
+        return linkNotify;
+    }
+
+    @Subscribe
+    public void subscribeLink(String link) {
+        if(!link.equals("null")){
+            linkNotify = link;
+        }
     }
 
 

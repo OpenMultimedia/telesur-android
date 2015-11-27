@@ -18,15 +18,15 @@ repositories {
 
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "app.telesur.x"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 4338
-        versionName "4.3.37"
+        targetSdkVersion 23
+        versionCode 4340
+        versionName "4.3.39"
 
     }
     buildTypes {

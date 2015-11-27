@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -53,7 +54,7 @@ public class NewsDetailActivity extends NavigatorActivity {
             theme = Theme.valueOf(getIntent().getStringExtra("news_themes"));
             setTheme(theme.getStyle());
             if (Build.VERSION.SDK_INT >= 21)
-                getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
 
         }
 

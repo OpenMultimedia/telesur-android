@@ -14,9 +14,7 @@
         android:fitsSystemWindows="true"
         android:minHeight="150dip"
         app:contentScrim="?attr/colorPrimary"
-        app:expandedTitleMarginBottom="60dp"
-        app:expandedTitleMarginEnd="64dp"
-        app:expandedTitleMarginStart="48dp"
+        app:expandedTitleTextAppearance="@android:color/transparent"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <ImageView

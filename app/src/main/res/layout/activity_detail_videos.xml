@@ -132,7 +132,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:paddingBottom="8dp"
-                android:text="En Profundidad"
+                android:text="Relacionados"
                 android:textColor="@color/primary"
                 android:textSize="20sp"/>
 

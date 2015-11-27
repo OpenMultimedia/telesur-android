@@ -20,10 +20,13 @@ import android.widget.TextView;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
+import net.telesurtv.www.telesur.storage.Preferences;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.Theme;
 import net.telesurtv.www.telesur.views.view.ItemOffsetDecoration;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -60,6 +63,11 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
 
     protected abstract RecyclerView.Adapter getAdapter();
 
+    protected abstract String linkNotification();
+
+    String aux;
+    private String flag = "";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +99,35 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
         }
 
         rv_news.setAdapter(newsAdapter);
+
+
+        System.out.println("LinkNotify: " + linkNotification());
+
+        flag = linkNotification();
+       if (flag != null) {
+            if (!flag.equals("null")) {
+                if (Preferences.getNotification(getActivity()).equals("execute")) {
+                    launchNotification(newsViewModels,flag);
+
+                }
+
+                flag = "null";
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override
@@ -175,7 +212,7 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
 
     private void initializeSwipeRefreshLayout() {
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
-        appBarLayout.addOnOffsetChangedListener(this);
+
         Theme theme = Theme.valueOf(themeSection());
         srl_news.setColorSchemeResources(theme.getColorPrimary(), theme.getWindowBackground());
         srl_news.setOnRefreshListener(this);
@@ -202,14 +239,96 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
     }
 
     @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-        srl_news.setEnabled((i == 0));
+
+            srl_news.setEnabled(verticalOffset == 0);
+
+
+
+
+        /*
+        State state = null;
+
+
+        if (verticalOffset == 0) {
+            if (state != State.EXPANDED) {
+
+
+
+            }
+            state = State.EXPANDED;
+        } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+            if (state != State.COLLAPSED) {
+
+
+
+            }
+            state = State.COLLAPSED;
+        } else {
+            if (state != State.IDLE) {
+                srl_news.setEnabled(false);
+            }
+            state = State.IDLE;
+        }*/
+
 
     }
 
     @Override
     public void onRefresh() {
         newsPresenter.isRefreshListener(srl_news.isRefreshing(), getSection());
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        appBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    private void launchNotification(ArrayList<NewsViewModel> newsViewModels, String link) {
+
+        for(int i = 0; i<newsViewModels.size() ;i++){
+            String aux = newsViewModels.get(i).getLinkNews();
+            URL urls = null;
+            URL linked = null;
+            try {
+                urls = new URL(aux);
+                //String link = "http://www.telesurtv.net/news/Periodistas-de-La-Nacion-protestan-contra-editorial-del-medio-20151123-0035.html";
+                linked = new URL(link);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            try{
+                if (urls.equals(linked)) {
+                    Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                    intent.putExtra("news", getItem(newsViewModels.get(i)));
+                    intent.putExtra("news_section", getTitleSection());
+                    intent.putExtra("news_themes", themeSection());
+                    startActivity(intent);
+                    System.out.println("Lo encontro" + newsViewModels.get(i).getCategoryNews());
+                } else {
+                    if (i == newsViewModels.size() - 1) {
+                        System.out.println("not found");
+
+                    }
+
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+    }
+
+    private enum State {
+        EXPANDED,
+        COLLAPSED,
+        IDLE
     }
 }

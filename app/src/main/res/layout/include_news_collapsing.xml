@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@mipmap/ic_transmision_s"
+        android:src="@drawable/ic_transmision_s"
         app:borderWidth="0dp"
         app:elevation="6dp"
         app:layout_behavior="net.telesurtv.www.telesur.views.view.ScrollFabBehavior"

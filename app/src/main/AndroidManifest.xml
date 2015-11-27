@@ -170,12 +170,14 @@
 
         <activity
             android:name=".views.news.NewsActivity"
-            android:label="@string/app_name">
+            android:clearTaskOnLaunch="true">
             <intent-filter>
-                <action android:name="net.telesurtv.www.telesur.MESSAGE"/>
+                <action android:name="app.telesur.x.MESSAGE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
+
 
         <!--  PUSHWOOSH -->
 

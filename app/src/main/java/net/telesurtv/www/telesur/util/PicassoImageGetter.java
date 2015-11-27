@@ -54,7 +54,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
                     textView.setText(textView.getText()); // invalidate() doesn't work correctly...
                 } catch (Exception e) {
-                /* nom nom nom*/
+                e.printStackTrace();
                 }
             }
 

@@ -1,6 +1,7 @@
 package net.telesurtv.www.telesur.views.news;
 
 import android.content.Context;
+import android.content.Intent;
 
 import net.telesurtv.www.telesur.data.TelesurApiConstants;
 import net.telesurtv.www.telesur.data.TelesurApiService;
@@ -9,6 +10,8 @@ import net.telesurtv.www.telesur.model.NewsViewModel;
 import net.telesurtv.www.telesur.util.Config;
 import net.telesurtv.www.telesur.util.TimeAgo;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +79,8 @@ public class NewsInteractor {
             newsViewModel.setLinkNews(item.getLink());
 
 
+
+
             if (item.getLastTime() != null) {
                 TimeAgo timeAgo = new TimeAgo(context.getResources());
                 newsViewModel.setDataNews(timeAgo.timeAgo(Config.parserToUseTimeAgo(item.getLastTime())));
@@ -86,6 +91,8 @@ public class NewsInteractor {
 
 
             newsViewModelArrayList.add(newsViewModel);
+
+
 
 
         }

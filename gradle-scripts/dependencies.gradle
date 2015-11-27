@@ -1,11 +1,9 @@
 ext{
 
     //Support Library Version
-
-    supportLibrayVersion = '22.2.1'
+    supportLibrayVersion = '23.1.1'
 
     //Support Libraries dependencies
-
     supportDependencies = [
 
            design       : "com.android.support:design:${supportLibrayVersion}",
@@ -15,9 +13,9 @@ ext{
            recyclerview : "com.android.support:recyclerview-v7:${supportLibrayVersion}",
     ]
 
-    squareVersion = '2.0.0-beta1'
+    squareVersion = '2.0.0-beta2'
     ottoVersion = '1.3.8'
-    picassoVersion = '2.4.0'
+    picassoVersion = '2.5.0'
     okhttpurlconnectionVersion = '2.2.0'
 
     squareDependencies = [
@@ -41,7 +39,6 @@ ext{
             rxandroid            : "io.reactivex:rxandroid:${rxandroidVersion}",
             rxjava               : "io.reactivex:rxjava:${rxjavaVersion}",
     ]
-
 
 
 }

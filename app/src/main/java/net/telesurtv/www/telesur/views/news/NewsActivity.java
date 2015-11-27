@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -72,7 +73,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         @Override
         protected void onMessageReceive(Intent intent) {
             //JSON_DATA_KEY contains JSON payload of push notification.
-            showMessage("push message is " + intent.getExtras().getString(JSON_DATA_KEY));
+           // showMessage("push message is " + intent.getExtras().getString(JSON_DATA_KEY));
         }
     };
 
@@ -90,13 +91,13 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         try {
             unregisterReceiver(mReceiver);
         } catch (Exception e) {
-            // pass.
+            e.printStackTrace();
         }
 
         try {
             unregisterReceiver(mBroadcastReceiver);
         } catch (Exception e) {
-            //pass through
+            e.printStackTrace();
         }
     }
 
@@ -129,6 +130,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         try {
             pushManager.onStartup(this);
         } catch (Exception e) {
+            e.printStackTrace();
             //push notifications are not available or AndroidManifest.xml is not configured properly
         }
 
@@ -138,7 +140,6 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         checkMessage(getIntent());
 
 
-        // other code
 
     }
 
@@ -221,6 +222,8 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         iconNews = (ImageView) findViewById(R.id.icon_news);
         backgroundNews = (ImageView) findViewById(R.id.background_news);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.transparent));
         floatingActionButton =  (FloatingActionButton) findViewById(R.id.fab);
 
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.theme_green_primary)));
@@ -350,6 +353,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         int[] icons = {R.drawable.ic_v_menu_news, R.drawable.ic_menu_america, R.drawable.ic_menu_world, R.drawable.ic_menu_soports, R.drawable.ic_menu_culture};
         frameLayoutBackground.setBackgroundColor(backgroundColor);
         collapsingToolbarLayout.setContentScrimColor(primaryColor);
+
 
 
         // setup shape
@@ -556,15 +560,15 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         if (null != intent) {
             if (intent.hasExtra(PushManager.PUSH_RECEIVE_EVENT)) {
                 getNotification(intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
-                showMessage(intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
+                //showMessage(intent.getExtras().getString(PushManager.PUSH_RECEIVE_EVENT));
             } else if (intent.hasExtra(PushManager.REGISTER_EVENT)) {
-                showMessage("register");
+                //showMessage("register");
             } else if (intent.hasExtra(PushManager.UNREGISTER_EVENT)) {
-                showMessage("unregister");
+               // showMessage("unregister");
             } else if (intent.hasExtra(PushManager.REGISTER_ERROR_EVENT)) {
-                showMessage("register error");
+               // showMessage("register error");
             } else if (intent.hasExtra(PushManager.UNREGISTER_ERROR_EVENT)) {
-                showMessage("unregister error");
+               // showMessage("unregister error");
             }
 
 
@@ -577,7 +581,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
 
         // String titleDomi = "Líderes mundiales piden fin del bloqueo a Cuba en la ONU";
         // String sectionDomi = "M";
-        // String linkDomi = "http://www.telesurtv.net/news/Israel-pide-dialogo-con-Palestina-un-dia-despues-de-atacar-Gaza-20151001-0020.html";
+        //String linkDomi = "http://www.telesurtv.net/news/Periodistas-de-La-Nacion-protestan-contra-editorial-del-medio-20151123-0035.html";
 
         // openDetailFromNotification(sectionDomi, linkDomi);
 
@@ -587,8 +591,8 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         Log.i("data", notification.getUserData().getSection());
         Log.i("data", notification.getUserData().getLink());
 
-        showMessage(notification.getTitle() + " " + notification.getUserData().getSection() + " " + notification.getUserData().getLink());
-        //      showMessage(notificationMessage);
+       // showMessage(notification.getTitle() + " " + notification.getUserData().getSection() + " " + notification.getUserData().getLink());
+         //    showMessage(notificationMessage);
 
         openDetailFromNotification(notification.getUserData().getSection(), notification.getUserData().getLink());
 
@@ -680,7 +684,7 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
     }
 
     private void showMessage(String message) {
-        // Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 
     }
 

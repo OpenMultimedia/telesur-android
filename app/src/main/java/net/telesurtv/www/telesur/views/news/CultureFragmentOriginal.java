@@ -74,6 +74,11 @@ public class CultureFragmentOriginal extends BaseNewsFragment {
         return null;
     }
 
+    @Override
+    protected String linkNotification() {
+        return null;
+    }
+
     /*@Override
     protected String linkNotification() {
         return linkNotify;
