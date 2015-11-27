@@ -222,8 +222,8 @@ public class NewsActivity extends BaseNavigationDrawerActivity {
         iconNews = (ImageView) findViewById(R.id.icon_news);
         backgroundNews = (ImageView) findViewById(R.id.background_news);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.transparent));
-        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.transparent));
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.transparent));
         floatingActionButton =  (FloatingActionButton) findViewById(R.id.fab);
 
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.theme_green_primary)));

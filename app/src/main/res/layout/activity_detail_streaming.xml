@@ -7,8 +7,10 @@
     android:orientation="vertical">
 
     <fragment
-        android:name="net.telesurtv.www.telesur.views.streaming.streaming.StreamingFragment"
+        android:id="@+id/streaming_fragment"
+        class="net.telesurtv.www.telesur.views.streaming.streaming.StreamingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule"/>
+
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,7 @@ public class ReproductorFragment extends Fragment implements TelesurPlayerContro
         }catch (Exception e){
             e.printStackTrace();
             //iv_error.setVisibility(View.VISIBLE);
-           // txt_error.setVisibility(View.VISIBLE);
+            //txt_error.setVisibility(View.VISIBLE);
           //  include_video.setVisibility(View.GONE);
         }
 

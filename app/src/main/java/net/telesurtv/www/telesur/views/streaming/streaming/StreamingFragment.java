@@ -1,5 +1,6 @@
 package net.telesurtv.www.telesur.views.streaming.streaming;
 
+
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -47,14 +48,6 @@ public class StreamingFragment extends Fragment implements TelesurPlayerControll
         mediaFensterPlayerController.setVisibilityListener(this);
         textureView.setMediaController(mediaFensterPlayerController);
 
-        textureView.setVideo(Uri.parse("http://streaming.openmultimedia.biz:1935/blive/ngrp:balta.stream_all/playlist.m3u8"), mediaFensterPlayerController.DEFAULT_VIDEO_START);
-        textureView.start();
-
-
-
-
-        textureView.setOnPreparedListener((MediaPlayer mediaPlayer) -> mediaPlayer.setOnInfoListener(onInfoToPlayStateListener));
-
         if (Build.VERSION.SDK_INT >= 21)
             getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
@@ -63,10 +56,33 @@ public class StreamingFragment extends Fragment implements TelesurPlayerControll
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        try{
+
+            //"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+            initializeVideo("http://streaming.openmultimedia.biz:1935/blive/ngrp:balta.stream_all/playlist.m3u8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         textureView.suspend();
     }
+
+
+
+    private void initializeVideo(String video) {
+        textureView.setVideo(video, mediaFensterPlayerController.DEFAULT_VIDEO_START);
+        textureView.start();
+        textureView.setOnPreparedListener((MediaPlayer mediaPlayer) -> mediaPlayer.setOnInfoListener(onInfoToPlayStateListener));
+    }
+
 
     private final MediaPlayer.OnInfoListener onInfoToPlayStateListener = new MediaPlayer.OnInfoListener() {
 

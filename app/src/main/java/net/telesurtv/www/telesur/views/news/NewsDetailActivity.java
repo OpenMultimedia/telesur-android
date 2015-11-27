@@ -54,7 +54,7 @@ public class NewsDetailActivity extends NavigatorActivity {
             theme = Theme.valueOf(getIntent().getStringExtra("news_themes"));
             setTheme(theme.getStyle());
             if (Build.VERSION.SDK_INT >= 21)
-                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
 
         }
 

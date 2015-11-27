@@ -251,7 +251,7 @@ public class TelesurVideoView extends TextureView implements MediaController.Med
     }
 
     private void notifyUnableToOpenContent(final Exception ex) {
-        Log.w("Unable to open content: " + mUri, ex);
+        Log.w("Unable to opencontent:" + mUri, ex);
         mCurrentState = STATE_ERROR;
         mTargetState = STATE_ERROR;
         mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);

@@ -7,7 +7,7 @@
 
 
     <include
-        android:id="@+id/pruebas_video_view"
+        android:id="@+id/video_reproductor"
         layout="@layout/include_video_media"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
