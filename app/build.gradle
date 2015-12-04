@@ -25,8 +25,8 @@ android {
         applicationId "app.telesur.x"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 4340
-        versionName "4.3.39"
+        versionCode 4342
+        versionName "4.3.41"
 
     }
     buildTypes {

@@ -6,21 +6,19 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -28,11 +26,8 @@ import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
 import net.telesurtv.www.telesur.storage.Preferences;
 import net.telesurtv.www.telesur.util.Config;
-import net.telesurtv.www.telesur.util.PicassoImageGetter;
+import net.telesurtv.www.telesur.util.GlideImageGetter;
 import net.telesurtv.www.telesur.util.Theme;
-
-
-import java.io.IOException;
 
 
 public class NewsDetailActivity extends NavigatorActivity {
@@ -42,7 +37,7 @@ public class NewsDetailActivity extends NavigatorActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
     Theme theme;
     Bitmap b;
-    String linkNews, titleNews , titleSection;
+    String linkNews, titleNews, titleSection;
     Drawable d = null;
 
 
@@ -81,29 +76,34 @@ public class NewsDetailActivity extends NavigatorActivity {
 
             linkNews = bundle.getString(Config.NEWS_LINK);
             titleNews = bundle.getString("news_title");
+
+            Glide.with(this).load(bundle.getString("news_image"))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).override(200, 200).into(imageViewNews);
+
             txtTitle.setText(Html.fromHtml(titleNews));
 
+            if (bundle.getString("news_date") != null)
+                txtAuthor.setText(Html.fromHtml(bundle.getString("news_date")));
 
-            PicassoImageGetter picassoImageGetter = null;
+            if (bundle.getString("news_description") != null)
+                txtDescription.setText(Html.fromHtml(bundle.getString("news_description")));
+            else
+                txtDescription.setText("teleSUR");
+
+
+             GlideImageGetter glideImageGetter = null;
             try {
-                picassoImageGetter = new PicassoImageGetter(txtContent,getResources(), Picasso.with(this));
-                txtContent.setText(Html.fromHtml(bundle.getString("news_content"), picassoImageGetter, null));
+
+                if (bundle.getString("news_content") != null) {
+                    glideImageGetter = new GlideImageGetter(txtContent,getResources(), this);
+                    txtContent.setText(Html.fromHtml(bundle.getString("news_content"), glideImageGetter, null));
+                    //txtContent.setText(Html.fromHtml(bundle.getString("news_content")));
+                    txtContent.setMovementMethod(LinkMovementMethod.getInstance());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-
-            txtContent.setMovementMethod(LinkMovementMethod.getInstance());
-
-
-            txtDescription.setText(Html.fromHtml(bundle.getString("news_description")));
-//
-
-            txtAuthor.setText(Html.fromHtml(bundle.getString("news_date")));
-
-
-            Glide.with(this).load(bundle.getString("news_image")).into(imageViewNews);
-            // headerView.updateWith(bundle.getString("news_title"), bundle.getString("news_date"), bundle.getString("news_author"));
             titleSection = getIntent().getStringExtra("news_section");
             collapsingToolbarLayout.setTitle(getIntent().getStringExtra("news_section"));
             collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.transparent));
@@ -116,8 +116,7 @@ public class NewsDetailActivity extends NavigatorActivity {
     }
 
 
-
-    /*private Html.ImageGetter getImagesHtml(final Context context) {
+    private Html.ImageGetter getImagesHtml(final Context context) {
 
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -140,6 +139,7 @@ public class NewsDetailActivity extends NavigatorActivity {
                         public void onBitmapFailed(Drawable errorDrawable) {
 
                         }
+
                         @Override
                         public void onPrepareLoad(Drawable placeHolderDrawable) {
 
@@ -165,7 +165,7 @@ public class NewsDetailActivity extends NavigatorActivity {
         };
 
 
-    }*/
+    }
 
     Point scaleImage(int w, int h, Point maxSize) {
         // Which is out of scale the most?
@@ -229,7 +229,7 @@ public class NewsDetailActivity extends NavigatorActivity {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, titleSection+": " + titleNews  + "\n" + linkNews + "\n" + " Enviado desde teleSUR android app.");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, titleSection + ": " + titleNews + "\n" + linkNews + "\n" + " Enviado desde teleSUR android app.");
         return shareIntent;
     }
 

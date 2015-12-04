@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -106,7 +108,9 @@ public class RecyclerProgramAdapter extends RecyclerView.Adapter<RecyclerProgram
         };
 
         Picasso.with(holder.imageViewProgram.getContext()).load(programViewModel.getImage()).into(imageLoaded);
-        Picasso.with(holder.iconProgram.getContext()).load(programViewModel.getProgramImage()).into(holder.iconProgram);
+
+        Glide.with(holder.imageViewProgram.getContext()).load(programViewModel.getImage())
+                .diskCacheStrategy(DiskCacheStrategy.ALL).override(200, 200).into(holder.iconProgram);
         holder.txtTitle.setText(programViewModel.getTitle());
         holder.txtCategoryProgram.setText(programViewModel.getCategory());
 

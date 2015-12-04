@@ -189,12 +189,12 @@ public abstract class BaseNewsFragment extends Fragment implements NewsMVPView,
         intent.putExtra("news", getItem(newsViewModel));
         intent.putExtra("news_section", getTitleSection());
         intent.putExtra("news_themes", themeSection());
+        startActivity(intent);
 
-
-        Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
+      /*  Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairImage);
         if (Build.VERSION.SDK_INT >= 16)
-            getActivity().startActivity(intent, optionsCompat.toBundle());
+            getActivity().startActivity(intent, optionsCompat.toBundle());*/
 
     }
 

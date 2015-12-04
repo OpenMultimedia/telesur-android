@@ -82,7 +82,7 @@ public abstract class BaseReviewFragment extends Fragment implements ReviewMvpVi
     @Override public void showReviewList(ArrayList<ReviewViewModel> reviewViewModelArrayList) {
         reviewAdapter.setListItems(reviewViewModelArrayList);
         rv_review.setAdapter(reviewAdapter);
-        rv_review.scrollToPosition(1);
+
     }
 
     @Override public void showProgress() {
@@ -150,20 +150,22 @@ public abstract class BaseReviewFragment extends Fragment implements ReviewMvpVi
         Intent intent = new Intent(getActivity(), ReviewDetailActivity.class);
         intent.putExtra("review_news", getItem(reviewViewModel));
         intent.putExtra("review_title", getTitleSection());
-        Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairImage);
-        if (Build.VERSION.SDK_INT >= 16)
-            getActivity().startActivity(intent, optionsCompat.toBundle());
+        startActivity(intent);
+
+        //Pair<View, String> pairImage = Pair.create(imageView, getString(R.string.transition_image_view));
+       // ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairImage);
+        //if (Build.VERSION.SDK_INT >= 16)
+           // getActivity().startActivity(intent, optionsCompat.toBundle());
     }
 
     public void initializeRecyclerView() {
-        int spans = getResources().getInteger(R.integer.review_columns);
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(spans, StaggeredGridLayoutManager.VERTICAL);
-        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        rv_review.setLayoutManager(staggeredGridLayoutManager);
+       // int spans = getResources().getInteger(R.integer.review_columns);
+       // staggeredGridLayoutManager = new StaggeredGridLayoutManager(spans, StaggeredGridLayoutManager.VERTICAL);
+       // staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+       // rv_review.setLayoutManager(staggeredGridLayoutManager);
         rv_review.addItemDecoration(new ItemOffsetDecoration(rv_review.getContext(), R.dimen.item_decoration));
         rv_review.setItemAnimator(new DefaultItemAnimator());
-        rv_review.setHasFixedSize(false);
+        //rv_review.setHasFixedSize(false);
 
     }
 

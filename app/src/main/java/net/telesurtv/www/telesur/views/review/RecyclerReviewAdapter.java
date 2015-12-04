@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.ReviewViewModel;
@@ -47,7 +48,8 @@ public class RecyclerReviewAdapter extends RecyclerView.Adapter<RecyclerReviewAd
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         final ReviewViewModel reviewViewModel = reviewViewModelList.get(position);
-        Glide.with(holder.imageViewReview.getContext()).load(reviewViewModel.getImageUrl()).into(holder.imageViewReview);
+        Glide.with(holder.imageViewReview.getContext()).load(reviewViewModel.getImageUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL).override(200, 200).into(holder.imageViewReview);
         holder.txtAuthor.setText(Html.fromHtml(reviewViewModel.getAuthor()));
         holder.txtTitle.setText(reviewViewModel.getTitle());
         holder.txtDescription.setText(Html.fromHtml(reviewViewModel.getDescription()));

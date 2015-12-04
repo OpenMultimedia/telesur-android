@@ -10,20 +10,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.novoda.notils.caster.Views;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.drawer.NavigatorActivity;
-import net.telesurtv.www.telesur.util.PicassoImageGetter;
+import net.telesurtv.www.telesur.util.GlideImageGetter;
 import net.telesurtv.www.telesur.views.view.HeaderView;
 
 
@@ -73,22 +73,46 @@ public class ReviewDetailActivity extends NavigatorActivity {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle(getIntent().getStringExtra("review_title"));
 
-            headerView.updateWith(bundle.getString("review_title"), bundle.getString("review_date"), bundle.getString("review_author"));
+
+            String title, date, authors;
+
+            if (bundle.getString("review_title") != null)
+                title = bundle.getString("review_title");
+            else
+                title = "";
+
+            if (bundle.getString("review_date") != null)
+                date = bundle.getString("review_date");
+            else
+                date = "";
+
+            if (bundle.getString("review_author") != null)
+                authors = bundle.getString("review_author");
+            else
+                authors = "";
 
 
-            PicassoImageGetter picassoImageGetter = null;
+            headerView.updateWith(title, date, authors);
+
+            Glide.with(this).load(bundle.getString("review_image"))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).override(200, 200).into(imageViewReview);
+
+
+            if (bundle.getString("review_description") != null)
+                txtDescription.setText(Html.fromHtml(bundle.getString("review_description")));
+
+
+            GlideImageGetter glideImageGetter = null;
             try {
-                picassoImageGetter = new PicassoImageGetter(txtContent,getResources(), Picasso.with(this));
-                txtContent.setText(Html.fromHtml(bundle.getString("review_content"), picassoImageGetter, null));
+                if (bundle.getString("review_content") != null) {
+                    glideImageGetter = new GlideImageGetter(txtContent, getResources(),this);
+                    txtContent.setText(Html.fromHtml(bundle.getString("review_content"), glideImageGetter, null));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-           // txtContent.setText(Html.fromHtml(bundle.getString(), getImagesHtml(this), null));
 
 
-            txtContent.setMovementMethod(LinkMovementMethod.getInstance());
-            txtDescription.setText(Html.fromHtml(bundle.getString("review_description")));
-            Glide.with(this).load(bundle.getString("review_image")).into(imageViewReview);
         }
     }
 
@@ -114,6 +138,7 @@ public class ReviewDetailActivity extends NavigatorActivity {
 
                         @Override
                         public void onBitmapFailed(Drawable errorDrawable) {
+
 
                         }
 

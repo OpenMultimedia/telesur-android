@@ -42,8 +42,8 @@
             <ImageView
                 android:id="@+id/image_view_review_detail"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
+                android:layout_height="@dimen/app_bar_collapsign_detail"
+                android:scaleType="fitXY"
                  />
 
             <TextView
@@ -61,6 +61,7 @@
                 android:id="@+id/txt_review_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:layout_marginTop="16dp"
 
                 />

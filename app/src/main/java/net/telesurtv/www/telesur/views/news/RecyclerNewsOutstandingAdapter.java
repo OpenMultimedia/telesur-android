@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import net.telesurtv.www.telesur.R;
 import net.telesurtv.www.telesur.model.NewsViewModel;
@@ -256,7 +257,7 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
 
     private void setTypeItem1(ViewHolder holder, NewsViewModel newsViewModel) {
 
-        Glide.with(holder.imageViewNews.getContext()).load(newsViewModel.getImgNews()).into(holder.imageViewNews);
+        Glide.with(holder.imageViewNews.getContext()).load(newsViewModel.getImgNews()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.imageViewNews);
         holder.txtTitleNews.setText(newsViewModel.getTitleNews());
         holder.txtDataNews.setText(newsViewModel.getDataNews());
         holder.txtCategory.setText(newsViewModel.getCategoryNews());
@@ -264,7 +265,7 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
 
     private void setTypeItem2(ViewHolder2 holder, NewsViewModel newsViewModel) {
 
-        Glide.with(holder.imageViewNewsTwo.getContext()).load(newsViewModel.getImgNews()).into(holder.imageViewNewsTwo);
+        Glide.with(holder.imageViewNewsTwo.getContext()).load(newsViewModel.getImgNews()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.imageViewNewsTwo);
         holder.txtTitleNewsTwo.setText(newsViewModel.getTitleNews());
         holder.txtDataNewsTwo.setText(newsViewModel.getDataNews());
         holder.txtCategoryTwo.setText(newsViewModel.getCategoryNews());
@@ -272,7 +273,7 @@ public class RecyclerNewsOutstandingAdapter extends RecyclerView.Adapter<Recycle
 
     private void setTypeItem3(ViewHolder3 holder, NewsViewModel newsViewModel) {
 
-        Glide.with(holder.imageViewNewsThree.getContext()).load(newsViewModel.getImgNews()).into(holder.imageViewNewsThree);
+        Glide.with(holder.imageViewNewsThree.getContext()).load(newsViewModel.getImgNews()).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.imageViewNewsThree);
         holder.txtTitleNewsThree.setText(newsViewModel.getTitleNews());
         holder.txtDataNewsThree.setText(newsViewModel.getDataNews());
         holder.txtCategoryThree.setText(newsViewModel.getCategoryNews());
