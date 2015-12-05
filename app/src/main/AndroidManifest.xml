@@ -94,7 +94,6 @@
 
         <!-- videos -->
 
-
         <activity
             android:name=".views.videos.video.VideosActivity"
             android:label="@string/videos"/>
